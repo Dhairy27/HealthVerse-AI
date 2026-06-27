@@ -735,7 +735,7 @@ function renderCharts() {
 // --- VIEW ROUTING & INITIALIZATION ---
 
 function setupNavigation() {
-  const navLinks = document.querySelectorAll('.nav-links .nav-item a, .mobile-nav-links .mobile-nav-item a');
+  const navLinks = document.querySelectorAll('.nav-links .nav-item a, .mobile-nav-links .mobile-nav-item a, .landing-header-nav a, .landing-hero-actions a');
   
   navLinks.forEach(link => {
     link.addEventListener('click', function(e) {
@@ -743,8 +743,8 @@ function setupNavigation() {
       
       const targetId = this.getAttribute('href').substring(1);
       
-      // If profile is not set and attempting to visit pages other than onboarding or login
-      if (!appState.profile && targetId !== 'profile-panel' && targetId !== 'login-panel') {
+      // If profile is not set and attempting to visit pages other than onboarding, login, or home
+      if (!appState.profile && targetId !== 'profile-panel' && targetId !== 'login-panel' && targetId !== 'home-panel') {
         alert("Please set up your AI Fitness Profile first to unlock HealthVerse AI!");
         switchView('profile-panel');
         return;
@@ -756,6 +756,13 @@ function setupNavigation() {
 }
 
 function switchView(panelId) {
+  // Toggle landing page active class on body to hide/show sidebar
+  if (panelId === 'home-panel') {
+    document.body.classList.add('landing-active');
+  } else {
+    document.body.classList.remove('landing-active');
+  }
+
   // Hide all panels
   document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
   
@@ -1875,11 +1882,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchFreshCloudState();
   }
 
-  // Primary routing: if profile is not set, force user to onboarding, else dashboard
-  if (!appState.profile) {
-    switchView('profile-panel');
-  } else {
+  // Primary routing: if session or profile exists, go directly to dashboard. Otherwise, show public home page.
+  if (appState.userSession || appState.profile) {
     switchView('dashboard-panel');
+  } else {
+    switchView('home-panel');
   }
 
   // Draw initial UI items

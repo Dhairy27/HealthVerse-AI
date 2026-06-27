@@ -154,6 +154,137 @@
     <!-- MAIN VIEW CONTAINER -->
     <main class="main-content">
 
+      <!-- ================= 00. PUBLIC HOME/LANDING PANEL ================= -->
+      <section id="home-panel" class="view-panel">
+        <!-- Landing Top Navbar -->
+        <header class="landing-header-nav">
+          <div class="logo-container" style="margin-bottom:0; padding-left:0;">
+            <div class="logo-icon">
+              <i data-lucide="activity"></i>
+            </div>
+            <div class="logo-text">Health<span>Verse</span></div>
+          </div>
+          <div class="landing-nav-actions" style="display:flex; gap:0.75rem; align-items:center;">
+            <a href="#login-panel" class="btn btn-secondary" style="padding:0.5rem 1rem; font-size:0.85rem; border-radius:10px;">
+              <i data-lucide="log-in" style="width:14px; height:14px;"></i> Sign In
+            </a>
+            <a href="#profile-panel" class="btn btn-primary" style="padding:0.5rem 1.2rem; font-size:0.85rem; border-radius:10px;">
+              Get Started <i data-lucide="arrow-right" style="width:14px; height:14px;"></i>
+            </a>
+          </div>
+        </header>
+
+        <!-- Landing Hero Section -->
+        <div class="landing-hero">
+          <div class="landing-hero-content">
+            <span class="landing-badge"><i data-lucide="sparkles" style="width:12px; height:12px; color:var(--color-secondary);"></i> AI-POWERED PERSONAL FITNESS PLATFORM</span>
+            <h1 class="landing-hero-title">Elevate Your Fitness & Wellness with <span class="gradient-text">HealthVerse AI</span></h1>
+            <p class="landing-hero-desc">
+              Experience the future of wellness. HealthVerse AI calculates your precise biological targets, designs personalized routines, and scans your meals using advanced computer vision.
+            </p>
+            <div class="landing-hero-actions">
+              <a href="#profile-panel" class="btn btn-primary btn-large" style="padding: 1rem 2rem; font-size: 1.05rem;">
+                <i data-lucide="zap"></i> Start Your AI Profile
+              </a>
+              <a href="#login-panel" class="btn btn-secondary btn-large" style="padding: 1rem 2rem; font-size: 1.05rem;">
+                <i data-lucide="cloud-lightning"></i> Enable Cloud Sync
+              </a>
+            </div>
+          </div>
+          
+          <div class="landing-glow-1"></div>
+          <div class="landing-glow-2"></div>
+        </div>
+
+        <!-- App Features Grid -->
+        <div class="landing-features-section">
+          <div class="landing-section-header" style="text-align:center; margin-bottom:3rem;">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--color-primary); text-transform:uppercase; letter-spacing:0.1em; display:block;">Core Pillars</span>
+            <h2 style="font-size:2rem; font-weight:800; color:var(--color-heading); margin-top:0.25rem;">Intelligent Tools for Your Journey</h2>
+            <p style="color:var(--color-text-muted); max-width:600px; margin:0.5rem auto 0; font-size:0.95rem;">HealthVerse AI consolidates your nutrition, workouts, calculations, and tracking logs into a single premium interface.</p>
+          </div>
+
+          <div class="landing-features-grid">
+            <!-- Feature 1 -->
+            <div class="glass-card landing-feature-card interactive">
+              <div class="feature-icon-box" style="background:rgba(139, 92, 246, 0.15); color:var(--color-primary);">
+                <i data-lucide="user-cog"></i>
+              </div>
+              <h3>AI Bio Configurator</h3>
+              <p>Creates a custom profile based on biological details using scientific MSJ metabolic formulas to evaluate TDEE, BMR, and macro limits.</p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="glass-card landing-feature-card interactive">
+              <div class="feature-icon-box" style="background:rgba(6, 182, 212, 0.15); color:var(--color-secondary);">
+                <i data-lucide="scan-line"></i>
+              </div>
+              <h3>AI Meal Scanner</h3>
+              <p>Upload files or capture live photos to estimate calorie counts, macronutrients, health scores, and retrieve smart, healthy alternative food swaps.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="glass-card landing-feature-card interactive">
+              <div class="feature-icon-box" style="background:rgba(236, 72, 153, 0.15); color:var(--color-accent);">
+                <i data-lucide="dumbbell"></i>
+              </div>
+              <h3>Goal-Oriented Workouts</h3>
+              <p>Dynamic schedules structured for biological objectives (lose fat, hypertrophy, or endurance run) with checklists and live timer overlays.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="glass-card landing-feature-card interactive">
+              <div class="feature-icon-box" style="background:rgba(16, 185, 129, 0.15); color:var(--color-success);">
+                <i data-lucide="line-chart"></i>
+              </div>
+              <h3>Progress Analytics</h3>
+              <p>Beautiful, glowing trend lines track historical weight shifts and evaluate weekly caloric intakes vs daily target limit indicators.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Mockup Showcase -->
+        <div class="landing-showcase-section">
+          <div class="glass-card landing-showcase-card">
+            <div class="showcase-header">
+              <div class="showcase-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <div class="showcase-title">HealthVerse Dashboard Preview</div>
+            </div>
+            <div class="showcase-body">
+              <div class="mockup-grid">
+                <div class="mockup-left">
+                  <div class="mockup-widget" style="padding:1rem; display:flex; align-items:center; gap:0.75rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px;">
+                    <i data-lucide="scale" style="color:var(--color-secondary); width:24px; height:24px;"></i>
+                    <div style="text-align:left;">
+                      <span style="font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase; display:block;">Weight Tracker</span>
+                      <span style="font-weight:700; color:var(--color-heading); font-size:1rem;">78.5 kg</span>
+                    </div>
+                  </div>
+                  <div class="mockup-widget" style="padding:1rem; margin-top:0.75rem; display:flex; align-items:center; gap:0.75rem; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:10px;">
+                    <i data-lucide="flame" style="color:var(--color-accent); width:24px; height:24px;"></i>
+                    <div style="text-align:left;">
+                      <span style="font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase; display:block;">Target Intake</span>
+                      <span style="font-weight:700; color:var(--color-heading); font-size:1rem;">1,850 kcal</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="mockup-right" style="flex:1; padding:1.25rem; background:var(--color-card-inner-bg); border:1px solid var(--color-card-inner-border); border-radius:12px; display:flex; flex-direction:column; gap:0.75rem;">
+                  <div style="font-size:0.75rem; font-weight:600; color:var(--color-heading); text-align:left;">TODAY'S WORKOUT PLAN</div>
+                  <div style="font-size:0.85rem; padding:0.6rem; background:rgba(var(--color-primary-rgb), 0.05); border:1px solid rgba(var(--color-primary-rgb), 0.15); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:600;">HIIT Full Body Blast</span>
+                    <span style="color:var(--color-secondary); font-size:0.75rem; font-weight:700;">5 Exercises</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ================= 0. AUTH / LOGIN PANEL ================= -->
       <section id="login-panel" class="view-panel">
         <div class="section-header">
