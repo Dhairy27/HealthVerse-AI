@@ -2,7 +2,7 @@
   "version": 2,
   "headers": [
     {
-      "source": "/(css|js|images)/(*)",
+      "source": "/(css|js|images)/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "headers": [
         {
           "key": "Cache-Control",
