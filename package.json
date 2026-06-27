@@ -1,0 +1,25 @@
+{
+  "name": "healthverse-ai",
+  "version": "1.0.0",
+  "description": "HealthVerse AI is a premium, highly interactive web application designed to act as an AI-powered fitness and nutrition assistant. It computes personalized wellness targets (BMI, BMR, TDEE, Calorie targets, and Macronutrients split), generates custom goal-specific workout plans, and simulates a computer-vision based AI meal nutrition scanner with healthy swap recommendations.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dhairy27/HealthVerse-AI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Dhairy27/HealthVerse-AI/issues"
+  },
+  "homepage": "https://github.com/Dhairy27/HealthVerse-AI#readme",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.4.0"
+  }
+}

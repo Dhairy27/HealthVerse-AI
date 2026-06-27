@@ -1432,3 +1432,57 @@ a {
 body, .sidebar, .mobile-nav, .glass-card, .form-control, .form-select, .btn, .day-tab-btn, .exercise-item, .log-item, .active-exercise-card, .upload-zone, .preset-chip, .swap-item, .logo-text, .user-name, h1, h2, h3, h4, h5, h6 {
   transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
 }
+
+/* Authentication & Account Sync Views */
+.auth-icon-glow {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(var(--color-primary-rgb), 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(var(--color-primary-rgb), 0.15);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.15);
+  animation: float 4s ease-in-out infinite alternate;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+.sync-badge {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sync-badge.guest {
+  background-color: var(--color-warning);
+  box-shadow: 0 0 8px var(--color-warning);
+  animation: pulse-sync-warning 1.8s infinite alternate;
+}
+
+.sync-badge.synced {
+  background-color: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+  animation: pulse-sync-success 1.8s infinite alternate;
+}
+
+@keyframes pulse-sync-warning {
+  0% { box-shadow: 0 0 2px rgba(245, 158, 11, 0.4); opacity: 0.6; }
+  100% { box-shadow: 0 0 10px rgba(245, 158, 11, 0.9); opacity: 1; }
+}
+
+@keyframes pulse-sync-success {
+  0% { box-shadow: 0 0 2px rgba(16, 185, 129, 0.4); opacity: 0.6; }
+  100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.9); opacity: 1; }
+}
+

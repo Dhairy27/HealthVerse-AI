@@ -40,9 +40,94 @@ function loadState() {
   }
 }
 
-// Save State to LocalStorage
+// Save State to LocalStorage and Cloud
 function saveState() {
   localStorage.setItem('healthverse_state', JSON.stringify(appState));
+  syncStateToCloud();
+}
+
+let syncTimeout = null;
+function syncStateToCloud() {
+  if (!appState.userSession || !appState.userSession.token) return;
+
+  if (syncTimeout) clearTimeout(syncTimeout);
+  
+  const badge = document.getElementById('sync-indicator-badge');
+  if (badge) {
+    badge.className = 'sync-badge guest';
+    badge.title = 'Syncing state to database...';
+  }
+
+  syncTimeout = setTimeout(async () => {
+    try {
+      const cleanState = { ...appState };
+      delete cleanState.userSession;
+
+      const res = await fetch('/api/user/state', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${appState.userSession.token}`
+        },
+        body: JSON.stringify({ state: cleanState })
+      });
+      
+      const badge = document.getElementById('sync-indicator-badge');
+      if (res.ok) {
+        if (badge) {
+          badge.className = 'sync-badge synced';
+          badge.title = 'Cloud Synced - Safe & Secure';
+        }
+      } else {
+        console.error("Cloud sync failed:", res.status);
+        if (badge) {
+          badge.className = 'sync-badge guest';
+          badge.title = 'Sync failed. Will retry next save.';
+        }
+      }
+    } catch (err) {
+      console.error("Cloud sync error:", err);
+      const badge = document.getElementById('sync-indicator-badge');
+      if (badge) {
+        badge.className = 'sync-badge guest';
+        badge.title = 'Connection error. Will retry next save.';
+      }
+    }
+  }, 1000);
+}
+
+async function fetchFreshCloudState() {
+  if (!appState.userSession || !appState.userSession.token) return;
+  try {
+    const res = await fetch('/api/user/state', {
+      headers: {
+        'Authorization': `Bearer ${appState.userSession.token}`
+      }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.state) {
+        const session = appState.userSession;
+        appState = {
+          ...data.state,
+          userSession: session,
+          theme: data.state.theme || appState.theme
+        };
+        applyTheme();
+        // save locally without re-triggering sync upload
+        localStorage.setItem('healthverse_state', JSON.stringify(appState));
+        updateUI();
+      }
+    } else if (res.status === 401) {
+      console.warn("Session expired. Logging out.");
+      localStorage.removeItem('healthverse_state');
+      appState = { ...DEFAULT_STATE };
+      localStorage.setItem('healthverse_state', JSON.stringify(appState));
+      window.location.reload();
+    }
+  } catch (err) {
+    console.error("Error loading fresh cloud state:", err);
+  }
 }
 
 // Theme application
@@ -658,8 +743,8 @@ function setupNavigation() {
       
       const targetId = this.getAttribute('href').substring(1);
       
-      // If profile is not set and attempting to visit pages other than onboarding
-      if (!appState.profile && targetId !== 'profile-panel') {
+      // If profile is not set and attempting to visit pages other than onboarding or login
+      if (!appState.profile && targetId !== 'profile-panel' && targetId !== 'login-panel') {
         alert("Please set up your AI Fitness Profile first to unlock HealthVerse AI!");
         switchView('profile-panel');
         return;
@@ -700,6 +785,73 @@ function switchView(panelId) {
 
 // Update DOM elements on dashboard & sidebar based on current state
 function updateUI() {
+  // Update Auth States
+  const syncBanner = document.getElementById('dashboard-sync-banner');
+  const syncBadge = document.getElementById('sync-indicator-badge');
+  const sidebarAvatarImg = document.getElementById('sidebar-user-avatar-img');
+  const sidebarAvatarText = document.getElementById('sidebar-user-avatar');
+  const sidebarLogoutBtn = document.getElementById('sidebar-logout-btn');
+
+  const navLoginText = document.getElementById('nav-login-text');
+  const navLoginIcon = document.getElementById('nav-login-icon');
+  const mobileNavLoginText = document.getElementById('mobile-nav-login-text');
+  const mobileNavLoginIcon = document.getElementById('mobile-nav-login-icon');
+
+  const authUnloggedView = document.getElementById('auth-unlogged-view');
+  const authLoggedView = document.getElementById('auth-logged-view');
+
+  if (appState.userSession) {
+    if (syncBanner) syncBanner.style.display = 'none';
+    if (syncBadge) {
+      syncBadge.className = 'sync-badge synced';
+      syncBadge.title = 'Cloud Synced - Safe & Secure';
+    }
+    if (sidebarAvatarImg) {
+      sidebarAvatarImg.src = appState.userSession.user.picture || '';
+      sidebarAvatarImg.style.display = 'block';
+    }
+    if (sidebarAvatarText) sidebarAvatarText.style.display = 'none';
+    if (sidebarLogoutBtn) sidebarLogoutBtn.style.display = 'block';
+
+    if (navLoginText) navLoginText.textContent = 'Account';
+    if (navLoginIcon) navLoginIcon.setAttribute('data-lucide', 'user');
+    if (mobileNavLoginText) mobileNavLoginText.textContent = 'Account';
+    if (mobileNavLoginIcon) mobileNavLoginIcon.setAttribute('data-lucide', 'user');
+
+    if (authUnloggedView) authUnloggedView.style.display = 'none';
+    if (authLoggedView) {
+      authLoggedView.style.display = 'flex';
+      const pic = document.getElementById('auth-user-picture');
+      const name = document.getElementById('auth-user-name');
+      const email = document.getElementById('auth-user-email');
+      if (pic) pic.src = appState.userSession.user.picture || '';
+      if (name) name.textContent = appState.userSession.user.name || '';
+      if (email) email.textContent = appState.userSession.user.email || '';
+    }
+  } else {
+    if (syncBanner) syncBanner.style.display = 'block';
+    if (syncBadge) {
+      syncBadge.className = 'sync-badge guest';
+      syncBadge.title = 'Guest Mode - Local Saving Only';
+    }
+    if (sidebarAvatarImg) sidebarAvatarImg.style.display = 'none';
+    if (sidebarAvatarText) sidebarAvatarText.style.display = 'flex';
+    if (sidebarLogoutBtn) sidebarLogoutBtn.style.display = 'none';
+
+    if (navLoginText) navLoginText.textContent = 'Cloud Login';
+    if (navLoginIcon) navLoginIcon.setAttribute('data-lucide', 'log-in');
+    if (mobileNavLoginText) mobileNavLoginText.textContent = 'Login';
+    if (mobileNavLoginIcon) mobileNavLoginIcon.setAttribute('data-lucide', 'log-in');
+
+    if (authUnloggedView) authUnloggedView.style.display = 'flex';
+    if (authLoggedView) authLoggedView.style.display = 'none';
+  }
+
+  // Re-create icons dynamically
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
+
   // 1. Check Profile
   const profileSection = document.getElementById('profile-panel');
   const userSetupTip = document.getElementById('dashboard-setup-tip');
@@ -707,7 +859,8 @@ function updateUI() {
   
   if (appState.profile) {
     // Set user badges
-    document.querySelectorAll('.user-name').forEach(el => el.textContent = appState.profile.name);
+    const dispName = appState.profile.name || (appState.userSession ? appState.userSession.user.name : 'Champ');
+    document.querySelectorAll('.user-name').forEach(el => el.textContent = dispName);
     
     let goalLabel = "Active Lifestyle";
     if (appState.profile.goal === 'lose_fat') goalLabel = "Lose Fat";
@@ -746,7 +899,8 @@ function updateUI() {
     renderWorkoutRoutineUI();
   } else {
     // No profile, show onboarding prompt
-    document.querySelectorAll('.user-name').forEach(el => el.textContent = "Guest User");
+    const dispName = appState.userSession ? appState.userSession.user.name : "Guest User";
+    document.querySelectorAll('.user-name').forEach(el => el.textContent = dispName);
     document.querySelectorAll('.user-goal-tag').forEach(el => el.textContent = "Setup Profile");
     if (userSetupTip) userSetupTip.style.display = 'block';
     if (dashboardStats) dashboardStats.style.display = 'none';
@@ -1564,6 +1718,103 @@ function initWebcamScanner() {
 }
 
 
+// --- GOOGLE SIGN-IN INTERFACES ---
+
+async function initGoogleSignIn() {
+  try {
+    const res = await fetch('/api/config');
+    if (!res.ok) throw new Error('Failed to load api config');
+    const config = await res.json();
+    
+    if (!config.googleClientId) {
+      console.warn("Google Client ID not found in backend configuration.");
+      document.getElementById('google-signin-btn-container').innerHTML = 
+        '<p style="color:var(--color-danger); font-size:0.85rem;">Google Auth Client ID missing in server config</p>';
+      return;
+    }
+
+    google.accounts.id.initialize({
+      client_id: config.googleClientId,
+      callback: handleCredentialResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('google-signin-btn'),
+      { 
+        theme: appState.theme === 'dark' ? 'filled_black' : 'outline', 
+        size: 'large',
+        shape: 'pill',
+        text: 'signin_with',
+        width: '280'
+      }
+    );
+  } catch (err) {
+    console.error("Google Sign-In initialization error:", err);
+    const container = document.getElementById('google-signin-btn-container');
+    if (container) {
+      container.innerHTML = '<p style="color:var(--color-danger); font-size:0.85rem;">Error loading Google Auth. Check console.</p>';
+    }
+  }
+}
+
+async function handleCredentialResponse(response) {
+  try {
+    const container = document.getElementById('google-signin-btn-container');
+    container.innerHTML = '<div class="scanner-spinner" style="margin: 0.5rem auto;"></div>';
+
+    const authRes = await fetch('/api/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ credential: response.credential })
+    });
+
+    if (!authRes.ok) {
+      const err = await authRes.json();
+      throw new Error(err.error || 'Authentication failed');
+    }
+
+    const authData = await authRes.json();
+    
+    appState.userSession = {
+      token: authData.token,
+      user: authData.user
+    };
+
+    if (authData.state) {
+      appState = {
+        ...authData.state,
+        userSession: appState.userSession,
+        theme: authData.state.theme || appState.theme
+      };
+      applyTheme();
+    } else {
+      syncStateToCloud();
+    }
+
+    saveState();
+    updateUI();
+    
+    alert(`Welcome back, ${authData.user.name}! Connected to HealthVerse Cloud.`);
+    switchView('dashboard-panel');
+
+  } catch (err) {
+    console.error("Login verification failed:", err);
+    alert(`Google Authentication Failed: ${err.message}`);
+    initGoogleSignIn();
+  }
+}
+
+function logoutUser() {
+  if (confirm("Are you sure you want to sign out? Your cloud data will remain safe, but local data will be reset to guest defaults.")) {
+    localStorage.removeItem('healthverse_state');
+    appState = { ...DEFAULT_STATE };
+    saveState();
+    window.location.reload();
+  }
+}
+
 // --- INITIALIZATION ENTRYPOINT ---
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1591,6 +1842,37 @@ document.addEventListener('DOMContentLoaded', () => {
         resetAllData();
       }
     });
+  }
+
+  // Attach Logout listeners
+  const sidebarLogoutBtn = document.getElementById('sidebar-logout-btn');
+  if (sidebarLogoutBtn) {
+    sidebarLogoutBtn.addEventListener('click', logoutUser);
+  }
+  const authLogoutBtn = document.getElementById('auth-logout-btn');
+  if (authLogoutBtn) {
+    authLogoutBtn.addEventListener('click', logoutUser);
+  }
+
+  // Attach Go to Dashboard listener
+  const gotoDashBtn = document.getElementById('auth-goto-dash-btn');
+  if (gotoDashBtn) {
+    gotoDashBtn.addEventListener('click', () => switchView('dashboard-panel'));
+  }
+
+  // Initialize Google Sign-In with retry if GIS library is still loading
+  function tryInitGoogleSignIn() {
+    if (typeof google !== 'undefined' && google.accounts && google.accounts.id) {
+      initGoogleSignIn();
+    } else {
+      setTimeout(tryInitGoogleSignIn, 200);
+    }
+  }
+  tryInitGoogleSignIn();
+
+  // Fetch fresh cloud state if session is alive
+  if (appState.userSession) {
+    fetchFreshCloudState();
   }
 
   // Primary routing: if profile is not set, force user to onboarding, else dashboard
