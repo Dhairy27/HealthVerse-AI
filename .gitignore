@@ -1,0 +1,13 @@
+# Workspace and system files
+.DS_Store
+Thumbs.db
+*.log
+.gemini/
+.git/
+
+# Node files if used later
+node_modules/
+dist/
+build/
+.env
+.env.local

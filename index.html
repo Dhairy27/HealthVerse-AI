@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthVerse AI - Personalized Wellness Platform</title>
+  <!-- Tailwind is avoided as requested; standard vanilla CSS styling is imported -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js CDN for premium charts rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- Background Gradients (SVG definitions for progress colors) -->
+  <svg style="width:0; height:0; position:absolute;" aria-hidden="true">
+    <defs>
+      <linearGradient id="cyanPurpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#06b6d4" />
+        <stop offset="100%" stop-color="#8b5cf6" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION (Desktop) -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <i data-lucide="activity"></i>
+        </div>
+        <div class="logo-text">Health<span>Verse</span></div>
+      </div>
+
+      <ul class="nav-links">
+        <li class="nav-item active">
+          <a href="#dashboard-panel">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#profile-panel">
+            <i data-lucide="user-cog"></i>
+            <span>AI Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#workout-panel">
+            <i data-lucide="dumbbell"></i>
+            <span>Workout Hub</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#scanner-panel">
+            <i data-lucide="scan-line"></i>
+            <span>AI Meal Scanner</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#analytics-panel">
+            <i data-lucide="line-chart"></i>
+            <span>Analytics & Logs</span>
+          </a>
+        </li>
+      </ul>
+
+      <!-- Sidebar Footer User Badge -->
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="sidebar-user-avatar">H</div>
+          <div class="user-info">
+            <span class="user-name">Guest User</span>
+            <span class="user-goal-tag">Setup Profile</span>
+          </div>
+        </div>
+        <!-- Developer Reset Option -->
+        <button id="dev-reset-data-btn" class="btn btn-secondary" style="width:100%; margin-top:1.25rem; font-size:0.75rem; padding:0.5rem; border-color:rgba(239, 68, 68, 0.2); color:var(--color-danger);">
+          <i data-lucide="refresh-cw" style="width:12px; height:12px;"></i> Clear Data
+        </button>
+      </div>
+    </aside>
+
+    <!-- MOBILE BOTTOM NAVIGATION (Hidden on Desktop) -->
+    <nav class="mobile-nav">
+      <ul class="mobile-nav-links">
+        <li class="mobile-nav-item active">
+          <a href="#dashboard-panel">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#profile-panel">
+            <i data-lucide="user-cog"></i>
+            <span>Profile</span>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#workout-panel">
+            <i data-lucide="dumbbell"></i>
+            <span>Workout</span>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#scanner-panel">
+            <i data-lucide="scan-line"></i>
+            <span>Scanner</span>
+          </a>
+        </li>
+        <li class="mobile-nav-item">
+          <a href="#analytics-panel">
+            <i data-lucide="line-chart"></i>
+            <span>Logs</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main class="main-content">
+
+      <!-- ================= 1. ONBOARDING & PROFILE PANEL ================= -->
+      <section id="profile-panel" class="view-panel active">
+        <div class="section-header">
+          <h1 class="section-title"><span class="gradient-text">AI Wellness Configurator</span></h1>
+          <p class="section-desc">Create your customized profile. HealthVerse AI uses these biological details to construct your exercises schedule and energy demands.</p>
+        </div>
+
+        <div class="glass-card wizard-container" id="profile-wizard" data-gender="" data-activity="" data-goal="">
+          <!-- Wizard Step Progress -->
+          <div class="wizard-progress">
+            <div class="wizard-progress-bar" id="wizard-progress-bar"></div>
+          </div>
+
+          <!-- Step 1: Body Metrics -->
+          <div class="wizard-step active" data-step="0">
+            <div class="wizard-header">
+              <h2 class="wizard-title">Physical Characteristics</h2>
+              <p style="color:var(--color-text-muted); font-size:0.9rem;">Let's collect details to evaluate your resting metabolic rate.</p>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="p-name">Full Name</label>
+              <input type="text" id="p-name" class="form-control" placeholder="e.g. John Doe">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Biological Gender</label>
+              <div class="wizard-options-grid gender-select-container">
+                <div class="wizard-option-card" data-value="male">
+                  <i data-lucide="mars"></i>
+                  <span class="wizard-option-title">Male</span>
+                </div>
+                <div class="wizard-option-card" data-value="female">
+                  <i data-lucide="venus"></i>
+                  <span class="wizard-option-title">Female</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="p-age">Age (yrs)</label>
+                <input type="number" id="p-age" class="form-control" min="12" max="110" placeholder="e.g. 28">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-height">Height (cm)</label>
+                <input type="number" id="p-height" class="form-control" min="90" max="250" placeholder="e.g. 175">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-weight">Weight (kg)</label>
+                <input type="number" id="p-weight" class="form-control" min="30" max="300" placeholder="e.g. 78">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Activity & Objectives -->
+          <div class="wizard-step" data-step="1">
+            <div class="wizard-header">
+              <h2 class="wizard-title">Lifestyle & Objectives</h2>
+              <p style="color:var(--color-text-muted); font-size:0.9rem;">Specify daily energy levels and your primary wellness targets.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Physical Activity Level</label>
+              <div class="wizard-options-grid activity-select-container">
+                <div class="wizard-option-card" data-value="sedentary">
+                  <i data-lucide="armchair"></i>
+                  <span class="wizard-option-title">Sedentary</span>
+                  <span class="wizard-option-desc">Desk job, little to no exercise</span>
+                </div>
+                <div class="wizard-option-card" data-value="moderate">
+                  <i data-lucide="footprints"></i>
+                  <span class="wizard-option-title">Moderately Active</span>
+                  <span class="wizard-option-desc">Exercise 3-5 times per week</span>
+                </div>
+                <div class="wizard-option-card" data-value="active">
+                  <i data-lucide="zap"></i>
+                  <span class="wizard-option-title">Very Active</span>
+                  <span class="wizard-option-desc">Hard exercises/sports daily</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Primary Fitness Goal</label>
+              <div class="wizard-options-grid goal-select-container">
+                <div class="wizard-option-card" data-value="lose_fat">
+                  <i data-lucide="flame"></i>
+                  <span class="wizard-option-title">Lose Body Fat</span>
+                  <span class="wizard-option-desc">Create calorie deficits safely</span>
+                </div>
+                <div class="wizard-option-card" data-value="gain_muscle">
+                  <i data-lucide="swords"></i>
+                  <span class="wizard-option-title">Build Muscle</span>
+                  <span class="wizard-option-desc">Caloric surplus for hypertrophy</span>
+                </div>
+                <div class="wizard-option-card" data-value="endurance">
+                  <i data-lucide="timer"></i>
+                  <span class="wizard-option-title">Stamina / Endurance</span>
+                  <span class="wizard-option-desc">Enhance energy capacity & speed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Summary -->
+          <div class="wizard-step" data-step="2">
+            <div class="wizard-header">
+              <h2 class="wizard-title" style="background: linear-gradient(135deg, var(--color-secondary), var(--color-primary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800;">Your AI Target Profile</h2>
+              <p style="color:var(--color-text-muted); font-size:0.9rem;">Below are target limits calculated specifically for your body.</p>
+            </div>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1.25rem; margin-bottom:1.5rem;">
+              <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:1rem 1.25rem; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-size:0.75rem; color:var(--color-text-muted); text-transform:uppercase;">Calculated BMI</div>
+                  <div id="sum-bmi" style="font-size:1.6rem; font-weight:800; font-family:var(--font-header);">24.2</div>
+                </div>
+                <span id="sum-bmi-status" style="font-size:0.85rem; font-weight:700; color:var(--color-success);">Normal Range</span>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:1rem 1.25rem; border-radius:12px;">
+                <div style="font-size:0.75rem; color:var(--color-text-muted); text-transform:uppercase;">Basal Metabolic Rate (BMR)</div>
+                <div id="sum-bmr" style="font-size:1.4rem; font-weight:700; color:white;">1,750 kcal</div>
+              </div>
+
+              <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:1rem 1.25rem; border-radius:12px;">
+                <div style="font-size:0.75rem; color:var(--color-text-muted); text-transform:uppercase;">Daily Maintenance (TDEE)</div>
+                <div id="sum-tdee" style="font-size:1.4rem; font-weight:700; color:white;">2,350 kcal</div>
+              </div>
+
+              <div style="background:rgba(139, 92, 246, 0.1); border:1px solid rgba(139, 92, 246, 0.2); padding:1.25rem; border-radius:12px;">
+                <div style="font-size:0.8rem; color:var(--color-secondary); text-transform:uppercase; font-weight:600;">Daily Calorie Goal</div>
+                <div id="sum-target-cal" style="font-size:1.8rem; font-weight:800; color:white; font-family:var(--font-header);">1,850 kcal</div>
+              </div>
+            </div>
+
+            <!-- Macros Split Cards -->
+            <div style="margin-top:1.5rem;">
+              <h3 style="font-size:1.05rem; margin-bottom:0.75rem; color:white; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Target Macronutrients Breakdown</h3>
+              <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1rem;">
+                <div style="background:rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.15); border-radius:12px; padding:1rem; text-align:center;">
+                  <div style="font-size:0.75rem; color:var(--color-primary); font-weight:600;">Protein</div>
+                  <div id="sum-target-p" style="font-size:1.5rem; font-weight:800; margin-top:0.25rem;">160g</div>
+                </div>
+                <div style="background:rgba(6, 182, 212, 0.05); border: 1px solid rgba(6, 182, 212, 0.15); border-radius:12px; padding:1rem; text-align:center;">
+                  <div style="font-size:0.75rem; color:var(--color-secondary); font-weight:600;">Carbohydrates</div>
+                  <div id="sum-target-c" style="font-size:1.5rem; font-weight:800; margin-top:0.25rem;">185g</div>
+                </div>
+                <div style="background:rgba(236, 72, 153, 0.05); border: 1px solid rgba(236, 72, 153, 0.15); border-radius:12px; padding:1rem; text-align:center;">
+                  <div style="font-size:0.75rem; color:var(--color-accent); font-weight:600;">Dietary Fats</div>
+                  <div id="sum-target-f" style="font-size:1.5rem; font-weight:800; margin-top:0.25rem;">51g</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wizard Navigation -->
+          <div class="wizard-footer">
+            <button id="wizard-prev-btn" class="btn btn-secondary" disabled>
+              <i data-lucide="arrow-left"></i> Back
+            </button>
+            <button id="wizard-next-btn" class="btn btn-primary">
+              Next Step <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. DASHBOARD PANEL ================= -->
+      <section id="dashboard-panel" class="view-panel">
+        <div class="section-header">
+          <h1 class="section-title">Welcome back, <span class="gradient-text user-name">Champ</span></h1>
+          <p class="section-desc">Track your fitness journey. Daily calorie ceilings and routines are updated below.</p>
+        </div>
+
+        <!-- Setup Alert shown if profile not set -->
+        <div class="glass-card" id="dashboard-setup-tip" style="border-color:rgba(245, 158, 11, 0.3); background:rgba(245, 158, 11, 0.05); display:none;">
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <i data-lucide="alert-triangle" style="color:var(--color-warning); font-size:1.5rem; flex-shrink:0;"></i>
+            <div>
+              <h3 style="color:white; font-size:1.05rem;">Finish Setting Up Your Profile</h3>
+              <p style="color:var(--color-text-muted); font-size:0.85rem; margin-top:0.25rem;">To unlocked personalized workouts, targeted calorie budgets, and tracking analytics, click <a href="#profile-panel" style="color:var(--color-secondary); font-weight:600; text-decoration:underline;">here</a> to config your bio details.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Stats Grid -->
+        <div class="dashboard-grid" id="dashboard-stats-grid">
+          
+          <!-- Core metrics row -->
+          <div class="col-4 glass-card mini-stat-card">
+            <div class="stat-icon-box" style="background:rgba(6, 182, 212, 0.15); color:var(--color-secondary);">
+              <i data-lucide="scale"></i>
+            </div>
+            <div class="stat-details">
+              <span class="stat-val" id="dash-weight-val">78.5 kg</span>
+              <span class="stat-lbl">Weight</span>
+            </div>
+          </div>
+          <div class="col-4 glass-card mini-stat-card">
+            <div class="stat-icon-box" style="background:rgba(139, 92, 246, 0.15); color:var(--color-primary);">
+              <i data-lucide="percent"></i>
+            </div>
+            <div class="stat-details">
+              <span class="stat-val" id="dash-bmi-val">24.2</span>
+              <span class="stat-lbl">BMI Index</span>
+            </div>
+          </div>
+          <div class="col-4 glass-card mini-stat-card">
+            <div class="stat-icon-box" style="background:rgba(236, 72, 153, 0.15); color:var(--color-accent);">
+              <i data-lucide="heart"></i>
+            </div>
+            <div class="stat-details">
+              <span class="stat-val" id="dash-tdee-val">2,350 kcal</span>
+              <span class="stat-lbl">Daily Burn (TDEE)</span>
+            </div>
+          </div>
+
+          <!-- Circular Calorie Tracker Widget -->
+          <div class="col-8 glass-card">
+            <h3 style="font-size:1.15rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="flame" style="color:var(--color-accent)"></i> Daily Calorie & Macronutrients Tracker</h3>
+            
+            <div class="calorie-circle-container">
+              <!-- Animated SVG Ring -->
+              <div class="ring-wrapper">
+                <svg class="ring-svg" viewBox="0 0 160 160">
+                  <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
+                  <circle class="ring-progress" id="dash-calories-circle-progress" cx="80" cy="80" r="70"></circle>
+                </svg>
+                <div class="ring-text">
+                  <div class="ring-val" id="dash-calories-consumed">0</div>
+                  <div class="ring-lbl">consumed</div>
+                  <div style="font-size:0.7rem; color:var(--color-text-muted); margin-top:0.25rem;">Target: <span id="dash-calories-target">2000</span></div>
+                </div>
+              </div>
+
+              <!-- Macros Breakdown meters -->
+              <div class="macros-container">
+                <!-- Protein -->
+                <div class="macro-bar-item">
+                  <div class="macro-info">
+                    <span class="macro-name protein"><i data-lucide="shield"></i> Protein</span>
+                    <span class="macro-val" id="dash-protein-val">0g / 150g</span>
+                  </div>
+                  <div class="macro-progress-bg">
+                    <div class="macro-progress-fill protein" id="dash-protein-progress"></div>
+                  </div>
+                </div>
+                <!-- Carbs -->
+                <div class="macro-bar-item">
+                  <div class="macro-info">
+                    <span class="macro-name carbs"><i data-lucide="wheat"></i> Carbohydrates</span>
+                    <span class="macro-val" id="dash-carbs-val">0g / 210g</span>
+                  </div>
+                  <div class="macro-progress-bg">
+                    <div class="macro-progress-fill carbs" id="dash-carbs-progress"></div>
+                  </div>
+                </div>
+                <!-- Fats -->
+                <div class="macro-bar-item">
+                  <div class="macro-info">
+                    <span class="macro-name fats"><i data-lucide="droplet"></i> Fats</span>
+                    <span class="macro-val" id="dash-fats-val">0g / 55g</span>
+                  </div>
+                  <div class="macro-progress-bg">
+                    <div class="macro-progress-fill fats" id="dash-fats-progress"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Action Widgets Panel -->
+          <div class="col-4 glass-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <h3 style="font-size:1.15rem; margin-bottom:1.25rem;">Quick Operations</h3>
+              <div class="actions-grid">
+                <a href="#workout-panel" class="action-card fitness">
+                  <div class="action-icon">
+                    <i data-lucide="dumbbell"></i>
+                  </div>
+                  <span class="action-title">Start Workout</span>
+                </a>
+                <a href="#scanner-panel" class="action-card nutrition">
+                  <div class="action-icon">
+                    <i data-lucide="camera"></i>
+                  </div>
+                  <span class="action-title">Scan a Meal</span>
+                </a>
+              </div>
+            </div>
+            
+            <button id="dash-log-weight-btn" class="btn btn-primary" style="width:100%; margin-top:1.5rem;">
+              <i data-lucide="plus"></i> Record Current Weight
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. WORKOUT PLANNER PANEL ================= -->
+      <section id="workout-panel" class="view-panel">
+        <div class="section-header">
+          <h1 class="section-title"><span class="gradient-text">AI Exercises Scheduler</span></h1>
+          <p class="section-desc">Generate muscle development or caloric deficit routines tailored to your fitness objectives.</p>
+        </div>
+
+        <!-- Days Navigation tabs -->
+        <div class="routine-days-container" id="routine-days-tabs">
+          <!-- Populated by app.js -->
+        </div>
+
+        <!-- Detailed Exercises listing for selected day -->
+        <div id="routine-details-container">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- ================= 4. AI MEAL SCANNER PANEL ================= -->
+      <section id="scanner-panel" class="view-panel">
+        <div class="section-header">
+          <h1 class="section-title"><span class="gradient-text">AI Meal Nutrition Scanner</span></h1>
+          <p class="section-desc">Upload a picture of your dish. Our computer vision models scan physical items to estimate calories, macros, and healthier options.</p>
+        </div>
+
+        <div class="scanner-container">
+          
+          <!-- Image Upload Interaction Card -->
+          <div class="glass-card" style="margin-bottom: 0;">
+            <h3 style="font-size:1.15rem; margin-bottom:1rem;">Capture or Upload Dish</h3>
+            
+            <!-- Hidden File Input -->
+            <input type="file" id="scanner-file-input" style="display:none;" accept="image/*">
+            
+            <!-- Drag Zone -->
+            <div class="upload-zone" id="scanner-dropzone">
+              <div class="upload-icon">
+                <i data-lucide="upload-cloud"></i>
+              </div>
+              <div>
+                <div class="upload-zone-title">Upload a picture of your meal</div>
+                <div class="upload-zone-text">Drag & drop here, or click to browse files</div>
+              </div>
+              <div style="font-size:0.75rem; color:var(--color-text-muted);">Supports PNG, JPG, or JPEG formats. Or click presets below.</div>
+            </div>
+
+            <!-- Demo Preset Chips selector -->
+            <div style="margin-top:1.5rem;">
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--color-text-muted); font-weight:600; display:block; margin-bottom:0.5rem;">No photo? Click one of these demo preset meals:</span>
+              
+              <div class="presets-grid" id="scanner-preset-chips">
+                <!-- Preset chips representing popular items -->
+                <div class="preset-chip" data-food="salad">
+                  <i data-lucide="leaf" style="color:var(--color-success); font-size:1rem;"></i>
+                  <span>Salad</span>
+                </div>
+                <div class="preset-chip" data-food="burger">
+                  <i data-lucide="drumstick" style="color:var(--color-danger); font-size:1rem;"></i>
+                  <span>Burger</span>
+                </div>
+                <div class="preset-chip" data-food="salmon">
+                  <i data-lucide="fish" style="color:var(--color-secondary); font-size:1rem;"></i>
+                  <span>Salmon</span>
+                </div>
+                <div class="preset-chip" data-food="pizza">
+                  <i data-lucide="pizza" style="color:var(--color-accent); font-size:1rem;"></i>
+                  <span>Pizza</span>
+                </div>
+                <div class="preset-chip" data-food="toast">
+                  <i data-lucide="egg" style="color:var(--color-warning); font-size:1rem;"></i>
+                  <span>Toast</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload / Scan Action triggers -->
+            <div id="scanner-action-container" style="margin-top: 1.5rem; display:none;">
+              <!-- Trigger buttons populated by app.js -->
+            </div>
+          </div>
+
+          <!-- Nutritional Scan Outputs Card -->
+          <div class="glass-card" id="scanner-results-card" style="display:none; margin-bottom: 0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:var(--glass-border); padding-bottom:1rem; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+              <div>
+                <span style="font-size:0.75rem; text-transform:uppercase; color:var(--color-secondary); font-weight:700; tracking-wide:1px;">AI Detection Complete</span>
+                <h3 id="res-food-name" style="font-size:1.4rem; color:white; font-weight:700; margin-top:0.15rem;">Detected Food Item</h3>
+              </div>
+              <span id="res-health-score" class="health-score-badge A">Health Score: A</span>
+            </div>
+
+            <!-- Macros details breakdown -->
+            <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; text-align:center; margin-bottom:1.5rem;">
+              <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); padding:0.6rem 0.4rem; border-radius:10px;">
+                <div id="res-cal" style="font-size:1.15rem; font-weight:700; color:white;">0 kcal</div>
+                <div style="font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase;">Calories</div>
+              </div>
+              <div style="background:rgba(139, 92, 246, 0.05); border:1px solid rgba(139, 92, 246, 0.1); padding:0.6rem 0.4rem; border-radius:10px;">
+                <div id="res-protein" style="font-size:1.15rem; font-weight:700; color:var(--color-primary);">0g</div>
+                <div style="font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase;">Protein</div>
+                <div id="res-protein-pct" style="font-size:0.6rem; color:var(--color-text-muted);">0%</div>
+              </div>
+              <div style="background:rgba(6, 182, 212, 0.05); border:1px solid rgba(6, 182, 212, 0.1); padding:0.6rem 0.4rem; border-radius:10px;">
+                <div id="res-carbs" style="font-size:1.15rem; font-weight:700; color:var(--color-secondary);">0g</div>
+                <div style="font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase;">Carbs</div>
+                <div id="res-carbs-pct" style="font-size:0.6rem; color:var(--color-text-muted);">0%</div>
+              </div>
+              <div style="background:rgba(236, 72, 153, 0.05); border:1px solid rgba(236, 72, 153, 0.1); padding:0.6rem 0.4rem; border-radius:10px;">
+                <div id="res-fats" style="font-size:1.15rem; font-weight:700; color:var(--color-accent);">0g</div>
+                <div style="font-size:0.65rem; color:var(--color-text-muted); text-transform:uppercase;">Fats</div>
+                <div id="res-fats-pct" style="font-size:0.6rem; color:var(--color-text-muted);">0%</div>
+              </div>
+            </div>
+
+            <!-- Healthier Alternatives Recommendation listings -->
+            <div>
+              <h4 style="font-size:0.9rem; text-transform:uppercase; font-weight:600; color:white; margin-bottom:0.75rem; letter-spacing:0.05em; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="sparkles" style="color:var(--color-secondary)"></i> Recommended Health Swaps</h4>
+              <div id="res-swaps-list">
+                <!-- Populated dynamically by app.js -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= 5. ANALYTICS & LOGS PANEL ================= -->
+      <section id="analytics-panel" class="view-panel">
+        <div class="section-header">
+          <h1 class="section-title"><span class="gradient-text">Progress Analytics</span></h1>
+          <p class="section-desc">Examine weekly intake patterns and weight change tracking metrics over time.</p>
+        </div>
+
+        <!-- Charts row -->
+        <div class="dashboard-grid">
+          <div class="col-6 glass-card">
+            <h3 style="font-size:1.15rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="scale" style="color:var(--color-secondary)"></i> Weight Trend Tracking</h3>
+            <div class="chart-container">
+              <canvas id="weightHistoryChart"></canvas>
+            </div>
+          </div>
+          <div class="col-6 glass-card">
+            <h3 style="font-size:1.15rem; margin-bottom:1.5rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="line-chart" style="color:var(--color-primary)"></i> Weekly Calorie Log vs Target</h3>
+            <div class="chart-container">
+              <canvas id="calorieHistoryChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Nutrition & Workouts journals -->
+          <div class="col-6 glass-card" style="margin-bottom:0;">
+            <h3 style="font-size:1.15rem; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="sandwich" style="color:var(--color-accent)"></i> Daily Meal Logs</h3>
+            <div class="logs-list" id="meals-log-list">
+              <!-- Logs items loaded by app.js -->
+            </div>
+          </div>
+
+          <div class="col-6 glass-card" style="margin-bottom:0;">
+            <h3 style="font-size:1.15rem; margin-bottom:1.25rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="calendar" style="color:var(--color-secondary)"></i> Completed Workouts</h3>
+            <div class="logs-list" id="workouts-log-list">
+              <!-- Logs items loaded by app.js -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= INTERACTIVE WORKOUT OVERLAY ================= -->
+    <div class="active-workout-overlay" id="active-workout-panel">
+      
+      <div class="active-workout-header">
+        <div>
+          <span style="font-size:0.75rem; text-transform:uppercase; color:var(--color-secondary); font-weight:700; tracking-wide:1px;">Active Workout Session</span>
+          <h2 id="active-workout-title" style="font-size:1.6rem; color:white; font-weight:800; margin-top:0.15rem;">Workout</h2>
+        </div>
+        
+        <!-- Timer clock widget -->
+        <div class="timer-box">
+          <i data-lucide="clock" style="width:18px; height:18px;"></i>
+          <span id="active-timer-label">00:00</span>
+        </div>
+      </div>
+
+      <!-- Active checklist for completion tracking -->
+      <div class="active-exercises-container">
+        <h3 style="font-size:1.1rem; color:white; font-weight:600; margin-bottom:0.5rem; display:flex; align-items:center; gap:0.5rem;"><i data-lucide="check-square" style="color:var(--color-primary)"></i> Exercise Completion Checklist</h3>
+        <div id="active-exercises-list">
+          <!-- Populated by app.js -->
+        </div>
+      </div>
+
+      <!-- Finish Actions bar -->
+      <div class="active-workout-footer">
+        <button id="active-quit-btn" class="btn btn-secondary" style="flex: 1;">
+          <i data-lucide="slash"></i> Terminate Workout
+        </button>
+        <button id="active-complete-btn" class="btn btn-teal" style="flex: 2;">
+          <i data-lucide="check-circle-2"></i> Mark Workout Done
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Main JavaScript App Controller -->
+  <script src="app.js"></script>
+</body>
+</html>
