@@ -445,11 +445,7 @@
                 await handleGoogleAuth(email, name);
             });
 
-            // Shared handler to process backend authentication for Google accounts
-            async (email, name) => {
-                // To support local scopes, we define this function
-            };
-            
+
             async function handleGoogleAuth(email, name) {
                 errorContainer.classList.add('hidden');
                 googleBtn.disabled = true;
