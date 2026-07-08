@@ -176,6 +176,11 @@
             </div>
             <!-- Form Area -->
             <div class="p-6 md:p-8 flex-grow">
+                <!-- Unified Error Display -->
+                <div id="error-display" class="hidden mb-6 p-4 bg-error-container/10 border border-error/30 text-error rounded-full text-sm text-center font-medium flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">warning</span>
+                    <span id="error-text"></span>
+                </div>
                 <!-- Step 1: Physical Metrics -->
                 <div class="step-content active space-y-6" id="step-1">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -385,7 +390,62 @@
                 }
             }
 
+            function validateStep(stepIndex) {
+                const errorDisplay = document.getElementById('error-display');
+                const errorText = document.getElementById('error-text');
+
+                function showError(msg) {
+                    errorText.textContent = msg;
+                    errorDisplay.classList.remove('hidden');
+                    errorDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                if (stepIndex === 0) {
+                    const age = document.getElementById('age').value;
+                    const biologicalSex = document.getElementById('gender').value;
+                    const height = document.getElementById('height').value;
+                    const weight = document.getElementById('weight').value;
+
+                    if (!age || !biologicalSex || !height || !weight) {
+                        showError("Please enter all physical metrics (Age, Sex, Height, and Weight) to proceed.");
+                        return false;
+                    }
+                    if (Number(age) <= 0 || Number(height) <= 0 || Number(weight) <= 0) {
+                        showError("Please enter valid positive numbers for Age, Height, and Weight.");
+                        return false;
+                    }
+                } else if (stepIndex === 1) {
+                    const occupation = document.getElementById('occupation').value.trim();
+                    const activityLevel = document.querySelector('input[name="activity_level"]:checked')?.value;
+
+                    if (!occupation) {
+                        showError("Please enter your primary occupation.");
+                        return false;
+                    }
+                    if (!activityLevel) {
+                        showError("Please select your daily activity level.");
+                        return false;
+                    }
+                } else if (stepIndex === 2) {
+                    const goals = Array.from(document.querySelectorAll('.goal-checkbox:checked'));
+                    if (goals.length === 0) {
+                        showError("Please select at least one health or performance goal.");
+                        return false;
+                    }
+                }
+                return true;
+            }
+
             btnNext.addEventListener('click', () => {
+                // Clear any previous error
+                const errorDisplay = document.getElementById('error-display');
+                const errorText = document.getElementById('error-text');
+                errorDisplay.classList.add('hidden');
+
+                if (!validateStep(currentStep)) {
+                    return;
+                }
+
                 if (currentStep < steps.length - 1) {
                     currentStep++;
                     updateUI();
@@ -437,12 +497,18 @@
                         console.error('Error saving telemetry baseline:', err);
                         btnNext.disabled = false;
                         btnNext.innerHTML = `Complete <span class="material-symbols-outlined text-[18px]">check</span>`;
-                        alert('Failed to connect to backend server. Telemetry calibration failed.');
+                        
+                        errorText.textContent = 'Failed to connect to backend server. Telemetry calibration failed.';
+                        errorDisplay.classList.remove('hidden');
                     });
                 }
             });
 
             btnBack.addEventListener('click', () => {
+                // Clear errors on back navigation
+                const errorDisplay = document.getElementById('error-display');
+                errorDisplay.classList.add('hidden');
+
                 if (currentStep > 0) {
                     currentStep--;
                     updateUI();
