@@ -199,7 +199,7 @@
                     <p class="font-body-md text-body-md text-on-surface-variant">Initialize your profile.</p>
                 </div>
 
-                <form class="space-y-stack-sm" onsubmit="event.preventDefault(); window.location.href='index.html';">
+                <form id="signup-form" class="space-y-stack-sm">
                     <!-- Name Field -->
                     <div>
                         <label for="name" class="block font-label-sm text-label-sm text-on-surface-variant mb-1.5 uppercase tracking-widest">Full Name</label>
@@ -261,5 +261,59 @@
             </div>
         </div>
     </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signup-form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Error display container
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'hidden mb-4 p-3 bg-error-container/20 border border-error text-error rounded-DEFAULT text-sm text-center';
+            form.parentNode.insertBefore(errorContainer, form);
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorContainer.classList.add('hidden');
+                submitBtn.disabled = true;
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> INITIALIZING...`;
+
+                try {
+                    const response = await fetch('/api/auth/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: nameInput.value,
+                            email: emailInput.value,
+                            password: passwordInput.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to initialize account.');
+                    }
+
+                    // Save session data in localStorage
+                    localStorage.setItem('userEmail', data.email);
+                    localStorage.setItem('userName', data.name);
+
+                    // Redirect to protocol customization
+                    window.location.href = 'protocol.html';
+                } catch (err) {
+                    errorContainer.textContent = err.message;
+                    errorContainer.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
