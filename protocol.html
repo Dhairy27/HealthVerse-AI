@@ -157,13 +157,13 @@
     <!-- Main Content -->
     <main class="flex-grow flex items-center justify-center px-margin-mobile md:px-margin-desktop py-stack-md z-10 relative w-full max-w-container-max mx-auto">
         <!-- Onboarding Container -->
-        <div class="w-full max-w-2xl glass-panel rounded-DEFAULT md:rounded-lg overflow-hidden flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+        <div class="w-full max-w-[500px] glass-panel rounded-DEFAULT md:rounded-lg overflow-hidden flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
             <!-- Header Section -->
-            <div class="p-6 md:p-8 border-b border-glass-border">
-                <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-2 text-center">Personalize Your Protocol</h1>
-                <p class="font-body-md text-body-md text-on-surface-variant text-center max-w-md mx-auto">Configure your biological telemetry baseline for optimal AI calibration.</p>
+            <div class="p-5 md:p-6 border-b border-glass-border">
+                <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-1.5 text-center">Personalize Your Protocol</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant text-center max-w-sm mx-auto">Configure your biological telemetry baseline for optimal AI calibration.</p>
                 <!-- Progress Bar -->
-                <div class="mt-8 flex items-center justify-between gap-2">
+                <div class="mt-5 flex items-center justify-between gap-2">
                     <div class="h-1 flex-1 bg-surface-container rounded-full overflow-hidden">
                         <div class="h-full bg-primary transition-all duration-500 ease-out w-1/3" id="progress-indicator"></div>
                     </div>
@@ -175,25 +175,30 @@
                 </div>
             </div>
             <!-- Form Area -->
-            <div class="p-6 md:p-8 flex-grow">
+            <div class="p-5 md:p-6 flex-grow">
+                <!-- Unified Error Display -->
+                <div id="error-display" class="hidden mb-4 p-3 bg-error-container/10 border border-error/30 text-error rounded-full text-sm text-center font-medium flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">warning</span>
+                    <span id="error-text"></span>
+                </div>
                 <!-- Step 1: Physical Metrics -->
-                <div class="step-content active space-y-6" id="step-1">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="step-content active space-y-4" id="step-1">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Age -->
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="block font-label-md text-label-md text-on-surface uppercase">Age</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
                                 </span>
-                                <input id="age" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors placeholder-on-surface-variant/50 appearance-none" placeholder="Years" type="number"/>
+                                <input id="age" class="w-full bg-surface-container-low border border-glass-border rounded-full py-2.5 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors placeholder-on-surface-variant/50 appearance-none" placeholder="Years" type="number"/>
                             </div>
                         </div>
                         <!-- Gender/Sex -->
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="block font-label-md text-label-md text-on-surface uppercase">Biological Sex</label>
                             <div class="relative">
-                                <select id="gender" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 px-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors appearance-none" style="background-image: none;">
+                                <select id="gender" class="w-full bg-surface-container-low border border-glass-border rounded-full py-2.5 px-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors appearance-none" style="background-image: none;">
                                     <option disabled="" selected="" value="">Select</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -205,26 +210,26 @@
                             </div>
                         </div>
                         <!-- Height -->
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="block font-label-md text-label-md text-on-surface uppercase">Height</label>
                             <div class="relative flex items-center">
                                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">height</span>
                                 </span>
-                                <input id="height" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 pl-12 pr-12 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors" placeholder="cm" type="number"/>
+                                <input id="height" class="w-full bg-surface-container-low border border-glass-border rounded-full py-2.5 pl-12 pr-12 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors" placeholder="cm" type="number"/>
                                 <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-on-surface-variant font-label-md text-label-md">
                                     cm
                                 </span>
                             </div>
                         </div>
                         <!-- Weight -->
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="block font-label-md text-label-md text-on-surface uppercase">Weight</label>
                             <div class="relative flex items-center">
                                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">weight</span>
                                 </span>
-                                <input id="weight" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 pl-12 pr-12 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors" placeholder="kg" type="number"/>
+                                <input id="weight" class="w-full bg-surface-container-low border border-glass-border rounded-full py-2.5 pl-12 pr-12 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors" placeholder="kg" type="number"/>
                                 <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-on-surface-variant font-label-md text-label-md">
                                     kg
                                 </span>
@@ -233,67 +238,67 @@
                     </div>
                 </div>
                 <!-- Step 2: Lifestyle -->
-                <div class="step-content space-y-6" id="step-2">
-                    <div class="space-y-6">
+                <div class="step-content space-y-4" id="step-2">
+                    <div class="space-y-4">
                         <!-- Occupation -->
-                        <div class="space-y-2">
+                        <div class="space-y-1.5">
                             <label class="block font-label-md text-label-md text-on-surface uppercase">Primary Occupation</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">work</span>
                                 </span>
-                                <input id="occupation" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors placeholder-on-surface-variant/50" placeholder="e.g., Software Engineer, Athlete" type="text"/>
+                                <input id="occupation" class="w-full bg-surface-container-low border border-glass-border rounded-full py-2.5 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors placeholder-on-surface-variant/50" placeholder="e.g., Software Engineer, Athlete" type="text"/>
                             </div>
                         </div>
                         <!-- Activity Level (Chips) -->
-                        <div class="space-y-3">
+                        <div class="space-y-2">
                             <label class="block font-label-md text-label-md text-on-surface uppercase">Daily Activity Level</label>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                                 <label class="cursor-pointer relative group">
                                     <input class="peer sr-only" name="activity_level" type="radio" value="sedentary"/>
-                                    <div class="w-full h-full p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-2 group-hover:border-outline">
-                                        <span class="material-symbols-outlined text-[24px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">chair</span>
-                                        <span class="font-label-md text-label-md text-primary">Sedentary</span>
+                                    <div class="w-full h-full p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-1.5 group-hover:border-outline">
+                                        <span class="material-symbols-outlined text-[22px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">chair</span>
+                                        <span class="font-label-md text-[11px] text-primary">Sedentary</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer relative group">
                                     <input checked="" class="peer sr-only" name="activity_level" type="radio" value="moderate"/>
-                                    <div class="w-full h-full p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-2 group-hover:border-outline">
-                                        <span class="material-symbols-outlined text-[24px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">directions_walk</span>
-                                        <span class="font-label-md text-label-md text-primary">Moderately Active</span>
+                                    <div class="w-full h-full p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-1.5 group-hover:border-outline">
+                                        <span class="material-symbols-outlined text-[22px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">directions_walk</span>
+                                        <span class="font-label-md text-[11px] text-primary">Moderately Active</span>
                                     </div>
                                 </label>
                                 <label class="cursor-pointer relative group">
                                     <input class="peer sr-only" name="activity_level" type="radio" value="high"/>
-                                    <div class="w-full h-full p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-2 group-hover:border-outline">
-                                        <span class="material-symbols-outlined text-[24px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">fitness_center</span>
-                                        <span class="font-label-md text-label-md text-primary">Highly Active</span>
+                                    <div class="w-full h-full p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-1.5 group-hover:border-outline">
+                                        <span class="material-symbols-outlined text-[22px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">fitness_center</span>
+                                        <span class="font-label-md text-[11px] text-primary">Highly Active</span>
                                     </div>
                                 </label>
-                            </div>
+                              </div>
                         </div>
                     </div>
                 </div>
                 <!-- Step 3: Goals -->
-                <div class="step-content space-y-6" id="step-3">
-                    <div class="space-y-4">
-                        <label class="block font-label-md text-label-md text-on-surface uppercase mb-4">Primary Performance Goals</label>
+                <div class="step-content space-y-4" id="step-3">
+                    <div class="space-y-3">
+                        <label class="block font-label-md text-label-md text-on-surface uppercase mb-2">Primary Performance Goals</label>
                         <!-- Checkboxes for Goals -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
-                                <input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Hypertrophy" type="checkbox"/>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="flex items-center gap-3 p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+                                <input class="goal-checkbox form-checkbox h-4.5 w-4.5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Hypertrophy" type="checkbox"/>
                                 <span class="font-body-md text-body-md text-primary">Hypertrophy / Muscle Gain</span>
                             </label>
-                            <label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
-                                <input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Fat Loss" type="checkbox"/>
+                            <label class="flex items-center gap-3 p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+                                <input class="goal-checkbox form-checkbox h-4.5 w-4.5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Fat Loss" type="checkbox"/>
                                 <span class="font-body-md text-body-md text-primary">Fat Loss / Definition</span>
                             </label>
-                            <label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
-                                <input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Endurance" type="checkbox"/>
+                            <label class="flex items-center gap-3 p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+                                <input class="goal-checkbox form-checkbox h-4.5 w-4.5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Endurance" type="checkbox"/>
                                 <span class="font-body-md text-body-md text-primary">Endurance / Stamina</span>
                             </label>
-                            <label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
-                                <input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Cognitive Enhancement" type="checkbox"/>
+                            <label class="flex items-center gap-3 p-3.5 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+                                <input class="goal-checkbox form-checkbox h-4.5 w-4.5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Cognitive Enhancement" type="checkbox"/>
                                 <span class="font-body-md text-body-md text-primary">Cognitive Enhancement</span>
                             </label>
                         </div>
@@ -301,12 +306,12 @@
                 </div>
             </div>
             <!-- Footer Actions -->
-            <div class="p-6 md:p-8 border-t border-glass-border bg-surface-container/50 flex justify-between items-center mt-auto">
-                <button class="invisible font-label-md text-label-md text-primary px-6 py-3 rounded-full border border-glass-border hover:bg-surface-container-highest transition-colors flex items-center gap-2" id="btn-back">
+            <div class="p-5 md:p-6 border-t border-glass-border bg-surface-container/50 flex justify-between items-center mt-auto">
+                <button class="invisible font-label-md text-label-md text-primary px-6 py-2.5 rounded-full border border-glass-border hover:bg-surface-container-highest transition-colors flex items-center gap-2" id="btn-back">
                     <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
                     Back
                 </button>
-                <button class="ml-auto font-label-md text-label-md text-on-primary px-8 py-3 rounded-full primary-gradient-bg hover:scale-[1.02] transition-transform shadow-[0_0_15px_rgba(255,255,255,0.1)] flex items-center gap-2" id="btn-next">
+                <button class="ml-auto font-label-md text-label-md text-on-primary px-8 py-2.5 rounded-full primary-gradient-bg hover:scale-[1.02] transition-transform shadow-[0_0_15px_rgba(255,255,255,0.1)] flex items-center gap-2" id="btn-next">
                     Next
                     <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
                 </button>
@@ -385,7 +390,62 @@
                 }
             }
 
+            function validateStep(stepIndex) {
+                const errorDisplay = document.getElementById('error-display');
+                const errorText = document.getElementById('error-text');
+
+                function showError(msg) {
+                    errorText.textContent = msg;
+                    errorDisplay.classList.remove('hidden');
+                    errorDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                if (stepIndex === 0) {
+                    const age = document.getElementById('age').value;
+                    const biologicalSex = document.getElementById('gender').value;
+                    const height = document.getElementById('height').value;
+                    const weight = document.getElementById('weight').value;
+
+                    if (!age || !biologicalSex || !height || !weight) {
+                        showError("Please enter all physical metrics (Age, Sex, Height, and Weight) to proceed.");
+                        return false;
+                    }
+                    if (Number(age) <= 0 || Number(height) <= 0 || Number(weight) <= 0) {
+                        showError("Please enter valid positive numbers for Age, Height, and Weight.");
+                        return false;
+                    }
+                } else if (stepIndex === 1) {
+                    const occupation = document.getElementById('occupation').value.trim();
+                    const activityLevel = document.querySelector('input[name="activity_level"]:checked')?.value;
+
+                    if (!occupation) {
+                        showError("Please enter your primary occupation.");
+                        return false;
+                    }
+                    if (!activityLevel) {
+                        showError("Please select your daily activity level.");
+                        return false;
+                    }
+                } else if (stepIndex === 2) {
+                    const goals = Array.from(document.querySelectorAll('.goal-checkbox:checked'));
+                    if (goals.length === 0) {
+                        showError("Please select at least one health or performance goal.");
+                        return false;
+                    }
+                }
+                return true;
+            }
+
             btnNext.addEventListener('click', () => {
+                // Clear any previous error
+                const errorDisplay = document.getElementById('error-display');
+                const errorText = document.getElementById('error-text');
+                errorDisplay.classList.add('hidden');
+
+                if (!validateStep(currentStep)) {
+                    return;
+                }
+
                 if (currentStep < steps.length - 1) {
                     currentStep++;
                     updateUI();
@@ -437,12 +497,18 @@
                         console.error('Error saving telemetry baseline:', err);
                         btnNext.disabled = false;
                         btnNext.innerHTML = `Complete <span class="material-symbols-outlined text-[18px]">check</span>`;
-                        alert('Failed to connect to backend server. Telemetry calibration failed.');
+                        
+                        errorText.textContent = 'Failed to connect to backend server. Telemetry calibration failed.';
+                        errorDisplay.classList.remove('hidden');
                     });
                 }
             });
 
             btnBack.addEventListener('click', () => {
+                // Clear errors on back navigation
+                const errorDisplay = document.getElementById('error-display');
+                errorDisplay.classList.add('hidden');
+
                 if (currentStep > 0) {
                     currentStep--;
                     updateUI();
