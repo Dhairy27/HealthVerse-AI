@@ -196,7 +196,6 @@
 <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#premium">Premium</a>
 <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#results">Results</a>
 </div>
-<!-- Trailing Action -->
 <div id="nav-auth-actions" class="hidden md:flex items-center gap-4">
 <a href="login.html" class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer mr-2">Log In</a>
 <a href="signup.html" class="font-label-md text-label-md btn-primary px-6 py-3 rounded-full cursor-pointer active:scale-95 transition-transform duration-300 inline-block text-center">
@@ -447,9 +446,13 @@
             if (userEmail && navAuthActions) {
                 // User is logged in, show user profile / logout button
                 navAuthActions.innerHTML = `
-                    <span class="font-label-md text-label-md text-secondary select-none mr-2 flex items-center gap-1.5">
+                    <a href="dashboard.html" class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer mr-4 flex items-center gap-1.5 hover:scale-105 duration-300">
+                        <span class="material-symbols-outlined text-[18px]">dashboard</span>
+                        Dashboard
+                    </a>
+                    <span class="font-label-md text-label-md text-secondary select-none mr-4 flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-[18px]">account_circle</span>
-                        ${userName || 'Athlete'}
+                        \${userName || 'Athlete'}
                     </span>
                     <button id="btn-logout" class="font-label-md text-label-md btn-secondary px-5 py-2.5 rounded-full cursor-pointer active:scale-95 transition-transform duration-300">
                         Log Out
@@ -465,6 +468,8 @@
             }
         });
     </script>
+
+
 
 
 </body></html>
