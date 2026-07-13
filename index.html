@@ -1,18 +1,19 @@
-<!DOCTYPE html><html class="dark scroll-smooth" lang="en" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>FitMind AI - Elite Performance Coach</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
-<!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Tailwind Config from Guidelines -->
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html class="dark scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>FitForge - Elite AI Performance Coach</title>
+    <meta name="description" content="Transcend human limitations. FitForge synthesizes millions of data points to engineer the perfect training protocol, diet, and recovery matrix.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -107,14 +108,12 @@
             }
         }
     </script>
-<style>
-        /* Custom Utilities & Interactions */
+    <style>
         body {
-            background-color: #050505; /* Deep obsidian base overriding config background slightly for premium feel */
+            background-color: #050505;
             color: #e5e2e1;
             overflow-x: hidden;
         }
-        
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -123,353 +122,333 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             position: relative;
         }
-        
         .glass-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 1px;
             background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
             z-index: 10;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #f6f5f5 0%, #d9d9d9 100%);
             color: #131313;
             transition: all 0.3s ease;
         }
-        
         .btn-primary:hover {
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
             transform: scale(1.02);
         }
-        
         .btn-secondary {
             background: transparent;
             border: 1px solid #2B2B2B;
             color: #f6f5f5;
             transition: all 0.3s ease;
         }
-        
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: #f6f5f5;
         }
-
-        /* Scroll Reveal Animation */
         .reveal-element {
             opacity: 0;
             transform: translateY(40px);
             transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
         .reveal-element.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
-
         .gradient-text {
             background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
         .bg-gradient-glow {
             background: radial-gradient(circle at 50% 50%, rgba(217, 217, 217, 0.05) 0%, rgba(5, 5, 5, 0) 70%);
         }
     </style>
 </head>
 <body class="antialiased selection:bg-surface-tint selection:text-background font-body-md text-body-md">
-<!-- TopNavBar (Shared Component) -->
+
+<!-- TopNavBar -->
 <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-container-max rounded-full border border-white/10 bg-surface/5 backdrop-blur-xl shadow-2xl z-50 transition-all duration-500 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4">
-<!-- Brand -->
-<div class="flex items-center h-8 w-8 cursor-pointer active:scale-95 transition-transform duration-300">
-<img alt="FitMind AI Logo" class="h-full w-full object-contain" src="assets/logo.svg">
-</div>
-<!-- Navigation Links (Web) -->
-<div class="hidden md:flex items-center gap-8">
-<!-- All links inactive for landing page initial state -->
-<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#features">Features</a>
-<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#technology">Technology</a>
-<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#premium">Premium</a>
-<a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#results">Results</a>
-</div>
-<div id="nav-auth-actions" class="hidden md:flex items-center gap-4">
-<a href="login.html" class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer mr-2">Log In</a>
-<a href="signup.html" class="font-label-md text-label-md btn-primary px-6 py-3 rounded-full cursor-pointer active:scale-95 transition-transform duration-300 inline-block text-center">
-                Get Started
-            </a>
-</div>
-<!-- Mobile Menu Icon -->
-<div class="md:hidden text-primary cursor-pointer">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
-</div>
+    <!-- Brand -->
+    <div class="flex items-center gap-3 cursor-pointer active:scale-95 transition-transform duration-300" onclick="window.location.href='index.html'">
+        <div class="h-8 w-8">
+            <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+        </div>
+        <span class="font-headline-lg text-[20px] font-bold text-primary hidden sm:block">FitForge</span>
+    </div>
+    <!-- Navigation Links (Web) -->
+    <div class="hidden md:flex items-center gap-8">
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#features">Features</a>
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#technology">Technology</a>
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#premium">Premium</a>
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#results">Results</a>
+    </div>
+    <!-- Trailing Actions -->
+    <div class="flex items-center gap-4">
+        <a href="login.html" class="hidden md:block font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer">Login</a>
+        <a href="signup.html" class="font-label-md text-label-md btn-primary px-6 py-3 rounded-full cursor-pointer active:scale-95 transition-transform duration-300 no-underline">
+            Get Started
+        </a>
+    </div>
+    <!-- Mobile Menu Icon -->
+    <div class="md:hidden text-primary cursor-pointer" id="mobile-menu-toggle">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+    </div>
 </nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden" id="mobile-menu">
+    <div class="flex flex-col items-center justify-center h-full gap-8">
+        <button class="absolute top-6 right-6 text-primary" onclick="document.getElementById('mobile-menu').classList.add('hidden')">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="#features" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Features</a>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="#premium" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Premium</a>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="#results" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Results</a>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="login.html">Login</a>
+        <a href="signup.html" class="btn-primary px-8 py-4 rounded-full font-label-md text-label-md no-underline">Get Started</a>
+    </div>
+</div>
+
 <!-- Main Content Canvas -->
 <main class="w-full relative">
-<!-- Ambient Background Effect -->
-<div class="fixed inset-0 pointer-events-none z-[-1] bg-gradient-glow"></div>
-<!-- Hero Section -->
-<section class="relative min-h-screen flex items-center justify-center pt-stack-xl px-margin-mobile md:px-margin-desktop overflow-hidden">
-<!-- Decorative background element -->
-<div class="absolute inset-0 opacity-30 z-0">
-<div class="w-full h-full bg-cover bg-center mix-blend-overlay" data-alt="A striking abstract architectural space designed for a futuristic elite gym. The setting is dominated by deep obsidian and highly polished dark metals, accented by glowing silver led strips. Cinematic, moody lighting casts long, dramatic shadows. The aesthetic is ultra-premium, dark luxury, and minimalist, evoking high-end precision hardware engineering." style="background-image: url('assets/hero_bg.png')"></div>
-<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505]/80 to-[#050505]"></div>
-</div>
-<div class="relative z-10 w-full max-w-[900px] text-center flex flex-col items-center gap-stack-md reveal-element is-visible">
-<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#2B2B2B] bg-white/5 backdrop-blur-md mb-4">
-<span class="material-symbols-outlined text-surface-tint text-[16px]">bolt</span>
-<span class="font-label-sm text-label-sm text-surface-tint uppercase tracking-widest">Next-Gen Fitness Intelligence</span>
-</div>
-<h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg font-bold tracking-tight text-primary leading-tight gradient-text">
-                    Your AI-Powered <br>Elite Performance Coach.
-                </h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
-                    Transcend human limitations. FitMind AI synthesizes millions of data points to engineer the perfect training protocol, diet, and recovery matrix tailored exclusively to your biology.
-                </p>
-<div class="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
-<a href="signup.html" class="btn-primary font-label-md text-label-md px-8 py-4 rounded-full w-full sm:w-auto text-center flex items-center justify-center gap-2">
-                        Get Started
-                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-</a>
-<button class="btn-secondary font-label-md text-label-md px-8 py-4 rounded-full w-full sm:w-auto text-center flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-[20px]">play_circle</span>
-                        Watch Demo
-                    </button>
-</div>
-</div>
-</section>
-<!-- Statistics Section -->
-<section class="py-stack-lg border-y border-[#2B2B2B]/50 bg-surface-container-lowest/50 backdrop-blur-sm relative z-10">
-<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-<div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-gutter text-center divide-x divide-[#2B2B2B]/50">
-<div class="reveal-element is-visible">
-<div class="font-headline-lg text-headline-lg font-bold text-primary">100k+</div>
-<div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Elite Athletes</div>
-</div>
-<div class="reveal-element is-visible" style="transition-delay: 100ms;">
-<div class="font-headline-lg text-headline-lg font-bold text-primary">50M+</div>
-<div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Calories Burned</div>
-</div>
-<div class="reveal-element is-visible" style="transition-delay: 200ms;">
-<div class="font-headline-lg text-headline-lg font-bold text-primary">99.8%</div>
-<div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Protocol Accuracy</div>
-</div>
-<div class="reveal-element is-visible" style="transition-delay: 300ms;">
-<div class="font-headline-lg text-headline-lg font-bold text-primary">24/7</div>
-<div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Real-time Analysis</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Features Bento Grid -->
-<section class="py-stack-xl relative z-10" id="features">
-<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-<div class="text-center mb-16 reveal-element is-visible">
-<h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-4">Precision Engineered Features</h2>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">A unified ecosystem designed to calculate, predict, and optimize every variable of your physical transformation.</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
-<!-- Large Card: Workout Generator -->
-<div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between reveal-element group is-visible">
-<div class="flex justify-between items-start z-10 relative">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary font-bold mb-2">Generative Workouts</h3>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Dynamically shifting resistance protocols based on your real-time recovery metrics and historical performance.</p>
-</div>
-<span class="material-symbols-outlined text-surface-tint text-[32px] group-hover:scale-110 transition-transform">fitness_center</span>
-</div>
-<div class="absolute right-0 bottom-0 w-2/3 h-2/3 opacity-40 mix-blend-screen transition-opacity group-hover:opacity-60">
-<div class="w-full h-full bg-cover bg-left-top" data-alt="A close up detailed view of a high-end digital dashboard displaying glowing silver monochromatic line charts and performance metrics on a deep black background. The UI feels like expensive automotive telemetry, highly technical, minimal, and pristine. Soft depth of field blurs the edges." style="background-image: url('assets/line_chart.png')"></div>
-</div>
-</div>
-<!-- Square Card: Meal Planner -->
-<div class="glass-card rounded-xl p-8 flex flex-col justify-between reveal-element is-visible" style="transition-delay: 100ms;">
-<div class="z-10 relative">
-<span class="material-symbols-outlined text-surface-tint text-[32px] mb-4">restaurant_menu</span>
-<h3 class="font-headline-md text-headline-md-mobile text-primary font-bold mb-2">Macro Synthesis</h3>
-<p class="font-body-md text-body-md text-on-surface-variant text-sm">Hyper-personalized nutritional strategies mapped to your metabolic rate.</p>
-</div>
-</div>
-<!-- Square Card: Food Recognition -->
-<div class="glass-card rounded-xl p-8 flex flex-col justify-between reveal-element is-visible" style="transition-delay: 200ms;">
-<div class="z-10 relative">
-<span class="material-symbols-outlined text-surface-tint text-[32px] mb-4">qr_code_scanner</span>
-<h3 class="font-headline-md text-headline-md-mobile text-primary font-bold mb-2">Neural Vision</h3>
-<p class="font-body-md text-body-md text-on-surface-variant text-sm">Instantaneous caloric and macro extraction via computer vision scanning.</p>
-</div>
-</div>
-<!-- Large Card: Analytics -->
-<div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between reveal-element group is-visible" style="transition-delay: 300ms;">
-<div class="flex justify-between items-start z-10 relative">
-<div>
-<h3 class="font-headline-md text-headline-md text-primary font-bold mb-2">Predictive Analytics</h3>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-md">Forecast your strength milestones and body composition changes with 98% certainty using deep learning models.</p>
-</div>
-<span class="material-symbols-outlined text-surface-tint text-[32px] group-hover:scale-110 transition-transform">insights</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Testimonial Section (Minimalist) -->
-<section class="py-stack-xl relative z-10 bg-surface-container-low/20" id="results">
-<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-<div class="reveal-element is-visible">
-<div class="relative w-full aspect-square max-w-md mx-auto">
-<!-- Image Container -->
-<div class="absolute inset-0 rounded-full overflow-hidden border-2 border-[#2B2B2B] shadow-[0_0_80px_rgba(255,255,255,0.05)]">
-<img class="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 transition-opacity duration-700" data-alt="A dramatic black and white cinematic portrait of an elite athlete in peak physical condition. The lighting is low-key rim lighting, highlighting muscle definition against a pure black background. The mood is intense, focused, and premium, resembling a luxury sports brand campaign." src="assets/athlete.png">
-</div>
-<!-- Minimal graphic overlay -->
-<div class="absolute -right-4 -bottom-4 bg-surface border border-[#2B2B2B] p-4 rounded-xl flex items-center gap-4 glass-card">
-<div class="w-12 h-12 rounded-full border border-primary flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-[20px]">trending_up</span>
-</div>
-<div>
-<div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Fat Mass</div>
-<div class="font-headline-md text-[20px] text-primary font-bold">-12% in 90 days</div>
-</div>
-</div>
-</div>
-</div>
-<div class="reveal-element flex flex-col justify-center is-visible">
-<span class="material-symbols-outlined text-surface-tint text-[48px] mb-6 opacity-50">format_quote</span>
-<h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-md font-bold text-primary mb-6 leading-relaxed">
-                            "FitMind AI isn't just a tracker. It's an uncompromising digital coach that eliminated every ounce of guesswork from my protocol. The precision is terrifyingly accurate."
-                        </h3>
-<div>
-<div class="font-label-md text-label-md text-primary font-bold">Marcus V.</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Professional Triathlete</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Luxury Pricing Section -->
-<section class="py-stack-xl relative z-10" id="premium">
-<div class="max-w-[1000px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
-<div class="reveal-element mb-16 is-visible">
-<h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-4">Unfair Advantage</h2>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">Access the most sophisticated physiological algorithm ever created. Limited availability to ensure server performance.</p>
-</div>
-<div class="glass-card rounded-[2rem] p-10 md:p-16 relative overflow-hidden reveal-element text-left is-visible">
-<!-- Subtle glow -->
-<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative z-10">
-<div>
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-4">
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FitMind Black</span>
-</div>
-<div class="flex items-baseline gap-2 mb-2">
-<span class="font-display-lg text-display-lg font-bold text-primary">$199</span>
-<span class="font-label-md text-label-md text-on-surface-variant uppercase">/ Month</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Full access to the neural network, real-time macro vision, and priority API processing.</p>
-</div>
-<div class="w-full md:w-auto">
-<ul class="space-y-4 mb-8">
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span>
-<span class="font-body-md text-body-md text-on-surface">Infinite Generative Workouts</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span>
-<span class="font-body-md text-body-md text-on-surface">Neural Vision Food Scanner</span>
-</li>
-<li class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary text-[20px]">check</span>
-<span class="font-body-md text-body-md text-on-surface">Predictive Body Comp Models</span>
-</li>
-</ul>
-<a href="signup.html" class="btn-primary font-label-md text-label-md px-8 py-4 rounded-full w-full text-center block">
-                                Request Access
-                            </a>
-</div>
-</div>
-</div>
-</div>
-</section>
-</main>
-<!-- Footer (Shared Component) -->
-<footer class="w-full border-t border-outline-variant bg-surface-lowest relative z-10 py-8 mt-8">
-<div class="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8">
-<!-- Brand -->
-<div class="font-headline-md text-headline-md font-bold text-primary"><div class="h-8 w-8 mx-auto md:mx-0"><img alt="FitMind AI Logo" class="h-full w-full object-contain" src="assets/logo.svg"></div></div>
-<!-- Links -->
-<div class="flex flex-wrap justify-center gap-8">
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Contact Support</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Affiliate Program</a>
-</div>
-<!-- Copyright -->
-<div class="font-body-md text-body-md text-on-surface-variant text-sm">
-                © 2024 FitMind AI. Engineered for Excellence.
+    <!-- Ambient Background Effect -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] bg-gradient-glow"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-stack-xl px-margin-mobile md:px-margin-desktop overflow-hidden">
+        <!-- Decorative background element -->
+        <div class="absolute inset-0 opacity-30 z-0">
+            <div class="w-full h-full bg-cover bg-center mix-blend-overlay" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASCyGSDrcAtzrqEgFFoEiPZgHgbWd2D3WzhiXnHPGMKJq3Lu_YLYdkvd_vr6kjEb_bh7O3fBffThy6X5LlFMHNELFOp5EgXkMrR_XOC8uPcltZ3pdjJBjvHObyQdD_PTaVNQeEaPNFdF9p1F_H4bkehmsWDfv2VY5GwdCAk-U6ThTdjWTYKWS0fffpS0uB1ixhfGCEkOihGAiBETdgjPZQiMatoHr9I0r_z_yRl64oTufilLonyRq7f-d_xFcf8csEl3y9qZiwLoQ')"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505]/80 to-[#050505]"></div>
+        </div>
+        <div class="relative z-10 w-full max-w-[900px] text-center flex flex-col items-center gap-stack-md reveal-element">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#2B2B2B] bg-white/5 backdrop-blur-md mb-4">
+                <span class="material-symbols-outlined text-surface-tint text-[16px]">bolt</span>
+                <span class="font-label-sm text-label-sm text-surface-tint uppercase tracking-widest">Next-Gen Fitness Intelligence</span>
             </div>
-</div>
+            <h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg font-bold tracking-tight text-primary leading-tight gradient-text">
+                Your AI-Powered <br>Elite Performance Coach.
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Transcend human limitations. FitForge synthesizes millions of data points to engineer the perfect training protocol, diet, and recovery matrix tailored exclusively to your biology.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
+                <a href="signup.html" class="btn-primary font-label-md text-label-md px-8 py-4 rounded-full w-full sm:w-auto text-center flex items-center justify-center gap-2 no-underline">
+                    Get Started
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                </a>
+                <button class="btn-secondary font-label-md text-label-md px-8 py-4 rounded-full w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">play_circle</span>
+                    Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-stack-lg border-y border-[#2B2B2B]/50 bg-surface-container-lowest/50 backdrop-blur-sm relative z-10">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-gutter text-center divide-x divide-[#2B2B2B]/50">
+                <div class="reveal-element">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">100k+</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Elite Athletes</div>
+                </div>
+                <div class="reveal-element" style="transition-delay: 100ms;">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">50M+</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Calories Burned</div>
+                </div>
+                <div class="reveal-element" style="transition-delay: 200ms;">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">99.8%</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Protocol Accuracy</div>
+                </div>
+                <div class="reveal-element" style="transition-delay: 300ms;">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">24/7</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Real-time Analysis</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bento Grid -->
+    <section class="py-stack-xl relative z-10" id="features">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="text-center mb-16 reveal-element">
+                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-4">Precision Engineered Features</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">A unified ecosystem designed to calculate, predict, and optimize every variable of your physical transformation.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+                <!-- Large Card: Workout Generator -->
+                <div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between reveal-element group">
+                    <div class="flex justify-between items-start z-10 relative">
+                        <div>
+                            <h3 class="font-headline-md text-headline-md text-primary font-bold mb-2">Generative Workouts</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Dynamically shifting resistance protocols based on your real-time recovery metrics and historical performance.</p>
+                        </div>
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] group-hover:scale-110 transition-transform">fitness_center</span>
+                    </div>
+                    <div class="absolute right-0 bottom-0 w-2/3 h-2/3 opacity-40 mix-blend-screen transition-opacity group-hover:opacity-60">
+                        <div class="w-full h-full bg-cover bg-left-top" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7jQlgmMIoEiFZ1yLxvvLJt_VWCdh7vgOQtUMxvxE3jzxRastAvdRDDtSX_uCWLFwcdgjSCf905L2jE5PbmuT5df9NgpGErHuo1lxB_7eQJcVNuJ6k_RfzdJ8V1WBiqrpJY8OU6klw150uvdDkOAjIDoa31f7NZmQu8l-VleH9a49ytwBWF-bXTusbJh7rD2Vz51OiL97-dOcacgjUvSttG81-CCxKKcUyEkIWb70dyutGXtiGNFmG2VCenAc_VKO4lFsem_TOa2w')"></div>
+                    </div>
+                </div>
+                <!-- Square Card: Meal Planner -->
+                <div class="glass-card rounded-xl p-8 flex flex-col justify-between reveal-element" style="transition-delay: 100ms;">
+                    <div class="z-10 relative">
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] mb-4">restaurant_menu</span>
+                        <h3 class="font-headline-md text-[24px] text-primary font-bold mb-2">Macro Synthesis</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant text-sm">Hyper-personalized nutritional strategies mapped to your metabolic rate.</p>
+                    </div>
+                </div>
+                <!-- Square Card: Food Recognition -->
+                <div class="glass-card rounded-xl p-8 flex flex-col justify-between reveal-element" style="transition-delay: 200ms;">
+                    <div class="z-10 relative">
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] mb-4">qr_code_scanner</span>
+                        <h3 class="font-headline-md text-[24px] text-primary font-bold mb-2">Neural Vision</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant text-sm">Instantaneous caloric and macro extraction via computer vision scanning.</p>
+                    </div>
+                </div>
+                <!-- Large Card: Analytics -->
+                <div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between reveal-element group" style="transition-delay: 300ms;">
+                    <div class="flex justify-between items-start z-10 relative">
+                        <div>
+                            <h3 class="font-headline-md text-headline-md text-primary font-bold mb-2">Predictive Analytics</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Forecast your strength milestones and body composition changes with 98% certainty using deep learning models.</p>
+                        </div>
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] group-hover:scale-110 transition-transform">insights</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="py-stack-xl relative z-10 bg-surface-container-low/20" id="results">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="reveal-element">
+                    <div class="relative w-full aspect-square max-w-md mx-auto">
+                        <div class="absolute inset-0 rounded-full overflow-hidden border-2 border-[#2B2B2B] shadow-[0_0_80px_rgba(255,255,255,0.05)]">
+                            <img class="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiTCCdvrvv5YM5MXlg9qhxRLeafP1AhPGupShh6PDSVZT3wNfTiGK9LScgvYXD1BdI_Ovb3HhgUczOSKoBZfF5b393bDb-nkfkUB6hAJgibJOgFT1RAADEHmTVsT09XAxgddhN6OCHsSXDgjqxmrF65wCmeGxSc1WKAeTRvcvx2CkTPqmaO1JPJEzfDOYhzIto5RWMxoMgCoVUzQhPVeVx0WT4AQ0QI2BUBUxaTQMtyyuZMh-fpDOu7f4DTEr3L-CI8oxCRwaNBcQ" alt="Elite athlete testimonial">
+                        </div>
+                        <div class="absolute -right-4 -bottom-4 bg-surface border border-[#2B2B2B] p-4 rounded-xl flex items-center gap-4 glass-card">
+                            <div class="w-12 h-12 rounded-full border border-primary flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-[20px]">trending_up</span>
+                            </div>
+                            <div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Fat Mass</div>
+                                <div class="font-headline-md text-[20px] text-primary font-bold">-12% in 90 days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal-element flex flex-col justify-center">
+                    <span class="material-symbols-outlined text-surface-tint text-[48px] mb-6 opacity-50">format_quote</span>
+                    <h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-md font-bold text-primary mb-6 leading-relaxed">
+                        "FitForge isn't just a tracker. It's an uncompromising digital coach that eliminated every ounce of guesswork from my protocol. The precision is terrifyingly accurate."
+                    </h3>
+                    <div>
+                        <div class="font-label-md text-label-md text-primary font-bold">Marcus V.</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Professional Triathlete</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Luxury Pricing Section -->
+    <section class="py-stack-xl relative z-10" id="premium">
+        <div class="max-w-[1000px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+            <div class="reveal-element mb-16">
+                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-4">Unfair Advantage</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">Access the most sophisticated physiological algorithm ever created. Limited availability to ensure server performance.</p>
+            </div>
+            <div class="glass-card rounded-[2rem] p-10 md:p-16 relative overflow-hidden reveal-element text-left">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative z-10">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-4">
+                            <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FitForge Black</span>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-2">
+                            <span class="font-display-lg text-display-lg font-bold text-primary">$199</span>
+                            <span class="font-label-md text-label-md text-on-surface-variant uppercase">/ Month</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Full access to the neural network, real-time macro vision, and priority API processing.</p>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                                <span class="font-body-md text-body-md text-on-surface">Infinite Generative Workouts</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                                <span class="font-body-md text-body-md text-on-surface">Neural Vision Food Scanner</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                                <span class="font-body-md text-body-md text-on-surface">Predictive Body Comp Models</span>
+                            </li>
+                        </ul>
+                        <a href="signup.html" class="btn-primary font-label-md text-label-md px-8 py-4 rounded-full w-full text-center block no-underline">
+                            Request Access
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-[#2B2B2B] bg-surface-obsidian relative z-10 py-8 mt-8">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8 text-xs">
+        <div class="flex items-center gap-3">
+            <div class="h-8 w-8">
+                <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+            </div>
+            <span class="font-headline text-[18px] font-bold text-primary">FitForge</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+            <a class="hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
+            <a class="hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
+            <a class="hover:text-primary transition-colors flex items-center gap-2 cursor-pointer" href="#">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                System Status: Online
+            </a>
+        </div>
+        <div class="text-secondary opacity-40 text-[10px]">
+            &copy; 2024 FitForge. Engineered for Excellence.
+        </div>
+    </div>
 </footer>
-<!-- Interactive Scripts -->
+
+<!-- Scripts -->
 <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Scroll Reveal Logic
-            const revealElements = document.querySelectorAll('.reveal-element');
-            
-            const revealOptions = {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            };
-            
-            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    } else {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, revealOptions);
-            
-            revealElements.forEach(el => {
-                revealOnScroll.observe(el);
+    document.addEventListener("DOMContentLoaded", () => {
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal-element');
+        const revealOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
             });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        revealElements.forEach(el => revealOnScroll.observe(el));
 
-            // Auth State Navigation Handler
-            const navAuthActions = document.getElementById('nav-auth-actions');
-            const userName = localStorage.getItem('userName');
-            const userEmail = localStorage.getItem('userEmail');
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        }
+    });
+</script>
 
-            if (userEmail && navAuthActions) {
-                // User is logged in, show user profile / logout button
-                navAuthActions.innerHTML = `
-                    <a href="dashboard.html" class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer mr-4 flex items-center gap-1.5 hover:scale-105 duration-300">
-                        <span class="material-symbols-outlined text-[18px]">dashboard</span>
-                        Dashboard
-                    </a>
-                    <span class="font-label-md text-label-md text-secondary select-none mr-4 flex items-center gap-1.5">
-                        <span class="material-symbols-outlined text-[18px]">account_circle</span>
-                        \${userName || 'Athlete'}
-                    </span>
-                    <button id="btn-logout" class="font-label-md text-label-md btn-secondary px-5 py-2.5 rounded-full cursor-pointer active:scale-95 transition-transform duration-300">
-                        Log Out
-                    </button>
-                `;
-
-                // Bind logout handler
-                document.getElementById('btn-logout').addEventListener('click', () => {
-                    localStorage.removeItem('userEmail');
-                    localStorage.removeItem('userName');
-                    window.location.reload();
-                });
-            }
-        });
-    </script>
-
-
-
-
-</body></html>
+</body>
+</html>

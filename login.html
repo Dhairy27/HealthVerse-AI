@@ -1,534 +1,461 @@
-<!DOCTYPE html><html class="dark" lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>FitForge | Login</title>
+    <meta name="description" content="Access your FitForge elite performance dashboard. Login to your AI-powered fitness coaching platform.">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <!-- Google Identity Services script -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script><script id="tailwind-config">try{
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        "colors": {
-                "on-secondary": "#2d3132",
-                "surface": "#131313",
-                "tertiary": "#ffffff",
-                "error-container": "#93000a",
-                "on-tertiary-container": "#636465",
-                "glass-border": "#2B2B2B",
-                "secondary-fixed-dim": "#c4c7c8",
-                "tertiary-container": "#e2e2e2",
-                "surface-variant": "#353534",
-                "inverse-primary": "#5e5e5f",
-                "on-primary-fixed": "#1a1c1c",
-                "surface-container": "#201f1f",
-                "surface-container-low": "#1c1b1b",
-                "on-primary": "#2f3131",
-                "secondary-container": "#464a4b",
-                "primary-container": "#e3e2e2",
-                "outline-variant": "#444748",
-                "inverse-on-surface": "#313030",
-                "on-tertiary-fixed": "#1a1c1c",
-                "error": "#ffb4ab",
-                "surface-container-high": "#2a2a2a",
-                "outline": "#8e9192",
-                "secondary-fixed": "#e0e3e4",
-                "surface-obsidian": "#050505",
-                "secondary": "#c4c7c8",
-                "primary": "#ffffff",
-                "on-primary-container": "#646465",
-                "tertiary-fixed-dim": "#c6c6c6",
-                "on-secondary-container": "#b6b9ba",
-                "on-error-container": "#ffdad6",
-                "on-secondary-fixed": "#191c1d",
-                "tertiary-fixed": "#e2e2e2",
-                "surface-tint": "#c7c6c6",
-                "on-background": "#e5e2e1",
-                "accent-silver": "#D9D9D9",
-                "surface-dim": "#131313",
-                "surface-bright": "#3a3939",
-                "primary-fixed": "#e3e2e2",
-                "on-surface-variant": "#c4c7c8",
-                "primary-fixed-dim": "#c7c6c6",
-                "status-error": "#ffb4ab",
-                "on-secondary-fixed-variant": "#444748",
-                "on-error": "#690005",
-                "background": "#131313",
-                "on-surface": "#e5e2e1",
-                "on-tertiary": "#2f3131",
-                "on-tertiary-fixed-variant": "#454747",
-                "surface-container-lowest": "#0e0e0e",
-                "inverse-surface": "#e5e2e1",
-                "surface-container-highest": "#353534",
-                "on-primary-fixed-variant": "#464747"
-        },
-        "borderRadius": {
-                "DEFAULT": "1rem",
-                "lg": "2rem",
-                "xl": "3rem",
-                "full": "9999px"
-        },
-        "spacing": {
-                "margin-mobile": "24px",
-                "stack-xl": "120px",
-                "margin-desktop": "80px",
-                "container-max": "1440px",
-                "stack-sm": "16px",
-                "stack-md": "32px",
-                "margin-tablet": "40px",
-                "stack-lg": "64px",
-                "gutter": "32px"
-        },
-        "fontFamily": {
-                "label-md": [
-                        "Space Grotesk"
-                ],
-                "display-lg": [
-                        "Space Grotesk"
-                ],
-                "headline-lg": [
-                        "Space Grotesk"
-                ],
-                "body-md": [
-                        "Space Grotesk"
-                ],
-                "label-sm": [
-                        "Space Grotesk"
-                ],
-                "headline-md": [
-                        "Space Grotesk"
-                ],
-                "headline-lg-mobile": [
-                        "Space Grotesk"
-                ],
-                "body-lg": [
-                        "Space Grotesk"
-                ]
-        },
-        "fontSize": {
-                "label-md": [
-                        "14px",
-                        {
-                                "lineHeight": "1.2",
-                                "letterSpacing": "0.05em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "display-lg": [
-                        "72px",
-                        {
-                                "lineHeight": "1.1",
-                                "letterSpacing": "-0.04em",
-                                "fontWeight": "700"
-                        }
-                ],
-                "headline-lg": [
-                        "48px",
-                        {
-                                "lineHeight": "1.2",
-                                "letterSpacing": "-0.02em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-md": [
-                        "16px",
-                        {
-                                "lineHeight": "1.6",
-                                "letterSpacing": "0em",
-                                "fontWeight": "400"
-                        }
-                ],
-                "label-sm": [
-                        "12px",
-                        {
-                                "lineHeight": "1.2",
-                                "letterSpacing": "0.02em",
-                                "fontWeight": "500"
-                        }
-                ],
-                "headline-md": [
-                        "32px",
-                        {
-                                "lineHeight": "1.3",
-                                "letterSpacing": "-0.01em",
-                                "fontWeight": "500"
-                        }
-                ],
-                "headline-lg-mobile": [
-                        "32px",
-                        {
-                                "lineHeight": "1.2",
-                                "letterSpacing": "-0.02em",
-                                "fontWeight": "600"
-                        }
-                ],
-                "body-lg": [
-                        "18px",
-                        {
-                                "lineHeight": "1.6",
-                                "letterSpacing": "0em",
-                                "fontWeight": "400"
-                        }
-                ]
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary": "#2d3132",
+                        "surface": "#131313",
+                        "tertiary": "#ffffff",
+                        "error-container": "#93000a",
+                        "on-tertiary-container": "#636465",
+                        "glass-border": "#2B2B2B",
+                        "secondary-fixed-dim": "#c4c7c8",
+                        "tertiary-container": "#e2e2e2",
+                        "surface-variant": "#353534",
+                        "inverse-primary": "#5e5e5f",
+                        "on-primary-fixed": "#1a1c1c",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary": "#2f3131",
+                        "secondary-container": "#464a4b",
+                        "primary-container": "#e3e2e2",
+                        "outline-variant": "#444748",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#8e9192",
+                        "secondary-fixed": "#e0e3e4",
+                        "surface-obsidian": "#050505",
+                        "secondary": "#c4c7c8",
+                        "primary": "#ffffff",
+                        "on-primary-container": "#646465",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "on-secondary-container": "#b6b9ba",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#191c1d",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-tint": "#c7c6c6",
+                        "on-background": "#e5e2e1",
+                        "accent-silver": "#D9D9D9",
+                        "surface-dim": "#131313",
+                        "surface-bright": "#3a3939",
+                        "primary-fixed": "#e3e2e2",
+                        "on-surface-variant": "#c4c7c8",
+                        "primary-fixed-dim": "#c7c6c6",
+                        "status-error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#444748",
+                        "on-error": "#690005",
+                        "background": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary": "#2f3131",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-container-highest": "#353534",
+                        "on-primary-fixed-variant": "#464747"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-mobile": "24px",
+                        "stack-xl": "120px",
+                        "margin-desktop": "80px",
+                        "container-max": "1440px",
+                        "stack-sm": "16px",
+                        "stack-md": "32px",
+                        "margin-tablet": "40px",
+                        "stack-lg": "64px",
+                        "gutter": "32px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "body-md": ["Space Grotesk"],
+                        "label-sm": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "body-lg": ["Space Grotesk"]
+                    },
+                    fontSize: {
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "display-lg": ["72px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "700" }],
+                        "headline-lg": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "headline-md": ["32px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "headline-lg-mobile": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" }]
+                    }
+                },
+            },
         }
-},
-    },
-  }
-}catch(_e){}</script>
-<style>
-    .glass-card {
-        background: #1c1b1b;
-        border: 1px solid #2B2B2B;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-    .input-dark {
-        background-color: #0e0e0e;
-        border-color: #2B2B2B;
-        color: #D9D9D9;
-    }
-    .input-dark:focus {
-        border-color: #8e9192;
-    }
-    .btn-primary {
-        background-color: #D9D9D9;
-        color: #131313;
-        transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-        background-color: #ffffff;
-        transform: translateY(-1px);
-    }
-    .btn-secondary {
-        background-color: #1c1b1b;
-        color: #D9D9D9;
-        border: 1px solid #2B2B2B;
-        transition: all 0.3s ease;
-    }
-    .btn-secondary:hover {
-        background-color: #2a2a2a;
-    }
-    .gradient-text {
-        color: #D9D9D9;
-    }
-</style>
-</head><body class="min-h-screen font-body-md flex items-center justify-center p-margin-mobile md:p-margin-desktop overflow-x-hidden relative font-['Space_Grotesk'] bg-surface-dim">
+    }catch(_e){}</script>
+    <style>
+        .glass-card {
+            background: #1c1b1b;
+            border: 1px solid #2B2B2B;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .input-dark {
+            background-color: #0e0e0e;
+            border-color: #2B2B2B;
+            color: #D9D9D9;
+        }
+        .input-dark:focus {
+            border-color: #8e9192;
+        }
+        .btn-primary {
+            background-color: #D9D9D9;
+            color: #131313;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background-color: #1c1b1b;
+            color: #D9D9D9;
+            border: 1px solid #2B2B2B;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #2a2a2a;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-body-md flex items-center justify-center p-margin-mobile md:p-margin-desktop overflow-x-hidden relative font-['Space_Grotesk'] bg-surface-dim">
+
 <!-- Atmospheric Glow -->
 <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-<main class="w-full max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center z-10 relative">
-<!-- Left: Value Proposition -->
-<div class="hidden lg:flex flex-col justify-center h-full pr-margin-desktop">
-<h1 class="font-display-lg text-display-lg text-[#D9D9D9] mb-stack-md leading-tight">
-                Welcome <br>
-<span class="text-on-surface-variant">Back.</span>
-</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-md">
-                Access your elite performance metrics. Elevate your physical intelligence with bespoke AI coaching.
-            </p>
-<div class="space-y-stack-md">
-<div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-[#D9D9D9]" style="font-variation-settings: &quot;FILL&quot; 0;">psychology</span>
-<div>
-<h3 class="font-label-md text-label-md text-[#D9D9D9] mb-1">Adaptive Intelligence</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Workouts that evolve in real-time with your biometric feedback.</p>
-</div>
-</div>
-<div class="flex items-start gap-4">
-<span class="material-symbols-outlined text-[#D9D9D9]" style="font-variation-settings: &quot;FILL&quot; 0;">query_stats</span>
-<div>
-<h3 class="font-label-md text-label-md text-[#D9D9D9] mb-1">Precision Analytics</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Surgical-grade metrics to monitor and maximize every session.</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Right: Login Form -->
-<div class="w-full max-w-[480px] mx-auto lg:mx-0 lg:ml-auto">
-<div class="glass-card rounded-[2rem] p-8 md:p-12 overflow-hidden">
-<!-- Logo -->
-<div class="flex justify-center mb-stack-md relative z-10">
-<img alt="FitMind AI Logo" class="h-16 w-16 object-contain brightness-90" src="assets/logo.svg">
-</div>
-<div class="text-center mb-stack-md relative z-10">
-<h2 class="font-headline-md text-headline-md text-[#D9D9D9] mb-2">Welcome Back</h2>
-<p class="font-body-md text-body-md text-on-surface-variant">Access your profile.</p>
-</div>
-<form id="login-form" class="space-y-stack-sm relative z-10">
-<!-- Email Field -->
-<div>
-<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest" for="email">Email Address</label>
-<div class="relative">
-<div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">mail</span>
-</div>
-<input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-[#D9D9D9] transition-colors focus:border-white" id="email" name="email" placeholder="" required="" type="email" value="">
-</div>
-</div>
-<!-- Password Field -->
-<div>
-<div class="flex justify-between items-center mb-2">
-<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest" for="password">Password</label>
-<a class="font-label-sm text-label-sm text-[#D9D9D9] hover:text-white transition-colors" href="#">Forgot?</a>
-</div>
-<div class="relative">
-<div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">lock</span>
-</div>
-<input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-[#D9D9D9] transition-colors focus:border-white" id="password" name="password" placeholder="" required="" type="password" value="">
-</div>
-</div>
-<!-- Submit Button -->
-<button class="btn-primary w-full rounded-full py-4 mt-stack-sm font-label-md text-label-md flex justify-center items-center gap-2 uppercase tracking-widest font-bold" type="submit">
-                        Login 
-                        <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
-</button>
-</form>
-<!-- Divider -->
-<div class="mt-stack-md flex items-center gap-4 relative z-10">
-<div class="flex-1 h-px bg-[#2B2B2B]"></div>
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Or</span>
-<div class="flex-1 h-px bg-[#2B2B2B]"></div>
-</div>
-<!-- Social Login -->
-<div class="flex flex-col gap-3 w-full mt-stack-sm relative z-10">
-<button id="btn-google-login" type="button" class="btn-secondary w-full rounded-full py-3 flex items-center justify-center gap-3 font-label-md text-label-md">
-<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
-<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
-<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
-<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
-</svg>
-                        Continue with Google
-                    </button>
-</div>
-<div class="mt-stack-md text-center relative z-10">
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Don't have an account? <a class="text-[#D9D9D9] font-bold hover:text-white transition-colors ml-1" href="signup.html">Sign Up</a>
-</p>
-</div>
-</div>
-</div>
 
-    <!-- Mock Google login Modal (Developer Fallback) -->
-    <div id="mock-google-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
-        <div class="w-full max-w-sm glass-card rounded-[1.7rem] p-8 border border-glass-border shadow-2xl relative">
-            <button id="btn-close-mock" class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-colors focus:outline-none">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-            <div class="text-center mb-6">
-                <div class="flex justify-center mb-4">
-                    <svg class="w-10 h-10" viewBox="0 0 24 24">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
-                    </svg>
+<main class="w-full max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center z-10 relative">
+    <!-- Left: Value Proposition -->
+    <div class="hidden lg:flex flex-col justify-center h-full pr-margin-desktop">
+        <a href="index.html" class="inline-block mb-8">
+            <img alt="FitForge Logo" class="h-12 w-12 object-contain" src="assets/logo.svg">
+        </a>
+        <h1 class="font-display-lg text-display-lg text-[#D9D9D9] mb-stack-md leading-tight">
+            Welcome <br>
+            <span class="text-on-surface-variant">Back.</span>
+        </h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-md">
+            Access your elite performance metrics. Elevate your physical intelligence with bespoke AI coaching.
+        </p>
+        <div class="space-y-stack-md">
+            <div class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-[#D9D9D9]" style="font-variation-settings: &quot;FILL&quot; 0;">psychology</span>
+                <div>
+                    <h3 class="font-label-md text-label-md text-[#D9D9D9] mb-1">Adaptive Intelligence</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Workouts that evolve in real-time with your biometric feedback.</p>
                 </div>
-                <h3 class="font-headline-md text-headline-md text-primary mb-1">Developer Fallback</h3>
-                <p class="font-body-md text-body-md text-on-surface-variant text-sm">No <code>GOOGLE_CLIENT_ID</code> found in <code>.env</code>. Select a mock account to test.</p>
             </div>
-            <div class="space-y-3">
-                <button class="mock-user-btn w-full bg-surface-container-lowest border border-glass-border hover:border-primary rounded-full py-3 px-4 text-left flex items-center gap-3 transition-colors group" data-email="alex.athlete@gmail.com" data-name="Alex Mercer">
-                    <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">AM</span>
-                    <div>
-                        <div class="font-label-md text-label-md text-primary group-hover:text-white transition-colors">Alex Mercer</div>
-                        <div class="font-body-md text-[12px] text-on-surface-variant">alex.athlete@gmail.com</div>
-                    </div>
-                </button>
-                <button class="mock-user-btn w-full bg-surface-container-lowest border border-glass-border hover:border-primary rounded-full py-3 px-4 text-left flex items-center gap-3 transition-colors group" data-email="sarah.fit@gmail.com" data-name="Sarah Connor">
-                    <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">SC</span>
-                    <div>
-                        <div class="font-label-md text-label-md text-primary group-hover:text-white transition-colors">Sarah Connor</div>
-                        <div class="font-body-md text-[12px] text-on-surface-variant">sarah.fit@gmail.com</div>
-                    </div>
-                </button>
-                <div class="pt-3 border-t border-glass-border">
-                    <label class="block font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase">Or Custom Profile</label>
-                    <div class="space-y-2">
-                        <input id="mock-custom-name" type="text" placeholder="Custom Name" class="w-full rounded-full py-2 px-4 bg-surface-container-lowest border border-glass-border text-on-surface text-sm placeholder:text-on-surface-variant/30 focus:ring-0 focus:border-outline">
-                        <input id="mock-custom-email" type="email" placeholder="Custom Email" class="w-full rounded-full py-2 px-4 bg-surface-container-lowest border border-glass-border text-on-surface text-sm placeholder:text-on-surface-variant/30 focus:ring-0 focus:border-outline">
-                        <button id="btn-custom-mock-login" class="btn-primary w-full rounded-full py-2 text-sm font-label-md uppercase mt-1">
-                            Continue
-                        </button>
-                    </div>
+            <div class="flex items-start gap-4">
+                <span class="material-symbols-outlined text-[#D9D9D9]" style="font-variation-settings: &quot;FILL&quot; 0;">query_stats</span>
+                <div>
+                    <h3 class="font-label-md text-label-md text-[#D9D9D9] mb-1">Precision Analytics</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Surgical-grade metrics to monitor and maximize every session.</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Right: Login Form -->
+    <div class="w-full max-w-[480px] mx-auto lg:mx-0 lg:ml-auto">
+        <div class="glass-card rounded-[2rem] p-8 md:p-12 overflow-hidden">
+            <!-- Logo (mobile) -->
+            <div class="flex justify-center mb-stack-md relative z-10">
+                <a href="index.html">
+                    <img alt="FitForge Logo" class="h-16 w-16 object-contain brightness-90" src="assets/logo.svg">
+                </a>
+            </div>
+            <div class="text-center mb-stack-md relative z-10">
+                <h2 class="font-headline-md text-headline-md text-[#D9D9D9] mb-2">Welcome Back</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">Access your profile.</p>
+            </div>
+
+            <!-- Error Container -->
+            <div id="error-container" class="hidden mb-4 p-3 bg-error-container/20 border border-error text-error rounded-DEFAULT text-sm text-center"></div>
+
+            <form id="login-form" class="space-y-stack-sm relative z-10">
+                <!-- Email Field -->
+                <div>
+                    <label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest" for="email">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">mail</span>
+                        </div>
+                        <input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-[#D9D9D9] transition-colors focus:border-white" id="email" name="email" placeholder="" required type="email">
+                    </div>
+                </div>
+                <!-- Password Field -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest" for="password">Password</label>
+                        <a class="font-label-sm text-label-sm text-[#D9D9D9] hover:text-white transition-colors" href="#">Forgot?</a>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">lock</span>
+                        </div>
+                        <input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-[#D9D9D9] transition-colors focus:border-white" id="password" name="password" placeholder="" required type="password">
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <button id="submit-btn" class="btn-primary w-full rounded-full py-4 mt-stack-sm font-label-md text-label-md flex justify-center items-center gap-2 uppercase tracking-widest font-bold cursor-pointer" type="submit">
+                    Login
+                    <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="mt-stack-md flex items-center gap-4 relative z-10">
+                <div class="flex-1 h-px bg-[#2B2B2B]"></div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Or</span>
+                <div class="flex-1 h-px bg-[#2B2B2B]"></div>
+            </div>
+
+            <!-- Google Login -->
+            <div class="flex flex-col gap-3 w-full mt-stack-sm relative z-10">
+                <button id="google-login-btn" class="btn-secondary w-full rounded-full py-3 flex items-center justify-center gap-3 font-label-md text-label-md cursor-pointer">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+                    </svg>
+                    Continue with Google
+                </button>
+            </div>
+
+            <div class="mt-stack-md text-center relative z-10">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                    Don't have an account?
+                    <a class="text-[#D9D9D9] font-bold hover:text-white transition-colors ml-1" href="signup.html">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </main>
 
+<!-- Developer Mock Google Modal -->
+<div id="mock-google-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="glass-card rounded-[2rem] p-8 max-w-md w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-md text-[20px] text-primary font-bold">Developer: Mock Google Login</h3>
+            <button id="close-mock-btn" class="text-secondary hover:text-primary transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <p class="text-on-surface-variant text-sm mb-6">Google OAuth is not configured. Select a mock profile or enter custom details below.</p>
+        <div class="space-y-3 mb-6">
+            <button class="mock-user-btn btn-secondary w-full rounded-lg py-3 px-4 text-left flex items-center gap-3 cursor-pointer" data-email="john.doe@example.com" data-name="John Doe">
+                <span class="material-symbols-outlined text-primary">person</span>
+                <div>
+                    <div class="text-sm font-bold text-primary">John Doe</div>
+                    <div class="text-xs text-on-surface-variant">john.doe@example.com</div>
+                </div>
+            </button>
+            <button class="mock-user-btn btn-secondary w-full rounded-lg py-3 px-4 text-left flex items-center gap-3 cursor-pointer" data-email="jane.smith@example.com" data-name="Jane Smith">
+                <span class="material-symbols-outlined text-primary">person</span>
+                <div>
+                    <div class="text-sm font-bold text-primary">Jane Smith</div>
+                    <div class="text-xs text-on-surface-variant">jane.smith@example.com</div>
+                </div>
+            </button>
+        </div>
+        <div class="border-t border-[#2B2B2B] pt-4 space-y-3">
+            <p class="text-xs text-on-surface-variant uppercase tracking-widest font-bold">Custom Profile</p>
+            <input id="mock-custom-name" class="w-full bg-surface-container-lowest border border-[#2B2B2B] rounded-lg py-2 px-4 text-sm text-primary focus:border-primary focus:ring-0" placeholder="Full Name" type="text">
+            <input id="mock-custom-email" class="w-full bg-surface-container-lowest border border-[#2B2B2B] rounded-lg py-2 px-4 text-sm text-primary focus:border-primary focus:ring-0" placeholder="Email Address" type="email">
+            <button id="btn-custom-mock-login" class="btn-primary w-full rounded-full py-3 font-label-md text-label-md font-bold cursor-pointer">
+                Use Custom Profile
+            </button>
+        </div>
+    </div>
+</div>
 
+<!-- Backend Integration Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const googleBtn = document.getElementById('google-login-btn');
+        const errorContainer = document.getElementById('error-container');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('login-form');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const submitBtn = form.querySelector('button[type="submit"]');
-            
-            // Google Login Elements
-            const googleBtn = document.getElementById('btn-google-login');
-            const mockModal = document.getElementById('mock-google-modal');
-            const closeMockBtn = document.getElementById('btn-close-mock');
-            const mockUserBtns = document.querySelectorAll('.mock-user-btn');
-            const customMockName = document.getElementById('mock-custom-name');
-            const customMockEmail = document.getElementById('mock-custom-email');
-            const customMockBtn = document.getElementById('btn-custom-mock-login');
+        // Mock modal elements
+        const mockModal = document.getElementById('mock-google-modal');
+        const closeMockBtn = document.getElementById('close-mock-btn');
+        const mockUserBtns = document.querySelectorAll('.mock-user-btn');
+        const customMockName = document.getElementById('mock-custom-name');
+        const customMockEmail = document.getElementById('mock-custom-email');
+        const customMockBtn = document.getElementById('btn-custom-mock-login');
 
-            // Error display container
-            const errorContainer = document.createElement('div');
-            errorContainer.className = 'hidden mb-4 p-3 bg-error-container/20 border border-error text-error rounded-DEFAULT text-sm text-center';
-            form.parentNode.insertBefore(errorContainer, form);
+        // 1. Password login form handler
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorContainer.classList.add('hidden');
+            submitBtn.disabled = true;
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> AUTHENTICATING...`;
 
-            // 1. Password login form handler
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                errorContainer.classList.add('hidden');
-                submitBtn.disabled = true;
-                const originalBtnText = submitBtn.innerHTML;
-                submitBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> AUTHENTICATING...`;
-
-                try {
-                    const response = await fetch('/api/auth/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            email: emailInput.value,
-                            password: passwordInput.value
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (!response.ok) {
-                        throw new Error(data.error || 'Failed to authenticate.');
-                    }
-
-                    // Save session data in localStorage
-                    localStorage.setItem('userEmail', data.email);
-                    localStorage.setItem('userName', data.name);
-
-                    // Redirect to dashboard
-                    window.location.href = 'dashboard.html';
-                } catch (err) {
-                    errorContainer.textContent = err.message;
-                    errorContainer.classList.remove('hidden');
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                }
-            });
-
-            // 2. Google OAuth Integration & Mock Handler
-            let googleClientId = '';
-            let tokenClient;
-
-            // Fetch Google Client configuration from backend
-            fetch('/api/auth/google-config')
-                .then(res => res.json())
-                .then(data => {
-                    googleClientId = data.googleClientId;
-                    if (googleClientId && window.google) {
-                        // Initialize real Google Token client
-                        tokenClient = google.accounts.oauth2.initTokenClient({
-                            client_id: googleClientId,
-                            scope: 'profile email',
-                            callback: async (tokenResponse) => {
-                                if (tokenResponse && tokenResponse.access_token) {
-                                    try {
-                                        googleBtn.disabled = true;
-                                        googleBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> CONNECTING...`;
-                                        
-                                        const gRes = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`);
-                                        const gUser = await gRes.json();
-                                        
-                                        await handleGoogleAuth(gUser.email, gUser.name);
-                                    } catch (err) {
-                                        console.error('Google profile fetch error:', err);
-                                        googleBtn.disabled = false;
-                                        googleBtn.innerHTML = `Continue with Google`;
-                                        alert('Failed to retrieve profile info from Google.');
-                                    }
-                                }
-                            }
-                        });
-                    }
-                })
-                .catch(err => console.error('Failed to load Google configuration:', err));
-
-            // Trigger Google authentication
-            googleBtn.addEventListener('click', () => {
-                if (googleClientId && tokenClient) {
-                    // Trigger real Google Consent popup
-                    tokenClient.requestAccessToken();
-                } else {
-                    // Open developer fallback simulation modal
-                    mockModal.classList.remove('hidden');
-                }
-            });
-
-            // Close developer fallback modal
-            closeMockBtn.addEventListener('click', () => {
-                mockModal.classList.add('hidden');
-            });
-
-            // Mock profile button handler
-            mockUserBtns.forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const email = btn.getAttribute('data-email');
-                    const name = btn.getAttribute('data-name');
-                    mockModal.classList.add('hidden');
-                    await handleGoogleAuth(email, name);
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: emailInput.value,
+                        password: passwordInput.value
+                    })
                 });
-            });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Failed to authenticate.');
 
-            // Custom mock profile button handler
-            customMockBtn.addEventListener('click', async () => {
-                const name = customMockName.value.trim();
-                const email = customMockEmail.value.trim();
-                if (!name || !email) {
-                    alert('Please provide both name and email.');
-                    return;
+                localStorage.setItem('userEmail', data.email);
+                localStorage.setItem('userName', data.name);
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                errorContainer.textContent = err.message;
+                errorContainer.classList.remove('hidden');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+
+        // 2. Google OAuth Integration & Mock Handler
+        let googleClientId = '';
+        let tokenClient;
+
+        function initGoogleTokenClient() {
+            if (tokenClient || !googleClientId || !window.google) return;
+            try {
+                tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: googleClientId,
+                    scope: 'profile email',
+                    callback: async (tokenResponse) => {
+                        if (tokenResponse && tokenResponse.access_token) {
+                            try {
+                                googleBtn.disabled = true;
+                                googleBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> CONNECTING...`;
+                                const gRes = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`);
+                                const gUser = await gRes.json();
+                                await handleGoogleAuth(gUser.email, gUser.name);
+                            } catch (err) {
+                                console.error('Google profile fetch error:', err);
+                                googleBtn.disabled = false;
+                                googleBtn.innerHTML = `Continue with Google`;
+                                alert('Failed to retrieve profile info from Google.');
+                            }
+                        }
+                    }
+                });
+            } catch (err) {
+                console.error('Failed to initialize Google OAuth:', err);
+            }
+        }
+
+        fetch('/api/auth/google-config')
+            .then(res => res.json())
+            .then(data => {
+                googleClientId = data.googleClientId;
+                initGoogleTokenClient();
+                if (googleClientId && !window.google) {
+                    const waitForGoogle = setInterval(() => {
+                        if (window.google) {
+                            clearInterval(waitForGoogle);
+                            initGoogleTokenClient();
+                        }
+                    }, 100);
+                    setTimeout(() => clearInterval(waitForGoogle), 10000);
                 }
+            })
+            .catch(err => console.error('Failed to load Google configuration:', err));
+
+        window.addEventListener('load', () => initGoogleTokenClient());
+
+        googleBtn.addEventListener('click', () => {
+            initGoogleTokenClient();
+            if (googleClientId && tokenClient) {
+                tokenClient.requestAccessToken();
+            } else {
+                mockModal.classList.remove('hidden');
+            }
+        });
+
+        closeMockBtn.addEventListener('click', () => mockModal.classList.add('hidden'));
+
+        mockUserBtns.forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const email = btn.getAttribute('data-email');
+                const name = btn.getAttribute('data-name');
                 mockModal.classList.add('hidden');
                 await handleGoogleAuth(email, name);
             });
-
-            async function handleGoogleAuth(email, name) {
-                errorContainer.classList.add('hidden');
-                googleBtn.disabled = true;
-                const originalBtnText = googleBtn.innerHTML;
-                googleBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> AUTHORIZING...`;
-
-                try {
-                    const response = await fetch('/api/auth/google', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email, name })
-                    });
-
-                    const data = await response.json();
-                    if (!response.ok) {
-                        throw new Error(data.error || 'Failed to authenticate via Google.');
-                    }
-
-                    // Save session details
-                    localStorage.setItem('userEmail', data.email);
-                    localStorage.setItem('userName', data.name);
-
-                    // If it's a new user, send to protocol customization, else dashboard
-                    if (data.isNewUser) {
-                        window.location.href = 'protocol.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
-                } catch (err) {
-                    errorContainer.textContent = err.message;
-                    errorContainer.classList.remove('hidden');
-                    googleBtn.disabled = false;
-                    googleBtn.innerHTML = originalBtnText;
-                }
-            }
         });
-    </script>
 
-</body></html>
+        customMockBtn.addEventListener('click', async () => {
+            const name = customMockName.value.trim();
+            const email = customMockEmail.value.trim();
+            if (!name || !email) { alert('Please provide both name and email.'); return; }
+            mockModal.classList.add('hidden');
+            await handleGoogleAuth(email, name);
+        });
+
+        async function handleGoogleAuth(email, name) {
+            errorContainer.classList.add('hidden');
+            googleBtn.disabled = true;
+            const originalBtnText = googleBtn.innerHTML;
+            googleBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> AUTHORIZING...`;
+
+            try {
+                const response = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, name })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || 'Failed to authenticate via Google.');
+
+                localStorage.setItem('userEmail', data.email);
+                localStorage.setItem('userName', data.name);
+
+                if (data.isNewUser) {
+                    window.location.href = 'protocol.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (err) {
+                errorContainer.textContent = err.message;
+                errorContainer.classList.remove('hidden');
+                googleBtn.disabled = false;
+                googleBtn.innerHTML = originalBtnText;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
