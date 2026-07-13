@@ -1,0 +1,339 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Scanner | FitForge Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Public+Sans:wght@300;400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --obsidian-surface: #0a0a0a;
+            --primary-silver: #e2e8f0;
+        }
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background-color: var(--obsidian-surface);
+            color: var(--primary-silver);
+            overflow-x: hidden;
+        }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanning-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            animation: scan 3s ease-in-out infinite;
+        }
+        @keyframes scan {
+            0% { top: 10%; opacity: 0; }
+            50% { opacity: 1; }
+            100% { top: 90%; opacity: 0; }
+        }
+        .ar-overlay-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#ffffff",
+                        secondary: "#94a3b8",
+                        surface: "#0a0a0a",
+                        "surface-variant": "#1a1a1a",
+                        "glass-border": "rgba(255, 255, 255, 0.1)",
+                        "on-surface-variant": "#e2e8f0"
+                    },
+                    fontFamily: {
+                        headline: ["Space Grotesk", "sans-serif"],
+                        body: ["Public Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r border-glass-border bg-opacity-50 backdrop-blur-xl shadow-2xl z-50 bg-surface" id="SideNavBar">
+<div class="p-8">
+<div class="h-8 w-auto flex items-center mb-1"><img src="assets/logo.svg" alt="FitForge Logo" class="h-full object-contain"></div>
+<p class="text-[10px] uppercase tracking-[0.2em] text-secondary opacity-50">Peak Performance</p>
+</div>
+<nav class="flex-1 px-4 mt-4 space-y-2">
+<!-- Dashboard -->
+<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span class="font-body text-lg tracking-tight">Dashboard</span></a>
+<!-- Workouts -->
+<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="workout.html"><span class="material-symbols-outlined">fitness_center</span><span class="font-body text-lg tracking-tight">Workouts</span></a>
+<!-- Nutrition -->
+<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="nutrition.html"><span class="material-symbols-outlined">restaurant</span><span class="font-body text-lg tracking-tight">Nutrition</span></a>
+<!-- Scanner (ACTIVE) -->
+<a class="flex items-center gap-4 px-6 py-4 rounded-full text-primary font-bold bg-white/10 border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)] active:scale-95 animate-pulse" href="scanner.html"><span class="material-symbols-outlined scale-110">qr_code_scanner</span><span class="font-body text-lg tracking-tight">Scanner</span></a>
+<!-- Progress -->
+<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="progress.html"><span class="material-symbols-outlined">query_stats</span><span class="font-body text-lg tracking-tight">Progress</span></a>
+</nav>
+<div class="p-4 mt-auto">
+<div class="glass-panel p-4 rounded-xl mb-6">
+<p class="text-xs font-headline mb-2 text-primary">Upgrade to Pro</p>
+<div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-2/3"></div>
+</div>
+</div>
+<div class="space-y-1">
+<a class="flex items-center gap-4 p-3 rounded-lg text-secondary opacity-60 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-lg text-secondary opacity-60 hover:text-primary transition-all cursor-pointer" onclick="logout()">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+<div class="mt-6 flex items-center gap-3 p-2">
+<div class="w-10 h-10 rounded-full border border-primary/20 p-0.5">
+<img class="w-full h-full rounded-full object-cover" data-alt="Athlete Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjtX3xVv8ASg_64etktISCPDNJB8IJ9JYLIUkzutO3uuDssHYv6r8KCzDu4QPttTL3JPo65SVXgmU_Pf3anJmzpeayujo_04f2khORw_Qz2WBzr_wr4X2TKjy6qbGzKoIIqxPpt9OYu2j9pmIcG3tx7tlW5fOmI5TY-Vunh90AfhBZcFEYeieKsvXyBCoMy8Ys8bMAwwU9dWvLeav1JM-bc3Y4JAWLBYN_qIlltaxSgQspVpxEA5Et">
+</div>
+<div class="overflow-hidden">
+<p class="text-xs font-bold text-primary truncate">Athlete Profile</p>
+<p class="text-[10px] text-secondary">Pro Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 relative flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="flex justify-end items-center px-12 w-full h-20 bg-transparent relative z-20">
+<div class="flex items-center gap-8">
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer transition-colors active:scale-95">notifications</span>
+<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer transition-colors active:scale-95 font-bold" id="greeting-text">account_circle</span>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-12 gap-6 p-8 pt-0">
+<!-- LEFT: CAMERA VIEWPORT -->
+<div class="col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group bg-black shadow-inner min-h-[500px] lg:h-[650px]">
+<!-- Real-time Feed Simulation -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-[10s] scale-110 group-hover:scale-100" data-alt="A healthy meal featuring grilled chicken, quinoa, and broccoli" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAWAozfCye5fZs-YvWdMQXf8s9UIl51Xw-SzWPSkikkKZY4lkC2ahOHE2OuTe8SliSY9PZwRNRQDP3rKBXd938CgEgqhj7aOWaIJ0Rn_9DV01DGwpDI2GWt8qb8cwNyNzEFGlZxhIh4orP4OuNcVtjvOoMvlLELK7OPWlmfQ3iA151bY90PKnxtLjeNV41rRTWUyZGC9Khu3jCZGYeqIECADdki8tzzFMaDAxrKmp9Hl1KxrbLCxu6H')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+</div>
+<!-- Scanning Line -->
+<div class="scanning-line absolute w-full left-0 z-10"></div>
+<!-- AR Overlays -->
+<!-- Ingredient 1: Chicken -->
+<div class="absolute top-[25%] left-[35%] z-20 ar-overlay-float" style="animation-delay: 0.2s">
+<div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 backdrop-blur-md">
+<div class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white]"></div>
+<span class="font-headline text-sm font-bold tracking-tight text-white">Grilled Chicken (150g)</span>
+</div>
+<div class="w-px h-12 bg-white/40 ml-4"></div>
+</div>
+<!-- Ingredient 2: Quinoa -->
+<div class="absolute bottom-[30%] right-[30%] z-20 ar-overlay-float" style="animation-delay: 0.8s">
+<div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 backdrop-blur-md">
+<div class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white]"></div>
+<span class="font-headline text-sm font-bold tracking-tight text-white">Quinoa (0.5 cup)</span>
+</div>
+</div>
+<!-- HUD Elements -->
+<div class="absolute top-8 left-8 z-20 flex flex-col gap-4">
+<div class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-2 border-white/5">
+<span class="text-[10px] uppercase tracking-widest text-secondary">Matrix Status</span>
+<span class="text-xs font-headline text-primary flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            ACTIVE_SYNC
+                        </span>
+</div>
+</div>
+<!-- BOTTOM CONTROLS -->
+<div class="absolute bottom-8 left-0 right-0 z-30 flex justify-center items-center px-12 gap-8">
+<!-- Zoom Controls -->
+<div class="flex items-center glass-panel px-6 py-3 rounded-full gap-6">
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">remove</button>
+<span class="text-xs font-headline font-bold text-primary">1.5X</span>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">add</button>
+</div>
+<!-- Main Action -->
+<button class="px-10 py-5 bg-primary text-black font-headline font-bold rounded-full hover:scale-105 active:scale-95 transition-transform cursor-pointer flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.3)] active:shadow-[0_0_40px_rgba(255,255,255,0.5)]">
+    <span class="material-symbols-outlined">photo_camera</span>
+    UPLOAD PHOTO
+</button>
+<!-- Flash & Options -->
+<div class="flex items-center glass-panel px-6 py-3 rounded-full gap-6">
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">flash_on</button>
+<div class="w-px h-4 bg-white/10"></div>
+<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">filter_center_focus</button>
+</div>
+</div>
+<!-- Corner Frame Accents -->
+<div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/20"></div>
+<div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/20"></div>
+</div>
+<!-- RIGHT: DATA PANEL -->
+<div class="col-span-4 pl-8 flex flex-col h-full gap-6">
+<!-- Header Card -->
+<div class="glass-panel p-6 rounded-[2rem] border-white/10">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h2 class="font-headline text-xl font-bold">Instant Extraction</h2>
+<p class="text-xs text-secondary mt-1 tracking-wide">Real-time Vision Synthesis</p>
+</div>
+<span class="material-symbols-outlined text-primary bg-white/5 p-2 rounded-xl">monitoring</span>
+</div>
+<div class="space-y-4">
+<!-- Confidence Score -->
+<div class="flex justify-between items-end">
+<span class="text-xs text-secondary uppercase tracking-widest">Confidence</span>
+<span class="text-lg font-headline font-bold text-primary">98.4%</span>
+</div>
+<div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+<div class="h-full bg-white w-[98%] shadow-[0_0_10px_white]"></div>
+</div>
+</div>
+</div>
+<!-- Macros Bento Items -->
+<div class="grid grid-cols-2 gap-4 flex-1">
+<!-- Protein -->
+<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-secondary text-sm">bolt</span>
+<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Target</span>
+</div>
+<div class="mt-4">
+<p class="text-3xl font-headline font-bold">42g</p>
+<p class="text-xs text-secondary mt-1">Protein</p>
+</div>
+</div>
+<!-- Carbs -->
+<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-secondary text-sm">grain</span>
+<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Target</span>
+</div>
+<div class="mt-4">
+<p class="text-3xl font-headline font-bold">28g</p>
+<p class="text-xs text-secondary mt-1">Net Carbs</p>
+</div>
+</div>
+<!-- Fats -->
+<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-secondary text-sm">water_drop</span>
+<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Target</span>
+</div>
+<div class="mt-4">
+<p class="text-3xl font-headline font-bold">12g</p>
+<p class="text-xs text-secondary mt-1">Healthy Fats</p>
+</div>
+</div>
+<!-- Calories -->
+<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+<div class="flex justify-between items-center">
+<span class="material-symbols-outlined text-secondary text-sm">local_fire_department</span>
+<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Total</span>
+</div>
+<div class="mt-4">
+<p class="text-3xl font-headline font-bold">385</p>
+<p class="text-xs text-secondary mt-1">Kcal Est.</p>
+</div>
+</div>
+</div>
+<!-- Footer Log Card -->
+<div class="glass-panel p-6 rounded-[2rem] mt-auto">
+<p class="text-xs text-secondary mb-4 uppercase tracking-[0.2em]">Matrix Findings</p>
+<ul class="space-y-4">
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+<span class="text-sm font-body text-primary">Chicken Breast</span>
+</div>
+<span class="text-xs font-headline text-secondary group-hover:text-primary">165 kcal</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+<span class="text-sm font-body text-primary">Cooked Quinoa</span>
+</div>
+<span class="text-xs font-headline text-secondary group-hover:text-primary">111 kcal</span>
+</li>
+</ul>
+<button class="w-full mt-6 py-3 border border-white/10 rounded-xl font-headline text-xs hover:bg-white/5 transition-all active:scale-95 cursor-pointer text-white">
+                        LOG TO JOURNAL
+                    </button>
+</div>
+</div>
+</div>
+    <!-- Footer -->
+    <footer class="px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
+        <div class="flex items-center gap-3">
+            <div class="h-6 w-6">
+                <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+            </div>
+            <span class="font-headline text-sm font-bold text-primary">FitForge</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+            <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+            <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+            <a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                System Status: Online
+            </a>
+        </div>
+        <div class="text-secondary opacity-40 text-[10px]">
+            &copy; 2024 FitForge. Engineered for Excellence.
+        </div>
+    </footer>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        if (!localStorage.getItem('userEmail')) { window.location.href = 'login.html'; }
+        function logout() { localStorage.removeItem('userEmail'); localStorage.removeItem('userName'); window.location.href = 'login.html'; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const values = document.querySelectorAll('.font-headline.text-3xl');
+            values.forEach(val => {
+                const target = parseInt(val.innerText);
+                let current = 0;
+                const update = () => {
+                    if (current < target) {
+                        current += Math.ceil(target / 20);
+                        if (current > target) current = target;
+                        val.innerText = current + (val.innerText.includes('g') ? 'g' : '');
+                        requestAnimationFrame(update);
+                    }
+                };
+                update();
+            });
+
+            const mainBtn = document.querySelector('button.bg-primary');
+            mainBtn.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 150);
+                
+                const viewport = document.querySelector('.col-span-8');
+                const flash = document.createElement('div');
+                flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-0 transition-opacity duration-100';
+                viewport.appendChild(flash);
+                
+                setTimeout(() => flash.style.opacity = '0.4', 50);
+                setTimeout(() => flash.style.opacity = '0', 150);
+                setTimeout(() => flash.remove(), 500);
+            });
+        });
+    </script>
+</body></html>
