@@ -1,0 +1,382 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Nutrition &amp; Macro Synthesis | FitForge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f6f5f5",
+              secondary: "#c7c6c6",
+              surface: "#131313",
+              "surface-container": "#1c1b1b",
+              "surface-obsidian": "#0e0e0e",
+              "glass-border": "#2B2B2B",
+              accent: "#f6f5f5",
+              protein: "#f43f5e",
+              carbs: "#10b981",
+              fats: "#f59e0b"
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "2xl": "2rem",
+              "full": "9999px"
+            },
+            fontFamily: {
+              headline: ["Space Grotesk", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+              label: ["Inter", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #131313;
+        color: #f6f5f5;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .macro-ring {
+        transition: stroke-dashoffset 0.8s ease-out;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid #2B2B2B;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      }
+      .glass-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+        z-index: 10;
+      }
+      .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.5rem;
+      }
+      .gradient-text {
+        background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .sidebar-active {
+        background: rgba(255, 255, 255, 0.05);
+        border-right: 2px solid #f6f5f5;
+        color: #f6f5f5 !important;
+        font-weight: 600;
+      }
+    </style>
+</head>
+<body class="text-primary overflow-x-hidden selection:bg-white/20 selection:text-white">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 h-full flex flex-col bg-surface-obsidian w-64 border-r border-glass-border shadow-2xl z-50 transition-all duration-300">
+<div class="p-8">
+<div class="mb-1 h-8 w-auto flex items-center"><img src="assets/logo.svg" alt="FitForge Logo" class="h-full w-auto object-contain"></div>
+<p class="text-[10px] font-bold text-secondary/40 uppercase tracking-[0.2em]">Peak Performance</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-6 px-6 py-3.5 rounded-full text-secondary/60 hover:bg-white/5 transition-all duration-300" href="dashboard.html"><span class="material-symbols-outlined text-2xl">dashboard</span><span class="text-lg font-medium tracking-tight">Dashboard</span></a>
+<a class="flex items-center gap-6 px-6 py-3.5 rounded-full text-secondary/60 hover:bg-white/5 transition-all duration-300" href="workout.html"><span class="material-symbols-outlined text-2xl">fitness_center</span><span class="text-lg font-medium tracking-tight">Workouts</span></a>
+<!-- Active State: Nutrition -->
+<a class="flex items-center gap-6 px-6 py-3.5 rounded-full transition-all duration-300 bg-white/10 text-white font-bold border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.1)]" href="nutrition.html"><span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">restaurant</span><span class="text-lg tracking-tight">Nutrition</span></a>
+<a class="flex items-center gap-6 px-6 py-3.5 rounded-full text-secondary/60 hover:bg-white/5 transition-all duration-300" href="scanner.html"><span class="material-symbols-outlined text-2xl">qr_code_scanner</span><span class="text-lg font-medium tracking-tight">Scanner</span></a>
+<a class="flex items-center gap-6 px-6 py-3.5 rounded-full text-secondary/60 hover:bg-white/5 transition-all duration-300" href="progress.html"><span class="material-symbols-outlined text-2xl">query_stats</span><span class="text-lg font-medium tracking-tight">Progress</span></a>
+</nav>
+<div class="p-4 mt-auto space-y-4">
+<button class="w-full py-3.5 bg-white text-black font-bold rounded-full hover:bg-primary/90 active:scale-95 transition-all duration-300 text-[10px] uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                Upgrade to Pro
+            </button>
+<div class="pt-4 border-t border-glass-border">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary/40 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span class="text-xs">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-secondary/40 hover:text-primary transition-colors cursor-pointer" onclick="logout()">
+<span class="material-symbols-outlined text-lg">logout</span>
+<span class="text-xs">Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen relative flex flex-col">
+<!-- TopNavBar -->
+<header class="flex justify-end items-center px-12 w-full h-20 bg-surface/5 backdrop-blur-md fixed top-0 right-0 z-40 max-w-[calc(100%-256px)] border-b border-glass-border/30">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<input class="bg-white/5 border border-glass-border rounded-full px-6 py-2 w-64 text-xs text-primary focus:ring-1 focus:ring-primary/20 transition-all placeholder:text-secondary/30" placeholder="Search data..." type="text">
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-secondary/30 text-lg">search</span>
+</div>
+<div class="flex items-center gap-4 border-l border-glass-border pl-6">
+<button class="relative hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined text-secondary/60">notifications</span>
+<span class="absolute top-0 right-0 w-1.5 h-1.5 bg-protein rounded-full"></span>
+</button>
+<div class="w-9 h-9 rounded-full overflow-hidden border border-glass-border shadow-sm cursor-pointer active:scale-95 transition-transform">
+<img class="w-full h-full object-cover grayscale" data-alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgjQqGTRypI_cmFKS-Oe_kIqas7mXin1GXLWmaXoOzV0pvd95n_iZ5cLdEUd1oP1Wljr-UlOcRraamtk4JaiWJLHE9al0MhOOpizN8WeDYKtq6cSmpePEcuqst1xFTXyKEqq-_jeMqrbUGX0GRkh6Gs-j2enI-xQ7UE-8Ug3Pd7dTaJSEiyu-ZH3bV_6K3_Wwsbama5DL8BtGd_hE4yrEzfAkXRrAi2UFzLVyRp_xbeTRWjITCnEgS">
+</div>
+</div>
+</div>
+</header>
+<div class="pt-28 px-12 pb-12">
+<!-- Header Section -->
+<section class="mb-12 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold tracking-tight text-primary mb-2 gradient-text">Fueling Strategy</h2>
+<p class="text-secondary/40 font-bold uppercase tracking-[0.2em] text-[10px]">Synthesis Phase: Hypertrophy Optimization</p>
+</div>
+<div class="flex gap-3">
+<div class="px-4 py-2 bg-white/5 rounded-full border border-glass-border flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-carbs shadow-[0_0_8px_#10B981]"></span>
+<span class="text-[10px] font-bold text-secondary uppercase tracking-wider">Training Load: High</span>
+</div>
+<div class="px-4 py-2 bg-primary text-surface-obsidian rounded-full flex items-center gap-2 shadow-lg">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Cycle Day 12</span>
+</div>
+</div>
+</section>
+<!-- Bento Dashboard -->
+<div class="bento-grid">
+<!-- Macro Synthesis Rings -->
+<div class="col-span-8 glass-card rounded-2xl p-8 flex items-center justify-around relative overflow-hidden">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+<div class="relative flex flex-col items-center">
+<svg class="w-36 h-36 transform -rotate-90">
+<circle class="text-white/5" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-protein macro-ring" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" stroke-dasharray="402" stroke-dashoffset="100" stroke-linecap="round" stroke-width="10" style="filter: drop-shadow(rgba(244, 63, 94, 0.4) 0px 0px 8px); stroke-dashoffset: 100;"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-primary leading-none">172g</span>
+<span class="text-[9px] font-bold text-secondary/40 uppercase tracking-[0.2em] mt-1">Protein</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[10px] font-medium text-secondary/40 uppercase tracking-widest">Goal: 210g</p>
+<p class="text-[10px] text-protein font-bold mt-1">+38g left</p>
+</div>
+</div>
+<div class="relative flex flex-col items-center">
+<svg class="w-44 h-44 transform -rotate-90">
+<circle class="text-white/5" cx="88" cy="88" fill="transparent" r="78" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-carbs macro-ring" cx="88" cy="88" fill="transparent" r="78" stroke="currentColor" stroke-dasharray="490" stroke-dashoffset="122" stroke-linecap="round" stroke-width="12" style="filter: drop-shadow(rgba(16, 185, 129, 0.4) 0px 0px 10px); stroke-dashoffset: 122;"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-bold text-primary leading-none">315g</span>
+<span class="text-[9px] font-bold text-secondary/40 uppercase tracking-[0.2em] mt-1">Carbs</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[10px] font-medium text-secondary/40 uppercase tracking-widest">Goal: 420g</p>
+<p class="text-[10px] text-carbs font-bold mt-1">+105g left</p>
+</div>
+</div>
+<div class="relative flex flex-col items-center">
+<svg class="w-36 h-36 transform -rotate-90">
+<circle class="text-white/5" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-fats macro-ring" cx="72" cy="72" fill="transparent" r="64" stroke="currentColor" stroke-dasharray="402" stroke-dashoffset="320" stroke-linecap="round" stroke-width="10" style="filter: drop-shadow(rgba(245, 158, 11, 0.4) 0px 0px 8px); stroke-dashoffset: 320;"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold text-primary leading-none">58g</span>
+<span class="text-[9px] font-bold text-secondary/40 uppercase tracking-[0.2em] mt-1">Fats</span>
+</div>
+<div class="mt-4 text-center">
+<p class="text-[10px] font-medium text-secondary/40 uppercase tracking-widest">Goal: 75g</p>
+<p class="text-[10px] text-fats font-bold mt-1">+17g left</p>
+</div>
+</div>
+</div>
+<!-- Total Calorie Status -->
+<div class="col-span-4 bg-white/5 border border-glass-border rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+<div class="relative z-10">
+<p class="text-[10px] font-bold text-secondary/40 uppercase tracking-[0.2em] mb-4">Daily Equilibrium</p>
+<h3 class="text-6xl font-bold mb-4 tracking-tighter gradient-text">2,450</h3>
+<div class="flex items-center gap-2 text-carbs font-bold text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="">Optimal Surge State</span>
+</div>
+</div>
+<div class="relative z-10 pt-8">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-3">
+<span class="text-secondary/40">Remaining</span>
+<span class="text-primary">1,050 kcal</span>
+</div>
+<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[70%] shadow-[0_0_15px_rgba(255,255,255,0.5)]"></div>
+</div>
+</div>
+</div><div class="col-span-4 glass-card rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden"><div class="relative z-10"><div class="flex justify-between items-start mb-4"><p class="text-[10px] font-bold text-secondary/40 uppercase tracking-[0.2em]">Hydration Tracking</p><span class="material-symbols-outlined text-carbs text-lg">water_drop</span></div><h3 class="text-4xl font-bold mb-2 tracking-tighter text-primary">2.8<span class="text-lg ml-1 text-secondary/40">/ 4.0L</span></h3><div class="flex items-center gap-2 text-carbs font-bold text-[10px] uppercase tracking-widest"><span class="material-symbols-outlined text-xs">check_circle</span><span class="">Hydration Optimal</span></div></div><div class="relative z-10 pt-6"><div class="flex justify-between text-[9px] font-bold uppercase tracking-widest mb-2"><span class="text-secondary/40">Daily Progress</span><span class="text-primary">70%</span></div><div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-carbs w-[70%] shadow-[0_0_10px_#10B981]"></div></div></div></div>
+<!-- AI Meal Suggestion -->
+<div class="col-span-5 glass-card rounded-2xl p-8 flex flex-col">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h4 class="font-bold text-lg mb-1">AI Protocol: Post-Load</h4>
+<p class="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">Based on Leg Hypertrophy session (88 min)</p>
+</div>
+<span class="material-symbols-outlined text-primary/40" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1 space-y-4">
+<div class="p-5 bg-white/5 rounded-xl border border-glass-border group cursor-pointer hover:border-primary/20 transition-colors">
+<div class="flex gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden border border-glass-border bg-black/40">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="Meal suggestion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEQ1g9skwyWInvKm75z3cCpJhkqXMuFgnOXS0XaAmp_JOWjg8YhHCp_06FsRFZKeLjySUwgc0ud_VuTwylx9v48xEGSU8Nf97-4MwTkF35qorxIKp5PAxTy8i_DyW2TIpPjDsYq_rzL5n8eGDMIW_OlNqbCoLfeNXYj6dtPzCFxrWuM-_14bfY2DxPrXJogeRgSqN8pueY2JOc3FAREjBIM-oai__VdZnVGzSG4Z0rcLf9lP-zOGLl">
+</div>
+<div class="flex-1">
+<h5 class="font-bold text-sm text-primary mb-2">Glazed Atlantic Salmon &amp; Quinoa</h5>
+<div class="flex gap-4 text-[9px] font-bold uppercase tracking-widest">
+<span class="text-protein">P: 42g</span>
+<span class="text-carbs">C: 58g</span>
+<span class="text-fats">F: 14g</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-5 bg-black/20 rounded-xl border border-glass-border flex items-center justify-between group hover:bg-white/5 transition-all">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary/40">inventory_2</span>
+<div>
+<p class="text-xs font-bold text-primary">Pre-Sleep Synthesis</p>
+<p class="text-[10px] text-secondary/40 font-medium mt-0.5">Casein Protocol + ZMA</p>
+</div>
+</div>
+<button class="text-secondary/40 hover:text-primary transition-colors active:scale-95">
+<span class="material-symbols-outlined text-xl">add_circle</span>
+</button>
+</div>
+</div>
+<button class="w-full mt-8 py-3.5 border border-glass-border text-primary font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-white/5 transition-all active:scale-95 active:bg-white/10">
+                        Customize Protocol
+                    </button>
+</div>
+<!-- Micronutrient Calibration Chart -->
+<div class="col-span-7 glass-card rounded-2xl p-8 flex flex-col">
+<div class="flex justify-between items-center mb-10">
+<h4 class="font-bold text-lg">Micronutrient Calibration</h4>
+<div class="flex items-center gap-2 text-secondary/40 text-[10px] font-bold uppercase tracking-widest cursor-pointer">
+<span class="">Vitamins &amp; Minerals</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+<div class="flex-1 flex items-end justify-between gap-3 px-2">
+<!-- Bars -->
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-white/20 rounded-sm h-[85%] group-hover:bg-white/40 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Mag</span>
+</div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-white/20 rounded-sm h-[42%] group-hover:bg-white/40 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Vit D</span>
+</div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-white/20 rounded-sm h-[94%] group-hover:bg-white/40 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Zinc</span>
+</div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-white/20 rounded-sm h-[68%] group-hover:bg-white/40 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Iron</span>
+</div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-white/20 rounded-sm h-[55%] group-hover:bg-white/40 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Vit B</span>
+</div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-protein/30 rounded-sm h-[30%] group-hover:bg-protein/50 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Omega</span>
+</div>
+<div class="flex-1 flex flex-col items-center group">
+<div class="w-full bg-white/5 rounded-sm h-32 relative">
+<div class="absolute bottom-0 w-full bg-white/20 rounded-sm h-[77%] group-hover:bg-white/40 transition-all"></div>
+</div>
+<span class="text-[9px] font-bold text-secondary/40 mt-4 uppercase tracking-widest">Potas</span>
+</div>
+</div>
+<div class="mt-10 grid grid-cols-2 gap-4">
+<div class="p-4 bg-protein/5 rounded-xl border border-protein/10">
+<p class="text-[9px] font-bold text-protein uppercase tracking-[0.2em] mb-1">Deficiency Alert</p>
+<p class="text-[11px] font-medium text-secondary/60">Omega-3 intake 40% below optimal threshold.</p>
+</div>
+<div class="p-4 bg-carbs/5 rounded-xl border border-carbs/10">
+<p class="text-[9px] font-bold text-carbs uppercase tracking-[0.2em] mb-1">Status Optimal</p>
+<p class="text-[11px] font-medium text-secondary/60">Zinc and Magnesium levels peak for recovery.</p>
+</div>
+</div>
+</div><div class="col-span-5 glass-card rounded-2xl p-8 flex flex-col"><div class="flex justify-between items-center mb-6"><h4 class="font-bold text-lg">Absorption Efficiency</h4><span class="material-symbols-outlined text-primary/40">analytics</span></div><div class="space-y-4"><div class="flex flex-col gap-2"><div class="flex justify-between text-[10px] font-bold uppercase tracking-widest"><span class="text-secondary/60">Amino Acid Profile</span><span class="text-primary">92%</span></div><div class="w-full h-1 bg-white/5 rounded-full"><div class="h-full bg-protein w-[92%]"></div></div></div><div class="flex flex-col gap-2"><div class="flex justify-between text-[10px] font-bold uppercase tracking-widest"><span class="text-secondary/60">Glycemic Response</span><span class="text-primary">Stable</span></div><div class="w-full h-1 bg-white/5 rounded-full"><div class="h-full bg-carbs w-[85%]"></div></div></div><div class="flex flex-col gap-2"><div class="flex justify-between text-[10px] font-bold uppercase tracking-widest"><span class="text-secondary/60">Electrolyte Balance</span><span class="text-primary">Optimal</span></div><div class="w-full h-1 bg-white/5 rounded-full"><div class="h-full bg-fats w-[78%]"></div></div></div></div><div class="mt-8 pt-6 border-t border-glass-border"><p class="text-[10px] text-secondary/40 font-medium leading-relaxed">Metabolic rate is currently peaking. Nutrient partitioning is optimized for lean tissue synthesis.</p></div></div>
+</div>
+</div>
+    <!-- Footer -->
+    <footer class="px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
+        <div class="flex items-center gap-3">
+            <div class="h-6 w-6">
+                <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+            </div>
+            <span class="font-headline text-sm font-bold text-primary">FitForge</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+            <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+            <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+            <a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                System Status: Online
+            </a>
+        </div>
+        <div class="text-secondary opacity-40 text-[10px]">
+            &copy; 2024 FitForge. Engineered for Excellence.
+        </div>
+    </footer>
+</main>
+<script>
+    if (!localStorage.getItem('userEmail')) { window.location.href = 'login.html'; }
+    function logout() { localStorage.removeItem('userEmail'); localStorage.removeItem('userName'); window.location.href = 'login.html'; }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const rings = document.querySelectorAll('.macro-ring');
+        rings.forEach(ring => {
+            const dashArray = parseFloat(ring.getAttribute('stroke-dasharray'));
+            const dashOffset = parseFloat(ring.getAttribute('stroke-dashoffset'));
+            ring.style.strokeDashoffset = dashArray;
+            setTimeout(() => {
+                ring.style.strokeDashoffset = dashOffset;
+            }, 300);
+        });
+    });
+</script>
+</body></html>

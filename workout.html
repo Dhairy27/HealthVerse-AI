@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>FitForge | Workout Protocol</title>
+    <meta name="description" content="FitForge Elite Workout Protocol - AI-generated training sessions optimized for your biology.">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#f6f5f5",
+                        secondary: "#c7c6c6",
+                        "surface-obsidian": "#0e0e0e",
+                        "surface-container": "#1c1b1b",
+                        "glass-border": "rgba(255,255,255,0.08)",
+                        "accent-silver": "#8e9192"
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                    fontFamily: { "headline": ["Space Grotesk"], "display": ["Space Grotesk"], "body": ["Inter"], "label": ["Inter"] }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { background-color: #0e0e0e; color: #e5e2e1; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .obsidian-gradient { background: linear-gradient(135deg, #f6f5f5 0%, #d9d9d9 100%); }
+        .silver-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #353534; border-radius: 10px; }
+        .gradient-text {
+            background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="font-body text-primary antialiased overflow-hidden">
+
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r border-glass-border bg-surface-obsidian z-50">
+    <div class="p-8">
+        <a href="index.html" class="mb-1 h-8 flex items-center">
+            <img src="assets/logo.svg" alt="FitForge Logo" class="h-full w-auto object-contain">
+        </a>
+        <h1 class="font-headline text-2xl font-bold tracking-tighter text-primary">FitForge</h1>
+        <p class="text-[10px] font-label uppercase tracking-[0.3em] text-accent-silver opacity-60">Peak Performance</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-2">
+        <a class="flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 text-secondary opacity-60 hover:bg-white/5" href="dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-label text-sm tracking-tight">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-primary font-bold bg-white/10" href="workout.html">
+            <span class="material-symbols-outlined">fitness_center</span>
+            <span class="font-label text-sm tracking-tight">Workouts</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 text-secondary opacity-60 hover:bg-white/5" href="nutrition.html">
+            <span class="material-symbols-outlined">restaurant</span>
+            <span class="font-label text-sm tracking-tight">Nutrition</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 text-secondary opacity-60 hover:bg-white/5" href="scanner.html">
+            <span class="material-symbols-outlined">qr_code_scanner</span>
+            <span class="font-label text-sm tracking-tight">Scanner</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 rounded transition-all duration-300 text-secondary opacity-60 hover:bg-white/5" href="progress.html">
+            <span class="material-symbols-outlined">query_stats</span>
+            <span class="font-label text-sm tracking-tight">Progress</span>
+        </a>
+    </nav>
+    <div class="px-8 mb-8">
+        <button class="w-full obsidian-gradient text-surface-obsidian py-3 rounded-full text-[10px] uppercase tracking-widest font-bold hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all active:scale-95 cursor-pointer">
+            Upgrade to Pro
+        </button>
+    </div>
+    <div class="p-4 border-t border-glass-border space-y-1">
+        <a class="flex items-center gap-3 px-4 py-2 text-secondary opacity-60 hover:text-primary transition-colors" href="#">
+            <span class="material-symbols-outlined text-sm">settings</span>
+            <span class="text-xs font-label">Settings</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-2 text-secondary opacity-60 hover:text-primary transition-colors cursor-pointer" onclick="logout()">
+            <span class="material-symbols-outlined text-sm">logout</span>
+            <span class="text-xs font-label">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<!-- Top Navbar -->
+<header class="fixed top-0 right-0 left-64 h-20 flex justify-end items-center px-12 bg-transparent z-40">
+    <div class="flex items-center gap-8">
+        <div class="relative group">
+            <input class="bg-transparent border-b border-primary/20 focus:border-primary outline-none py-1 px-2 text-[10px] uppercase tracking-widest transition-all w-48 focus:w-64 font-label" placeholder="Search Exercises..." type="text">
+            <span class="material-symbols-outlined absolute right-2 top-1 text-primary/40 text-sm">search</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="hidden xl:flex items-center gap-2 px-3 py-1 border border-primary/10 rounded-full bg-white/5">
+                <div class="w-1 h-1 bg-primary rounded-full animate-pulse"></div>
+                <span class="text-[8px] font-bold uppercase tracking-widest text-primary/60">System: Sync</span>
+            </div>
+            <button class="relative hover:opacity-80 transition-opacity active:scale-95">
+                <span class="material-symbols-outlined text-primary">notifications</span>
+                <span class="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full"></span>
+            </button>
+            <button class="hover:opacity-80 transition-opacity active:scale-95">
+                <span class="material-symbols-outlined text-primary text-3xl">account_circle</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-20 h-screen overflow-y-auto px-12 pb-12 flex flex-col">
+    <!-- Header Section -->
+    <section class="flex justify-between items-end mb-10">
+        <div>
+            <h2 class="text-5xl font-bold tracking-tight mb-2 font-headline gradient-text">Today's Protocol</h2>
+            <div class="flex items-center gap-4">
+                <span class="px-4 py-1.5 border border-primary/20 bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-widest text-primary">HIIT Phase II</span>
+                <span class="text-secondary text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">Duration: 42 Min</span>
+                <span class="text-secondary text-[10px] font-bold uppercase tracking-[0.2em] opacity-60">Focus: Metabolic Stress</span>
+            </div>
+        </div>
+        <!-- AI Intensity Toggle -->
+        <div class="glass-card px-6 py-4 flex items-center gap-6 rounded-xl">
+            <div class="flex flex-col">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-primary">AI Intensity Adjustment</span>
+                <span class="text-[10px] text-accent-silver opacity-70 uppercase tracking-wider">Neural Feedback: ON</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input checked class="sr-only peer" type="checkbox">
+                <div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+            </label>
+        </div>
+    </section>
+
+    <!-- Exercise Bento Grid -->
+    <div class="grid grid-cols-12 gap-6 mb-12">
+        <!-- Hero Exercise Card -->
+        <div class="col-span-12 lg:col-span-8 group relative overflow-hidden h-[450px] rounded-xl border border-glass-border">
+            <div class="absolute inset-0 bg-surface-obsidian z-0">
+                <img alt="Clean & Press Exercise" class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-60 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJKwYkKSq1PGKsQvTUG3AyKxLeaaInJitdPa8UeKwoW3JnDn2Uwv85N96qYa9NfeILzrhkHk0E8XAp0rxbXk0gWbsydCrMFtCMHkWaelg7To_NwyH8xrU0Vq7IzbqtBkRoxapHcC5pU0LiGQMrlrmpniwOwWjXr6h41NzUrvT7ShDzc8bKN6pb8W2yubSju3et_G-FdkYlLe1YVoyF-okdWSkjqXN_jqymphRA7I3XfavaLY0rl1_r">
+                <div class="absolute inset-0 silver-shimmer opacity-20"></div>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0e0e0e] via-transparent to-transparent z-10"></div>
+            <div class="absolute bottom-0 left-0 p-10 z-20 w-full flex justify-between items-end">
+                <div>
+                    <span class="text-[10px] font-bold text-white/40 uppercase tracking-[0.4em] mb-3 block font-label">Primary Movement</span>
+                    <h3 class="text-6xl font-bold text-white tracking-tighter mb-6 font-headline">Clean &amp; Press</h3>
+                    <div class="flex gap-10 text-white">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-[0.2em] opacity-40 font-label mb-1">Sets</span>
+                            <span class="text-3xl font-bold font-headline italic">05</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-[0.2em] opacity-40 font-label mb-1">Reps</span>
+                            <span class="text-3xl font-bold font-headline italic">08</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] uppercase tracking-[0.2em] opacity-40 font-label mb-1">Rest</span>
+                            <span class="text-3xl font-bold font-headline italic">60s</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="obsidian-gradient text-surface-obsidian px-10 py-5 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:scale-105 transition-transform active:scale-95 shadow-xl cursor-pointer">
+                    Log Set
+                </button>
+            </div>
+        </div>
+
+        <!-- Side Cards -->
+        <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+            <!-- Neural Load -->
+            <div class="glass-card flex-1 p-8 flex flex-col justify-between rounded-xl hover:bg-white/[0.05] transition-colors">
+                <div>
+                    <span class="material-symbols-outlined text-primary mb-4 text-3xl">psychology</span>
+                    <h4 class="text-xl font-bold tracking-tight mb-2 font-headline uppercase">Neural Load</h4>
+                    <p class="text-sm text-accent-silver leading-relaxed font-body">AI analyzes your previous CNS output. Today's peak power target is 840W. Monitor velocity loss.</p>
+                </div>
+                <div class="mt-4 pt-4 border-t border-glass-border">
+                    <div class="flex justify-between text-[10px] font-bold uppercase tracking-widest text-accent-silver mb-2">
+                        <span>CNS Fatigue</span>
+                        <span class="text-primary">Medium</span>
+                    </div>
+                    <div class="flex items-end gap-1 h-8 mb-4 opacity-40">
+                        <div class="flex-1 bg-primary/20 h-[40%]"></div>
+                        <div class="flex-1 bg-primary/20 h-[60%]"></div>
+                        <div class="flex-1 bg-primary/20 h-[45%]"></div>
+                        <div class="flex-1 bg-primary/20 h-[80%]"></div>
+                        <div class="flex-1 bg-primary/20 h-[55%]"></div>
+                        <div class="flex-1 bg-primary/20 h-[90%]"></div>
+                        <div class="flex-1 bg-primary h-[65%]"></div>
+                    </div>
+                    <div class="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                        <div class="bg-primary h-full" style="width: 65%;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Rest Timer -->
+            <div class="bg-white/5 border border-white/10 flex-1 p-8 flex flex-col justify-between rounded-xl">
+                <div>
+                    <span class="material-symbols-outlined text-primary mb-4 text-3xl">timer</span>
+                    <h4 class="text-xl font-bold tracking-tight mb-2 font-headline uppercase">Rest Intervals</h4>
+                    <p class="text-sm text-accent-silver/60 leading-relaxed font-body italic">Strict 60s windows to maintain metabolic acidosis state.</p>
+                </div>
+                <button id="start-timer-btn" class="mt-6 w-full border border-white/20 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.3em] hover:bg-white hover:text-surface-obsidian transition-all active:scale-95 cursor-pointer">
+                    Start Timer
+                </button>
+            </div>
+            <!-- Exercise Library -->
+            <div class="glass-card p-6 rounded-xl border border-primary/10">
+                <div class="flex justify-between items-center mb-4">
+                    <h5 class="text-[10px] font-bold uppercase tracking-widest text-primary">Exercise Library</h5>
+                    <span class="material-symbols-outlined text-xs text-accent-silver">open_in_new</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center p-2 hover:bg-white/5 rounded transition-colors cursor-pointer">
+                        <span class="text-xs text-accent-silver">Deadlift Tech</span>
+                        <span class="text-[10px] text-primary/40">VOD</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 hover:bg-white/5 rounded transition-colors cursor-pointer">
+                        <span class="text-xs text-accent-silver">Neural Priming</span>
+                        <span class="text-[10px] text-primary/40">PDF</span>
+                    </div>
+                    <div class="flex justify-between items-center p-2 hover:bg-white/5 rounded transition-colors cursor-pointer">
+                        <span class="text-xs text-accent-silver">Recovery Bio</span>
+                        <span class="text-[10px] text-primary/40">AI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2 Exercise Cards -->
+        <div class="col-span-12 md:col-span-4 glass-card p-0 overflow-hidden group rounded-xl">
+            <div class="h-56 relative bg-surface-container">
+                <img alt="Goblet Squats" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsGzz9_bKbnsPEyh9pASNFeWr1sn4dXndXiCAcF6127rOt6nv7KihcE0nB4f0hKmtCDDkd7v4n8EYsCFzF_sN9wAEc4ls6DCn8wSg3_JOgt9xcD6af2wfxqDU7eT3YwbRXT0BS4PxAs7fF4EDhB-DZB62MSFkBiHQZ-pkG7iePvorDZagK_CzE3tjuVzea1PjcFdTY2zLsdp-T_yZSRMZSuPWE90fEhlTkP_j1aWgulweRVuGiXMq-">
+                <div class="absolute inset-0 bg-surface-obsidian/20 group-hover:bg-transparent transition-colors"></div>
+            </div>
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h4 class="font-bold text-xl font-headline uppercase tracking-tight">Goblet Squats</h4>
+                    <span class="material-symbols-outlined text-accent-silver text-sm">info</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-accent-silver">
+                    <span>4 Sets</span>
+                    <span>12 Reps</span>
+                    <span class="text-primary/60">Tempo: 3010</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4 glass-card p-0 overflow-hidden group rounded-xl">
+            <div class="h-56 relative bg-surface-container">
+                <img alt="Weighted Dips" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD-0MleSR3Bpfse5rxiAtOKbXguXjTxF1NZqMl5UoAiEKpudE40l8lAjDfKFKpox6uRSTgevOJdyBY5PPlFPSJfS7xAlBRu8Nl3Fw1xNMD56-XLxfEGUFcS-led36piN__bAHypbzwLanV3WYfeIv7v38FrU2576KDu7wQLzk_U1sHKZHVOW6XM7Ap52NVYyNT9wfSlUqqMq_R8INGCWUI8qNCd2q9wodXgxNfT97PZSVFBvCTbdQV">
+                <div class="absolute inset-0 bg-surface-obsidian/20 group-hover:bg-transparent transition-colors"></div>
+            </div>
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h4 class="font-bold text-xl font-headline uppercase tracking-tight">Weighted Dips</h4>
+                    <span class="material-symbols-outlined text-accent-silver text-sm">info</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-accent-silver">
+                    <span>3 Sets</span>
+                    <span>Failure</span>
+                    <span class="text-primary/60">Tempo: 2020</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4 glass-card p-0 overflow-hidden group rounded-xl">
+            <div class="h-56 relative bg-surface-container">
+                <img alt="Pallof Press" class="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0X97aehtRdspJEqsisVKwrnSLo5h8WOAxfdIzFTRcccc-qrXGFS0CZEglW_kPGCm9M2-c34lO-M7BJdvbwSXpAn1B8xGkOvrTYo8qEIbi-lDBMQ4PkBY3c_kzmYpaCMLyAl2Cn2yBRoXLwUzp1P9y8HXAWL_4xjUBoZ1D90rG_rbonxYyP8hOyyvlS7L6nVGS4LW4XtZN0pFWAuSXS_5PRrzVNQDtWfKvROrKYDyQiLxyF1o-p8eN">
+                <div class="absolute inset-0 bg-surface-obsidian/20 group-hover:bg-transparent transition-colors"></div>
+            </div>
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h4 class="font-bold text-xl font-headline uppercase tracking-tight">Pallof Press</h4>
+                    <span class="material-symbols-outlined text-accent-silver text-sm">info</span>
+                </div>
+                <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-accent-silver">
+                    <span>3 Sets</span>
+                    <span>15 Reps</span>
+                    <span class="text-primary/60">Hold: 2s</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
+        <div class="flex items-center gap-3">
+            <div class="h-6 w-6">
+                <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+            </div>
+            <span class="font-headline text-sm font-bold text-primary">FitForge</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+            <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+            <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+            <a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                System Status: Online
+            </a>
+        </div>
+        <div class="text-secondary opacity-40 text-[10px]">
+            &copy; 2024 FitForge. Engineered for Excellence.
+        </div>
+    </footer>
+</main>
+
+<!-- Ambient Background Effects -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none z-[-1] overflow-hidden">
+    <div class="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-primary/5 blur-[120px] rounded-full"></div>
+    <div class="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[100px] rounded-full"></div>
+</div>
+
+<script>
+    // Auth check
+    if (!localStorage.getItem('userEmail')) { window.location.href = 'login.html'; }
+    function logout() { localStorage.removeItem('userEmail'); localStorage.removeItem('userName'); window.location.href = 'login.html'; }
+
+    // Card interactions
+    document.querySelectorAll('.glass-card, .col-span-12').forEach(card => {
+        card.addEventListener('mousedown', () => { card.style.transform = 'scale(0.995)'; card.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)'; });
+        card.addEventListener('mouseup', () => { card.style.transform = 'scale(1)'; });
+        card.addEventListener('mouseleave', () => { card.style.transform = 'scale(1)'; });
+    });
+
+    // Rest timer
+    const timerBtn = document.getElementById('start-timer-btn');
+    let timerRunning = false;
+    let timerInterval;
+    timerBtn.addEventListener('click', () => {
+        if (timerRunning) return;
+        timerRunning = true;
+        let seconds = 60;
+        timerBtn.textContent = `${seconds}s`;
+        timerBtn.classList.add('bg-white', 'text-surface-obsidian');
+        timerInterval = setInterval(() => {
+            seconds--;
+            timerBtn.textContent = `${seconds}s`;
+            if (seconds <= 0) {
+                clearInterval(timerInterval);
+                timerBtn.textContent = 'Start Timer';
+                timerBtn.classList.remove('bg-white', 'text-surface-obsidian');
+                timerRunning = false;
+            }
+        }, 1000);
+    });
+</script>
+
+</body>
+</html>

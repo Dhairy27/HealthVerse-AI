@@ -1,0 +1,534 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Personalize Your Protocol - FitMind AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "accent-silver": "#c6c6c6",
+                        "tertiary": "#ffffff",
+                        "on-error": "#690005",
+                        "surface": "#131313",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-tint": "#c7c6c6",
+                        "on-tertiary-container": "#636465",
+                        "surface-obsidian": "#050505",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-secondary-container": "#b6b9ba",
+                        "on-tertiary": "#2f3131",
+                        "error": "#ffb4ab",
+                        "on-primary": "#2f3131",
+                        "on-background": "#e5e2e1",
+                        "glass-border": "#2B2B2B",
+                        "primary-container": "#e3e2e2",
+                        "surface-variant": "#353534",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "primary": "#ffffff",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "surface-container": "#201f1f",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary": "#c4c7c8",
+                        "secondary-fixed-dim": "#c4c7c8",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-dim": "#131313",
+                        "surface-container-highest": "#353534",
+                        "secondary-fixed": "#e0e3e4",
+                        "background": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "inverse-on-surface": "#313030",
+                        "on-primary-fixed-variant": "#464747",
+                        "outline": "#8e9192",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#191c1d",
+                        "tertiary-container": "#e2e2e2",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "primary-fixed-dim": "#c7c6c6",
+                        "on-secondary": "#2d3132",
+                        "secondary-container": "#464a4b",
+                        "on-primary-fixed": "#1a1c1c",
+                        "inverse-primary": "#5e5e5f",
+                        "outline-variant": "#444748",
+                        "status-error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#444748",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#646465",
+                        "primary-fixed": "#e3e2e2",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "64px",
+                        "margin-tablet": "40px",
+                        "margin-desktop": "80px",
+                        "stack-md": "32px",
+                        "stack-sm": "16px",
+                        "margin-mobile": "24px",
+                        "container-max": "1440px",
+                        "stack-xl": "120px",
+                        "gutter": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Space Grotesk"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "display-lg": ["Space Grotesk"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid #2B2B2B;
+            position: relative;
+        }
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        .primary-gradient-bg {
+            background: linear-gradient(135deg, #f6f5f5 0%, #d9d9d9 100%);
+        }
+        
+        /* Step Transitions */
+        .step-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .step-content.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md overflow-x-hidden selection:bg-primary selection:text-on-primary">
+<!-- Ambient Background Glow -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-surface-variant/20 blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-primary-container/10 blur-[100px]"></div>
+</div>
+<!-- Header / Nav (Suppressed standard nav due to transactional nature, using minimal branding header) -->
+<header class="w-full flex justify-center items-center py-6 px-margin-mobile md:px-margin-desktop z-10 relative pt-12">
+<div class="flex items-center gap-3">
+<img alt="FitMind AI Logo" class="w-10 h-10 object-contain rounded-full" src="assets/logo.svg">
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center px-margin-mobile md:px-margin-desktop py-stack-md z-10 relative w-full max-w-container-max mx-auto">
+<!-- Onboarding Container -->
+<div class="w-full glass-panel rounded-DEFAULT md:rounded-lg overflow-hidden flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.8)] max-w-container-max">
+<!-- Header Section -->
+<div class="p-6 md:p-8 border-b border-glass-border">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-2 text-center">Personalize Your Protocol</h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-center max-w-md mx-auto">Configure your biological telemetry baseline for optimal AI calibration.</p>
+<!-- Progress Bar -->
+<div class="mt-8 flex items-center justify-between gap-2">
+<div class="h-1 flex-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary transition-all duration-500 ease-out w-1/3" id="progress-indicator"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 font-label-sm text-on-surface-variant uppercase tracking-widest py-4 text-label-md">
+<span class="text-primary" id="step-label-1">Metrics</span>
+<span class="" id="step-label-2">Lifestyle</span>
+<span class="" id="step-label-3">Goals</span>
+</div>
+</div>
+<!-- Form Area -->
+<div class="p-6 md:p-8 flex-grow">
+                <!-- Unified Error Display -->
+                <div id="error-display" class="hidden mb-4 p-3 bg-error-container/10 border border-error/30 text-error rounded-full text-sm text-center font-medium flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">warning</span>
+                    <span id="error-text"></span>
+                </div>
+<!-- Step 1: Physical Metrics -->
+<div class="step-content active space-y-6" id="step-1">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Age -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface uppercase">Age</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+</span>
+<input id="age" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors placeholder-on-surface-variant/50 appearance-none" placeholder="Years" type="number">
+</div>
+</div>
+<!-- Gender/Sex -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface uppercase">Biological Sex</label>
+<div class="relative">
+<select id="gender" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 px-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors appearance-none">
+<option disabled="" selected="" value="">Select</option>
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="other">Prefer not to say</option>
+</select>
+<span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">expand_more</span>
+</span>
+</div>
+</div>
+<!-- Height -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface uppercase">Height</label>
+<div class="relative flex items-center">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">height</span>
+</span>
+<input id="height" class="w-full bg-surface-container-low border border-glass-border rounded-l-full py-3 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors border-r-0" placeholder="cm" type="number">
+<div class="bg-surface-container border border-glass-border border-l-0 rounded-r-full py-3 px-4 text-on-surface-variant font-label-md text-label-md">
+                                    cm
+                                </div>
+</div>
+</div>
+<!-- Weight -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface uppercase">Weight</label>
+<div class="relative flex items-center">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">weight</span>
+</span>
+<input id="weight" class="w-full bg-surface-container-low border border-glass-border rounded-l-full py-3 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors border-r-0" placeholder="kg" type="number">
+<div class="bg-surface-container border border-glass-border border-l-0 rounded-r-full py-3 px-4 text-on-surface-variant font-label-md text-label-md">
+                                    kg
+                                </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 2: Lifestyle -->
+<div class="step-content space-y-6" id="step-2">
+<div class="space-y-6">
+<!-- Occupation -->
+<div class="space-y-2">
+<label class="block font-label-md text-label-md text-on-surface uppercase">Primary Occupation</label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">work</span>
+</span>
+<input id="occupation" class="w-full bg-surface-container-low border border-glass-border rounded-full py-3 pl-12 pr-4 text-primary focus:outline-none focus:border-outline focus:ring-1 focus:ring-outline transition-colors placeholder-on-surface-variant/50" placeholder="e.g., Software Engineer, Athlete" type="text">
+</div>
+</div>
+<!-- Activity Level (Chips) -->
+<div class="space-y-3">
+<label class="block font-label-md text-label-md text-on-surface uppercase">Daily Activity Level</label>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="activity_level" type="radio" value="sedentary">
+<div class="w-full h-full p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-2 group-hover:border-outline">
+<span class="material-symbols-outlined text-[24px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">chair</span>
+<span class="font-label-md text-label-md text-primary">Sedentary/Lazy</span>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input checked="" class="peer sr-only" name="activity_level" type="radio" value="moderate">
+<div class="w-full h-full p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-2 group-hover:border-outline">
+<span class="material-symbols-outlined text-[24px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">directions_walk</span>
+<span class="font-label-md text-label-md text-primary">Moderately Active</span>
+</div>
+</label>
+<label class="cursor-pointer relative group">
+<input class="peer sr-only" name="activity_level" type="radio" value="high">
+<div class="w-full h-full p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low peer-checked:border-primary peer-checked:bg-surface-container-high transition-all flex flex-col items-center justify-center text-center gap-2 group-hover:border-outline">
+<span class="material-symbols-outlined text-[24px] text-on-surface-variant peer-checked:text-primary" style="font-variation-settings: 'FILL' 0;">fitness_center</span>
+<span class="font-label-md text-label-md text-primary">Highly Active</span>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Step 3: Goals -->
+<div class="step-content space-y-6" id="step-3">
+<div class="space-y-4">
+<label class="block font-label-md text-label-md text-on-surface uppercase mb-4">Primary Performance Goals</label>
+<!-- Checkboxes for Goals -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+<input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Hypertrophy / Muscle Gain" type="checkbox">
+<span class="font-body-md text-body-md text-primary">Hypertrophy / Muscle Gain</span>
+</label>
+<label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+<input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Fat Loss / Definition" type="checkbox">
+<span class="font-body-md text-body-md text-primary">Fat Loss / Definition</span>
+</label>
+<label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+<input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Endurance / Stamina" type="checkbox">
+<span class="font-body-md text-body-md text-primary">Endurance / Stamina</span>
+</label>
+<label class="flex items-center gap-3 p-4 border border-glass-border rounded-DEFAULT bg-surface-container-low cursor-pointer hover:border-outline transition-colors">
+<input class="goal-checkbox form-checkbox h-5 w-5 rounded border-outline bg-surface text-on-primary focus:ring-0 focus:ring-offset-0" value="Cognitive Enhancement" type="checkbox">
+<span class="font-body-md text-body-md text-primary">Cognitive Enhancement</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-6 md:p-8 border-t border-glass-border bg-surface-container/50 flex justify-between items-center mt-auto">
+<button class="invisible font-label-md text-label-md text-primary px-6 py-3 rounded-full border border-glass-border hover:bg-surface-container-highest transition-colors flex items-center gap-2" id="btn-back">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+                    Back
+                </button>
+<button class="ml-auto font-label-md text-label-md text-on-primary px-8 py-3 rounded-full primary-gradient-bg hover:scale-[1.02] transition-transform shadow-[0_0_15px_rgba(255,255,255,0.1)] flex items-center gap-2" id="btn-next">
+                    Next
+                    <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const email = localStorage.getItem('userEmail');
+            if (!email) {
+                // If not logged in, redirect to signup
+                window.location.href = 'signup.html';
+                return;
+            }
+
+            const steps = [
+                document.getElementById('step-1'),
+                document.getElementById('step-2'),
+                document.getElementById('step-3')
+            ];
+            
+            const labels = [
+                document.getElementById('step-label-1'),
+                document.getElementById('step-label-2'),
+                document.getElementById('step-label-3')
+            ];
+
+            const btnNext = document.getElementById('btn-next');
+            const btnBack = document.getElementById('btn-back');
+            const progressIndicator = document.getElementById('progress-indicator');
+            
+            let currentStep = 0;
+
+            function updateUI() {
+                // Update Steps visibility
+                steps.forEach((step, index) => {
+                    if (index === currentStep) {
+                        step.classList.add('active');
+                        step.style.display = 'block';
+                        setTimeout(() => {
+                            step.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        step.classList.remove('active');
+                        step.style.display = 'none';
+                        step.style.opacity = '0';
+                    }
+                });
+
+                // Update Progress Bar (33%, 66%, 100%)
+                const progressPercentage = ((currentStep + 1) / steps.length) * 100;
+                progressIndicator.style.width = `${progressPercentage}%`;
+
+                // Update Labels
+                labels.forEach((label, index) => {
+                    if (index <= currentStep) {
+                        label.classList.add('text-primary');
+                        label.classList.remove('text-on-surface-variant');
+                    } else {
+                        label.classList.remove('text-primary');
+                        label.classList.add('text-on-surface-variant');
+                    }
+                });
+
+                // Update Buttons
+                if (currentStep === 0) {
+                    btnBack.classList.add('invisible');
+                } else {
+                    btnBack.classList.remove('invisible');
+                }
+
+                if (currentStep === steps.length - 1) {
+                    btnNext.innerHTML = `Complete <span class="material-symbols-outlined text-[18px]">check</span>`;
+                } else {
+                    btnNext.innerHTML = `Next <span class="material-symbols-outlined text-[18px]">arrow_forward</span>`;
+                }
+            }
+
+            function validateStep(stepIndex) {
+                const errorDisplay = document.getElementById('error-display');
+                const errorText = document.getElementById('error-text');
+
+                function showError(msg) {
+                    errorText.textContent = msg;
+                    errorDisplay.classList.remove('hidden');
+                    errorDisplay.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                if (stepIndex === 0) {
+                    const age = document.getElementById('age').value;
+                    const biologicalSex = document.getElementById('gender').value;
+                    const height = document.getElementById('height').value;
+                    const weight = document.getElementById('weight').value;
+
+                    if (!age || !biologicalSex || !height || !weight) {
+                        showError("Please enter all physical metrics (Age, Sex, Height, and Weight) to proceed.");
+                        return false;
+                    }
+                    if (Number(age) <= 0 || Number(height) <= 0 || Number(weight) <= 0) {
+                        showError("Please enter valid positive numbers for Age, Height, and Weight.");
+                        return false;
+                    }
+                } else if (stepIndex === 1) {
+                    const occupation = document.getElementById('occupation').value.trim();
+                    const activityLevel = document.querySelector('input[name="activity_level"]:checked')?.value;
+
+                    if (!occupation) {
+                        showError("Please enter your primary occupation.");
+                        return false;
+                    }
+                    if (!activityLevel) {
+                        showError("Please select your daily activity level.");
+                        return false;
+                    }
+                } else if (stepIndex === 2) {
+                    const goals = Array.from(document.querySelectorAll('.goal-checkbox:checked'));
+                    if (goals.length === 0) {
+                        showError("Please select at least one health or performance goal.");
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            btnNext.addEventListener('click', () => {
+                // Clear any previous error
+                const errorDisplay = document.getElementById('error-display');
+                const errorText = document.getElementById('error-text');
+                errorDisplay.classList.add('hidden');
+
+                if (!validateStep(currentStep)) {
+                    return;
+                }
+
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    updateUI();
+                } else {
+                    // Disable next button and show loading spinner
+                    btnNext.disabled = true;
+                    btnNext.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">sync</span>`;
+                    
+                    // Collect telemetry data
+                    const age = document.getElementById('age').value;
+                    const biologicalSex = document.getElementById('gender').value;
+                    const height = document.getElementById('height').value;
+                    const weight = document.getElementById('weight').value;
+                    const occupation = document.getElementById('occupation').value;
+                    const activityLevel = document.querySelector('input[name="activity_level"]:checked')?.value;
+                    const goals = Array.from(document.querySelectorAll('.goal-checkbox:checked')).map(cb => cb.value);
+
+                    // Send POST request to backend API
+                    fetch('/api/user/protocol', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email,
+                            age,
+                            biologicalSex,
+                            height,
+                            weight,
+                            occupation,
+                            activityLevel,
+                            goals
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to save protocol telemetry.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Save protocol telemetry in localStorage
+                        localStorage.setItem('userProtocol', JSON.stringify({
+                            age,
+                            biologicalSex,
+                            height,
+                            weight,
+                            occupation,
+                            activityLevel,
+                            goals
+                        }));
+                        // Display success and redirect to dashboard
+                        btnNext.innerHTML = `Initialized <span class="material-symbols-outlined text-[18px]">check</span>`;
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1500);
+                    })
+                    .catch(err => {
+                        console.error('Error saving telemetry baseline:', err);
+                        btnNext.disabled = false;
+                        btnNext.innerHTML = `Complete <span class="material-symbols-outlined text-[18px]">check</span>`;
+                        
+                        errorText.textContent = 'Failed to connect to backend server. Telemetry calibration failed.';
+                        errorDisplay.classList.remove('hidden');
+                    });
+                }
+            });
+
+            btnBack.addEventListener('click', () => {
+                // Clear errors on back navigation
+                const errorDisplay = document.getElementById('error-display');
+                errorDisplay.classList.add('hidden');
+
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateUI();
+                }
+            });
+            
+            // Initial call to set up the correct displays
+            updateUI();
+        });
+    </script>
+
+
+
+</body></html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html class="dark scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>FitForge - Elite AI Performance Coach</title>
+    <meta name="description" content="Transcend human limitations. FitForge synthesizes millions of data points to engineer the perfect training protocol, diet, and recovery matrix.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#131313",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-highest": "#353534",
+                        "background": "#131313",
+                        "secondary-container": "#464747",
+                        "primary": "#f6f5f5",
+                        "error-container": "#93000a",
+                        "surface-container": "#201f1f",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "secondary": "#c7c6c6",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e5e2e1",
+                        "on-error": "#690005",
+                        "surface": "#131313",
+                        "on-secondary": "#303031",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-variant": "#353534",
+                        "on-tertiary-container": "#5d5f5f",
+                        "outline-variant": "#444748",
+                        "surface-tint": "#c6c6c6",
+                        "tertiary-container": "#d9d9d9",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "inverse-on-surface": "#313030",
+                        "inverse-primary": "#5d5e5f",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "secondary-fixed": "#e3e2e2",
+                        "on-secondary-fixed-variant": "#464747",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary": "#f5f5f5",
+                        "primary-fixed": "#e2e2e2",
+                        "on-tertiary": "#2f3131",
+                        "outline": "#8e9192",
+                        "surface-bright": "#3a3939",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-secondary-container": "#b5b5b5",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-primary-container": "#5d5f5f",
+                        "on-surface": "#e5e2e1",
+                        "on-background": "#e5e2e1",
+                        "on-primary": "#2f3131",
+                        "on-primary-fixed-variant": "#454747",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed": "#1a1c1c",
+                        "primary-container": "#d9d9d9"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "stack-xl": "120px",
+                        "stack-sm": "16px",
+                        "stack-lg": "64px",
+                        "margin-desktop": "80px",
+                        "margin-mobile": "24px",
+                        "container-max": "1440px",
+                        "stack-md": "32px",
+                        "margin-tablet": "40px",
+                        "gutter": "32px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Space Grotesk"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "headline-lg": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "headline-lg-mobile": ["32px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "headline-md": ["32px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" }],
+                        "display-lg": ["72px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #e5e2e1;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid #2B2B2B;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            z-index: 10;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f6f5f5 0%, #d9d9d9 100%);
+            color: #131313;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #2B2B2B;
+            color: #f6f5f5;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #f6f5f5;
+        }
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gradient-text {
+            background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .bg-gradient-glow {
+            background: radial-gradient(circle at 50% 50%, rgba(217, 217, 217, 0.05) 0%, rgba(5, 5, 5, 0) 70%);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-surface-tint selection:text-background font-body-md text-body-md">
+
+<!-- TopNavBar -->
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-container-max rounded-full border border-white/10 bg-surface/5 backdrop-blur-xl shadow-2xl z-50 transition-all duration-500 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4">
+    <!-- Brand -->
+    <div class="flex items-center gap-3 cursor-pointer active:scale-95 transition-transform duration-300" onclick="window.location.href='index.html'">
+        <div class="h-8 w-8">
+            <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+        </div>
+        <span class="font-headline-lg text-[20px] font-bold text-primary hidden sm:block">FitForge</span>
+    </div>
+    <!-- Navigation Links (Web) -->
+    <div class="hidden md:flex items-center gap-8">
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#features">Features</a>
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#technology">Technology</a>
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#premium">Premium</a>
+        <a class="font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer active:scale-95 hover:scale-105 duration-300" href="#results">Results</a>
+    </div>
+    <!-- Trailing Actions -->
+    <div class="flex items-center gap-4">
+        <a href="login.html" class="hidden md:block font-label-md text-label-md text-secondary hover:text-primary transition-colors cursor-pointer">Login</a>
+        <a href="signup.html" class="font-label-md text-label-md btn-primary px-6 py-3 rounded-full cursor-pointer active:scale-95 transition-transform duration-300 no-underline">
+            Get Started
+        </a>
+    </div>
+    <!-- Mobile Menu Icon -->
+    <div class="md:hidden text-primary cursor-pointer" id="mobile-menu-toggle">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+    </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden" id="mobile-menu">
+    <div class="flex flex-col items-center justify-center h-full gap-8">
+        <button class="absolute top-6 right-6 text-primary" onclick="document.getElementById('mobile-menu').classList.add('hidden')">
+            <span class="material-symbols-outlined text-3xl">close</span>
+        </button>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="#features" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Features</a>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="#premium" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Premium</a>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="#results" onclick="document.getElementById('mobile-menu').classList.add('hidden')">Results</a>
+        <a class="text-2xl font-headline-lg text-primary hover:text-secondary transition-colors" href="login.html">Login</a>
+        <a href="signup.html" class="btn-primary px-8 py-4 rounded-full font-label-md text-label-md no-underline">Get Started</a>
+    </div>
+</div>
+
+<!-- Main Content Canvas -->
+<main class="w-full relative">
+    <!-- Ambient Background Effect -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] bg-gradient-glow"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-stack-xl px-margin-mobile md:px-margin-desktop overflow-hidden">
+        <!-- Decorative background element -->
+        <div class="absolute inset-0 opacity-30 z-0">
+            <div class="w-full h-full bg-cover bg-center mix-blend-overlay" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASCyGSDrcAtzrqEgFFoEiPZgHgbWd2D3WzhiXnHPGMKJq3Lu_YLYdkvd_vr6kjEb_bh7O3fBffThy6X5LlFMHNELFOp5EgXkMrR_XOC8uPcltZ3pdjJBjvHObyQdD_PTaVNQeEaPNFdF9p1F_H4bkehmsWDfv2VY5GwdCAk-U6ThTdjWTYKWS0fffpS0uB1ixhfGCEkOihGAiBETdgjPZQiMatoHr9I0r_z_yRl64oTufilLonyRq7f-d_xFcf8csEl3y9qZiwLoQ')"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#050505]/80 to-[#050505]"></div>
+        </div>
+        <div class="relative z-10 w-full max-w-[900px] text-center flex flex-col items-center gap-stack-md reveal-element">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#2B2B2B] bg-white/5 backdrop-blur-md mb-4">
+                <span class="material-symbols-outlined text-surface-tint text-[16px]">bolt</span>
+                <span class="font-label-sm text-label-sm text-surface-tint uppercase tracking-widest">Next-Gen Fitness Intelligence</span>
+            </div>
+            <h1 class="font-display-lg text-headline-lg-mobile md:text-display-lg font-bold tracking-tight text-primary leading-tight gradient-text">
+                Your AI-Powered <br>Elite Performance Coach.
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
+                Transcend human limitations. FitForge synthesizes millions of data points to engineer the perfect training protocol, diet, and recovery matrix tailored exclusively to your biology.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 mt-8 w-full sm:w-auto">
+                <a href="signup.html" class="btn-primary font-label-md text-label-md px-8 py-4 rounded-full w-full sm:w-auto text-center flex items-center justify-center gap-2 no-underline">
+                    Get Started
+                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                </a>
+                <button class="btn-secondary font-label-md text-label-md px-8 py-4 rounded-full w-full sm:w-auto text-center flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">play_circle</span>
+                    Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-stack-lg border-y border-[#2B2B2B]/50 bg-surface-container-lowest/50 backdrop-blur-sm relative z-10">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-gutter text-center divide-x divide-[#2B2B2B]/50">
+                <div class="reveal-element">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">100k+</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Elite Athletes</div>
+                </div>
+                <div class="reveal-element" style="transition-delay: 100ms;">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">50M+</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Calories Burned</div>
+                </div>
+                <div class="reveal-element" style="transition-delay: 200ms;">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">99.8%</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Protocol Accuracy</div>
+                </div>
+                <div class="reveal-element" style="transition-delay: 300ms;">
+                    <div class="font-headline-lg text-headline-lg font-bold text-primary">24/7</div>
+                    <div class="font-label-md text-label-md text-on-surface-variant mt-2 uppercase tracking-widest">Real-time Analysis</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bento Grid -->
+    <section class="py-stack-xl relative z-10" id="features">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="text-center mb-16 reveal-element">
+                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-4">Precision Engineered Features</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">A unified ecosystem designed to calculate, predict, and optimize every variable of your physical transformation.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+                <!-- Large Card: Workout Generator -->
+                <div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between reveal-element group">
+                    <div class="flex justify-between items-start z-10 relative">
+                        <div>
+                            <h3 class="font-headline-md text-headline-md text-primary font-bold mb-2">Generative Workouts</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Dynamically shifting resistance protocols based on your real-time recovery metrics and historical performance.</p>
+                        </div>
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] group-hover:scale-110 transition-transform">fitness_center</span>
+                    </div>
+                    <div class="absolute right-0 bottom-0 w-2/3 h-2/3 opacity-40 mix-blend-screen transition-opacity group-hover:opacity-60">
+                        <div class="w-full h-full bg-cover bg-left-top" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD7jQlgmMIoEiFZ1yLxvvLJt_VWCdh7vgOQtUMxvxE3jzxRastAvdRDDtSX_uCWLFwcdgjSCf905L2jE5PbmuT5df9NgpGErHuo1lxB_7eQJcVNuJ6k_RfzdJ8V1WBiqrpJY8OU6klw150uvdDkOAjIDoa31f7NZmQu8l-VleH9a49ytwBWF-bXTusbJh7rD2Vz51OiL97-dOcacgjUvSttG81-CCxKKcUyEkIWb70dyutGXtiGNFmG2VCenAc_VKO4lFsem_TOa2w')"></div>
+                    </div>
+                </div>
+                <!-- Square Card: Meal Planner -->
+                <div class="glass-card rounded-xl p-8 flex flex-col justify-between reveal-element" style="transition-delay: 100ms;">
+                    <div class="z-10 relative">
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] mb-4">restaurant_menu</span>
+                        <h3 class="font-headline-md text-[24px] text-primary font-bold mb-2">Macro Synthesis</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant text-sm">Hyper-personalized nutritional strategies mapped to your metabolic rate.</p>
+                    </div>
+                </div>
+                <!-- Square Card: Food Recognition -->
+                <div class="glass-card rounded-xl p-8 flex flex-col justify-between reveal-element" style="transition-delay: 200ms;">
+                    <div class="z-10 relative">
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] mb-4">qr_code_scanner</span>
+                        <h3 class="font-headline-md text-[24px] text-primary font-bold mb-2">Neural Vision</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant text-sm">Instantaneous caloric and macro extraction via computer vision scanning.</p>
+                    </div>
+                </div>
+                <!-- Large Card: Analytics -->
+                <div class="md:col-span-2 glass-card rounded-xl p-8 flex flex-col justify-between reveal-element group" style="transition-delay: 300ms;">
+                    <div class="flex justify-between items-start z-10 relative">
+                        <div>
+                            <h3 class="font-headline-md text-headline-md text-primary font-bold mb-2">Predictive Analytics</h3>
+                            <p class="font-body-md text-body-md text-on-surface-variant max-w-md">Forecast your strength milestones and body composition changes with 98% certainty using deep learning models.</p>
+                        </div>
+                        <span class="material-symbols-outlined text-surface-tint text-[32px] group-hover:scale-110 transition-transform">insights</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="py-stack-xl relative z-10 bg-surface-container-low/20" id="results">
+        <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="reveal-element">
+                    <div class="relative w-full aspect-square max-w-md mx-auto">
+                        <div class="absolute inset-0 rounded-full overflow-hidden border-2 border-[#2B2B2B] shadow-[0_0_80px_rgba(255,255,255,0.05)]">
+                            <img class="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 transition-opacity duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiTCCdvrvv5YM5MXlg9qhxRLeafP1AhPGupShh6PDSVZT3wNfTiGK9LScgvYXD1BdI_Ovb3HhgUczOSKoBZfF5b393bDb-nkfkUB6hAJgibJOgFT1RAADEHmTVsT09XAxgddhN6OCHsSXDgjqxmrF65wCmeGxSc1WKAeTRvcvx2CkTPqmaO1JPJEzfDOYhzIto5RWMxoMgCoVUzQhPVeVx0WT4AQ0QI2BUBUxaTQMtyyuZMh-fpDOu7f4DTEr3L-CI8oxCRwaNBcQ" alt="Elite athlete testimonial">
+                        </div>
+                        <div class="absolute -right-4 -bottom-4 bg-surface border border-[#2B2B2B] p-4 rounded-xl flex items-center gap-4 glass-card">
+                            <div class="w-12 h-12 rounded-full border border-primary flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-[20px]">trending_up</span>
+                            </div>
+                            <div>
+                                <div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Fat Mass</div>
+                                <div class="font-headline-md text-[20px] text-primary font-bold">-12% in 90 days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal-element flex flex-col justify-center">
+                    <span class="material-symbols-outlined text-surface-tint text-[48px] mb-6 opacity-50">format_quote</span>
+                    <h3 class="font-headline-lg text-headline-lg-mobile md:text-headline-md font-bold text-primary mb-6 leading-relaxed">
+                        "FitForge isn't just a tracker. It's an uncompromising digital coach that eliminated every ounce of guesswork from my protocol. The precision is terrifyingly accurate."
+                    </h3>
+                    <div>
+                        <div class="font-label-md text-label-md text-primary font-bold">Marcus V.</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mt-1">Professional Triathlete</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Luxury Pricing Section -->
+    <section class="py-stack-xl relative z-10" id="premium">
+        <div class="max-w-[1000px] mx-auto px-margin-mobile md:px-margin-desktop text-center">
+            <div class="reveal-element mb-16">
+                <h2 class="font-headline-lg text-headline-lg font-bold text-primary mb-4">Unfair Advantage</h2>
+                <p class="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto">Access the most sophisticated physiological algorithm ever created. Limited availability to ensure server performance.</p>
+            </div>
+            <div class="glass-card rounded-[2rem] p-10 md:p-16 relative overflow-hidden reveal-element text-left">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 relative z-10">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-4">
+                            <span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">FitForge Black</span>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-2">
+                            <span class="font-display-lg text-display-lg font-bold text-primary">$199</span>
+                            <span class="font-label-md text-label-md text-on-surface-variant uppercase">/ Month</span>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface-variant max-w-sm">Full access to the neural network, real-time macro vision, and priority API processing.</p>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                                <span class="font-body-md text-body-md text-on-surface">Infinite Generative Workouts</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                                <span class="font-body-md text-body-md text-on-surface">Neural Vision Food Scanner</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary text-[20px]">check</span>
+                                <span class="font-body-md text-body-md text-on-surface">Predictive Body Comp Models</span>
+                            </li>
+                        </ul>
+                        <a href="signup.html" class="btn-primary font-label-md text-label-md px-8 py-4 rounded-full w-full text-center block no-underline">
+                            Request Access
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="w-full border-t border-[#2B2B2B] bg-surface-obsidian relative z-10 py-8 mt-8">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8 text-xs">
+        <div class="flex items-center gap-3">
+            <div class="h-8 w-8">
+                <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+            </div>
+            <span class="font-headline text-[18px] font-bold text-primary">FitForge</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+            <a class="hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
+            <a class="hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
+            <a class="hover:text-primary transition-colors flex items-center gap-2 cursor-pointer" href="#">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                System Status: Online
+            </a>
+        </div>
+        <div class="text-secondary opacity-40 text-[10px]">
+            &copy; 2024 FitForge. Engineered for Excellence.
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal-element');
+        const revealOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        revealElements.forEach(el => revealOnScroll.observe(el));
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        }
+    });
+</script>
+
+</body>
+</html>

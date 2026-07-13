@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Minimalist stylized 'F' that also suggests a neural pathway or pulse -->
+  <path d="M30 20H70V35H45V45H65V60H45V80" stroke="#d9d9d9" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- A single, clean dot representing the AI 'Mind' core -->
+  <circle cx="75" cy="75" r="5" fill="#d9d9d9"/>
+</svg>

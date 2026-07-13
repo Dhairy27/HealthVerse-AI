@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        try {
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "surface-tint": "#c6c6c6",
+                            "primary-fixed": "#e2e2e2",
+                            "secondary-container": "#464747",
+                            "on-surface": "#e5e2e1",
+                            "surface-dim": "#131313",
+                            "surface-container-lowest": "#0e0e0e",
+                            "on-primary": "#2f3131",
+                            "secondary-fixed": "#e3e2e2",
+                            "on-tertiary-container": "#5d5f5f",
+                            "primary-fixed-dim": "#c6c6c6",
+                            "on-error": "#690005",
+                            "surface-container-low": "#1c1b1b",
+                            "surface": "#131313",
+                            "surface-container-highest": "#353534",
+                            "on-surface-variant": "#c4c7c7",
+                            "primary-container": "#d9d9d9",
+                            "on-primary-container": "#5d5f5f",
+                            "surface-container": "#201f1f",
+                            "tertiary-fixed-dim": "#c6c6c7",
+                            "surface-container-high": "#2a2a2a",
+                            "on-secondary": "#303031",
+                            "on-primary-fixed": "#1a1c1c",
+                            "inverse-primary": "#5d5e5f",
+                            "on-tertiary-fixed-variant": "#454747",
+                            "on-secondary-container": "#b5b5b5",
+                            "inverse-on-surface": "#313030",
+                            "secondary-fixed-dim": "#c7c6c6",
+                            "secondary": "#c7c6c6",
+                            "surface-variant": "#353534",
+                            "on-tertiary-fixed": "#1a1c1c",
+                            "on-background": "#e5e2e1",
+                            "on-secondary-fixed-variant": "#464747",
+                            "tertiary-fixed": "#e2e2e2",
+                            "on-error-container": "#ffdad6",
+                            "primary": "#f6f5f5",
+                            "outline-variant": "#444748",
+                            "on-secondary-fixed": "#1b1c1c",
+                            "tertiary-container": "#d9d9d9",
+                            "background": "#131313",
+                            "tertiary": "#f5f5f5",
+                            "error-container": "#93000a",
+                            "outline": "#8e9192",
+                            "inverse-surface": "#e5e2e1",
+                            "surface-bright": "#3a3939",
+                            "on-tertiary": "#2f3131",
+                            "on-primary-fixed-variant": "#454747",
+                            "error": "#ffb4ab"
+                        },
+                        "borderRadius": {
+                            "DEFAULT": "1rem",
+                            "lg": "2rem",
+                            "xl": "3rem",
+                            "full": "9999px"
+                        },
+                        "spacing": {
+                            "margin-tablet": "40px",
+                            "margin-desktop": "80px",
+                            "stack-sm": "16px",
+                            "stack-lg": "64px",
+                            "gutter": "32px",
+                            "stack-md": "32px",
+                            "margin-mobile": "24px",
+                            "container-max": "1440px",
+                            "stack-xl": "120px"
+                        },
+                        "fontFamily": {
+                            "headline-lg-mobile": ["Space Grotesk"],
+                            "label-sm": ["Space Grotesk"],
+                            "body-lg": ["Space Grotesk"],
+                            "label-md": ["Space Grotesk"],
+                            "body-md": ["Space Grotesk"],
+                            "headline-lg": ["Space Grotesk"],
+                            "display-lg": ["Space Grotesk"],
+                            "headline-md": ["Space Grotesk"]
+                        },
+                        "fontSize": {
+                            "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                            "label-sm": ["12px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                            "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                            "label-md": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                            "body-md": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                            "headline-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                            "display-lg": ["72px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                            "headline-md": ["32px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "500" }]
+                        }
+                    }
+                }
+            }
+        } catch (_e) {}
+    }catch(_e){}</script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid #2B2B2B;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            z-index: 10;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f6f5f5 0%, #d9d9d9 100%);
+            color: #131313;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .input-dark {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #2B2B2B;
+            color: #f6f5f5;
+            transition: all 0.3s ease;
+        }
+
+        .input-dark:focus {
+            outline: none;
+            border-color: #8e9192;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .gradient-text {
+            background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head><body class="min-h-screen font-body-md bg-[#131313] flex items-center justify-center p-margin-mobile md:p-margin-desktop overflow-x-hidden relative text-[#e5e2e1]" style="font-family: 'Space Grotesk', sans-serif;">
+<!-- Atmospheric Glow -->
+<div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+<main class="w-full max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center z-10 relative">
+<!-- Left: Value Proposition (Hidden on mobile) -->
+<div class="hidden lg:flex flex-col justify-center h-full pr-margin-desktop">
+<h1 class="font-display-lg text-display-lg font-bold text-primary mb-stack-md leading-tight gradient-text">
+                Engineering <br/>
+<span class="text-on-surface-variant">Elite Performance.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg max-w-md">
+                Join FitMind AI. Experience the synthesis of precision algorithms and uncompromising fitness science. Your kinetic evolution begins here.
+            </p>
+<div class="space-y-stack-md">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 0;">psychology</span>
+<div>
+<h3 class="font-label-md text-label-md text-primary font-bold mb-1">Adaptive Intelligence</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Workouts that evolve in real-time with your biometric feedback.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="font-variation-settings: 'FILL' 0;">query_stats</span>
+<div>
+<h3 class="font-label-md text-label-md text-primary font-bold mb-1">Precision Analytics</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Surgical-grade metrics to monitor and maximize every session.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Sign Up Form -->
+<div class="w-full max-w-[480px] mx-auto lg:mx-0 lg:ml-auto">
+<div class="glass-card rounded-[2rem] p-8 md:p-12 overflow-hidden">
+<!-- Logo -->
+<div class="flex justify-center mb-stack-md relative z-10">
+<img alt="FitMind AI Logo" class="h-16 w-16 object-contain brightness-90" src="assets/logo.svg"/>
+</div>
+<div class="text-center mb-stack-md relative z-10">
+<h2 class="font-headline-md text-headline-md text-primary font-bold mb-2">Create Account</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Initialize your profile.</p>
+</div>
+<form id="signup-form" class="space-y-stack-sm relative z-10">
+<!-- Name Field -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest" for="name">Full Name</label>
+<div class="relative"><div class="absolute inset-y-0 left-0 flex items-center pointer-events-none"><span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">person</span></div><input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-primary transition-colors focus:border-white" id="name" name="name" placeholder="" required="" type="text"/></div>
+</div>
+<!-- Email Field -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest" for="email">Email Address</label>
+<div class="relative"><div class="absolute inset-y-0 left-0 flex items-center pointer-events-none"><span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">mail</span></div><input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-primary transition-colors focus:border-white" id="email" name="email" placeholder="" required="" type="email"/></div>
+</div>
+<!-- Password Field -->
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest" for="password">Password</label>
+<div class="relative"><div class="absolute inset-y-0 left-0 flex items-center pointer-events-none"><span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">lock</span></div><input class="w-full bg-transparent border-0 border-b border-on-surface-variant rounded-none py-2 pl-8 pr-0 font-body-md text-body-md focus:ring-0 text-primary transition-colors focus:border-white" id="password" name="password" placeholder="" required="" type="password"/></div>
+</div>
+<!-- Terms -->
+<div class="flex items-start gap-3 pt-2">
+<div class="flex items-center h-5">
+<input class="h-4 w-4 rounded border-[#2B2B2B] bg-surface-container-highest text-primary focus:ring-primary focus:ring-offset-background" id="terms" name="terms" type="checkbox"/>
+</div>
+<div class="text-sm">
+<label class="font-body-md text-body-md text-on-surface-variant text-sm" for="terms">
+                                I agree to the <a class="text-primary hover:underline transition-all font-semibold" href="login.html">Terms</a> and <a class="text-primary hover:underline transition-all font-semibold" href="#">Privacy Policy</a>.
+                            </label>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="btn-primary w-full rounded-full py-4 mt-stack-sm font-label-md text-label-md font-bold flex justify-center items-center gap-2" type="submit">Sign Up <span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span></button>
+</form>
+<!-- Divider -->
+<!-- Log In Link -->
+<div class="mt-stack-sm text-center relative z-10"><p class="font-body-md text-body-md text-on-surface-variant">Already have an account? <a class="text-primary font-bold hover:text-white transition-colors border-b border-primary/30 hover:border-primary pb-0.5 ml-1" href="login.html">Login</a></p></div></div></div></main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('signup-form');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Error display container
+            const errorContainer = document.createElement('div');
+            errorContainer.className = 'hidden mb-4 p-3 bg-error-container/20 border border-error text-error rounded-DEFAULT text-sm text-center';
+            form.parentNode.insertBefore(errorContainer, form);
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                errorContainer.classList.add('hidden');
+                submitBtn.disabled = true;
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> INITIALIZING...`;
+
+                try {
+                    const response = await fetch('/api/auth/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            name: nameInput.value,
+                            email: emailInput.value,
+                            password: passwordInput.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Failed to initialize account.');
+                    }
+
+                    // Save session data in localStorage
+                    localStorage.setItem('userEmail', data.email);
+                    localStorage.setItem('userName', data.name);
+
+                    // Redirect to protocol customization
+                    window.location.href = 'protocol.html';
+                } catch (err) {
+                    errorContainer.textContent = err.message;
+                    errorContainer.classList.remove('hidden');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            });
+        });
+    </script>
+
+</body></html>
