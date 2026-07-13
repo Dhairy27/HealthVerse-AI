@@ -326,6 +326,17 @@
                 return;
             }
 
+            // Check if protocol details are already filled (details are fixed and cannot be changed)
+            fetch(`/api/user/protocol?email=${encodeURIComponent(email)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const proto = data.protocol || {};
+                    if (proto.age && proto.height && proto.weight && proto.biologicalSex) {
+                        window.location.href = 'dashboard.html';
+                    }
+                })
+                .catch(err => console.error("Error validating protocol status:", err));
+
             const steps = [
                 document.getElementById('step-1'),
                 document.getElementById('step-2'),

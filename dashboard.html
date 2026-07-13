@@ -109,21 +109,15 @@
             <span class="material-symbols-outlined">query_stats</span>
             <span class="font-body-md text-body-md tracking-tight">Progress</span>
         </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="profile.html">
+            <span class="material-symbols-outlined">person</span>
+            <span class="font-body-md text-body-md tracking-tight">Profile</span>
+        </a>
     </nav>
-    <div class="p-4 border-t border-glass-border">
+    <div class="p-4 border-t border-glass-border mb-4">
         <button class="w-full py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">
             Upgrade to Pro
         </button>
-    </div>
-    <div class="p-4 space-y-1 mb-4">
-        <a class="flex items-center gap-4 px-4 py-2 rounded-lg text-secondary opacity-60 hover:text-primary transition-colors active:scale-95" href="#">
-            <span class="material-symbols-outlined">settings</span>
-            <span class="text-label-sm">Settings</span>
-        </a>
-        <a class="flex items-center gap-4 px-4 py-2 rounded-lg text-secondary opacity-60 hover:text-primary transition-colors active:scale-95 cursor-pointer" onclick="logout()">
-            <span class="material-symbols-outlined">logout</span>
-            <span class="text-label-sm">Logout</span>
-        </a>
     </div>
 </aside>
 
@@ -135,16 +129,13 @@
             <h2 class="font-headline-md text-headline-md text-primary font-bold" id="greeting-text">Welcome back</h2>
         </div>
         <div class="flex items-center gap-stack-md">
-            <div class="relative hidden lg:block">
-                <input class="bg-surface-container-highest border-none text-label-sm rounded-full px-6 py-2 w-64 focus:ring-1 focus:ring-primary placeholder:opacity-30 placeholder:text-secondary uppercase tracking-widest" placeholder="SEARCH PERFORMANCE..." type="text">
-            </div>
             <div class="flex items-center gap-4">
                 <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
                     <span class="material-symbols-outlined">notifications</span>
                 </button>
-                <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
+                <a href="profile.html" class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
                     <span class="material-symbols-outlined">account_circle</span>
-                </button>
+                </a>
             </div>
         </div>
     </header>
@@ -294,6 +285,57 @@
                     <span>High</span>
                 </div>
             </div>
+
+            <!-- Active Workout Tracker Card -->
+            <div id="workout-tracker-card" class="glass-card p-stack-md rounded-xl flex flex-col justify-between border-glass-border">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-label-sm uppercase tracking-widest text-secondary opacity-60 mb-1">Active Workout</p>
+                        <h4 id="workout-timer" class="font-headline-md text-headline-md">00:00</h4>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="sensor-status-dot" class="w-2 h-2 rounded-full bg-gray-500"></span>
+                        <span id="workout-sensor-status" class="font-label-sm text-[10px] uppercase text-secondary opacity-60">Inactive</span>
+                    </div>
+                </div>
+                
+                <!-- Live Stats Display -->
+                <div id="workout-live-stats" class="my-3 grid grid-cols-3 gap-2 text-center opacity-40 transition-opacity duration-300">
+                    <div class="bg-white/5 p-2 rounded-lg border border-glass-border">
+                        <p class="text-[9px] uppercase text-secondary opacity-60 tracking-wider">Steps</p>
+                        <p id="live-steps" class="font-headline text-lg font-bold text-primary mt-1">0</p>
+                    </div>
+                    <div class="bg-white/5 p-2 rounded-lg border border-glass-border">
+                        <p class="text-[9px] uppercase text-secondary opacity-60 tracking-wider">Distance</p>
+                        <p id="live-distance" class="font-headline text-lg font-bold text-primary mt-1">0.00 km</p>
+                    </div>
+                    <div class="bg-white/5 p-2 rounded-lg border border-glass-border">
+                        <p class="text-[9px] uppercase text-secondary opacity-60 tracking-wider">Est. kcal</p>
+                        <p id="live-calories" class="font-headline text-lg font-bold text-primary mt-1">0</p>
+                    </div>
+                </div>
+
+                <!-- Simulation controls for desktop testing -->
+                <div id="workout-sim-controls" class="hidden my-2 flex items-center justify-between gap-2 border-t border-glass-border/30 pt-2">
+                    <span class="text-[10px] text-secondary opacity-50 uppercase tracking-wider">Simulation</span>
+                    <div class="flex gap-1.5">
+                        <button onclick="simulateStep()" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-glass-border text-[9px] font-bold uppercase rounded-full transition-all active:scale-95">
+                            +1 Step
+                        </button>
+                        <button id="btn-auto-sim" onclick="toggleAutoSim()" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-glass-border text-[9px] font-bold uppercase rounded-full transition-all active:scale-95">
+                            Auto Walk
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Action Button -->
+                <div class="mt-2">
+                    <button id="btn-workout-action" onclick="toggleWorkout()" class="w-full py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full font-bold hover:scale-[1.02] active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                        Start Workout
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Technical Telemetry Section -->
@@ -316,6 +358,39 @@
                         <p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary mb-2">Recovery Score</p>
                         <p class="font-headline-md text-headline-md">Opt <span class="text-label-md text-secondary">1.0</span></p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workout History Section -->
+        <div class="mt-gutter grid grid-cols-12 gap-gutter">
+            <div class="col-span-12 glass-card rounded-xl p-stack-md flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary">history</span>
+                        <h3 class="font-headline-md text-headline-md leading-none">Workout Sessions History</h3>
+                    </div>
+                    <span class="text-label-sm text-secondary opacity-60 uppercase tracking-widest" id="history-count">0 Sessions</span>
+                </div>
+                <div class="overflow-x-auto w-full">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-glass-border font-label-sm text-label-sm uppercase tracking-widest text-secondary opacity-60 text-xs">
+                                <th class="py-3 px-6">Date &amp; Time</th>
+                                <th class="py-3 px-6">Duration</th>
+                                <th class="py-3 px-6 font-semibold">Steps</th>
+                                <th class="py-3 px-6">Distance</th>
+                                <th class="py-3 px-6">Est. Calories</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workout-history-rows" class="font-body-md text-body-md divide-y divide-glass-border/30">
+                            <tr>
+                                <td colspan="5" class="py-8 text-center text-secondary opacity-60 italic text-sm">
+                                    No workouts recorded yet. Start your first session above!
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -347,7 +422,20 @@
     // Auth check
     const userEmail = localStorage.getItem('userEmail');
     const userName = localStorage.getItem('userName');
-    if (!userEmail) { window.location.href = 'login.html'; }
+    if (!userEmail) { 
+        window.location.href = 'login.html'; 
+    } else {
+        // Enforce completed protocol details
+        fetch(`/api/user/protocol?email=${encodeURIComponent(userEmail)}`)
+            .then(res => res.json())
+            .then(data => {
+                const proto = data.protocol || {};
+                if (!proto.age || !proto.height || !proto.weight || !proto.biologicalSex) {
+                    window.location.href = 'protocol.html';
+                }
+            })
+            .catch(err => console.error("Error validating protocol completion:", err));
+    }
     
     // Greeting
     const greetingEl = document.getElementById('greeting-text');
@@ -372,6 +460,350 @@
             card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
         });
     });
+
+    // Active Workout Telemetry System
+    let workoutActive = false;
+    let workoutStartTime = null;
+    let workoutSeconds = 0;
+    let workoutTimerInterval = null;
+    let steps = 0;
+    let distance = 0; // in meters
+    let calories = 0;
+    let strideLength = 0.75; // default 75cm
+    let userWeight = 70; // default 70kg
+    
+    // Sensor & Processing variables
+    let movingAverage = 9.8;
+    const ACCEL_THRESHOLD = 1.5;
+    const STEP_COOLDOWN = 350; // ms
+    let lastStepTime = 0;
+    let autoSimInterval = null;
+    let isAutoSimulating = false;
+
+    // Load user telemetry for personalized stride & calorie calibration
+    async function loadTelemetryCalibration() {
+        try {
+            const res = await fetch(`/api/user/protocol?email=${encodeURIComponent(userEmail)}`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data.protocol) {
+                    const protocol = data.protocol;
+                    if (protocol.height) {
+                        // Stride length estimated as height * 0.414
+                        strideLength = (protocol.height * 0.414) / 100;
+                        console.log(`Stride length calibrated: ${strideLength.toFixed(3)}m`);
+                    }
+                    if (protocol.weight) {
+                        userWeight = protocol.weight;
+                        console.log(`Calorie formula calibrated for weight: ${userWeight}kg`);
+                    }
+                }
+            }
+        } catch (e) {
+            console.error("Telemetry calibration loading failed:", e);
+        }
+    }
+
+    // Toggle workout session state
+    function toggleWorkout() {
+        if (!workoutActive) {
+            startWorkout();
+        } else {
+            stopWorkout();
+        }
+    }
+
+    // Start workout session
+    function startWorkout() {
+        workoutActive = true;
+        workoutStartTime = Date.now();
+        workoutSeconds = 0;
+        steps = 0;
+        distance = 0;
+        calories = 0;
+        
+        // Update UI state
+        document.getElementById('workout-live-stats').classList.remove('opacity-40');
+        document.getElementById('workout-live-stats').classList.add('opacity-100');
+        document.getElementById('workout-sim-controls').classList.remove('hidden');
+        
+        const actionBtn = document.getElementById('btn-workout-action');
+        actionBtn.innerHTML = `<span class="material-symbols-outlined text-[18px]">stop</span> Stop &amp; Save`;
+        actionBtn.classList.remove('bg-primary', 'text-on-primary');
+        actionBtn.classList.add('bg-[#ffb4ab]', 'text-[#690005]', 'hover:scale-[1.02]'); // Premium error/stop styling matching color system
+
+        // Reset display
+        updateWorkoutDisplay();
+
+        // Start duration timer
+        workoutTimerInterval = setInterval(() => {
+            workoutSeconds = Math.floor((Date.now() - workoutStartTime) / 1000);
+            const mins = String(Math.floor(workoutSeconds / 60)).padStart(2, '0');
+            const secs = String(workoutSeconds % 60).padStart(2, '0');
+            document.getElementById('workout-timer').textContent = `${mins}:${secs}`;
+        }, 1000);
+
+        // Request real mobile sensor access
+        initializeSensor();
+    }
+
+    // Stop and save workout session
+    async function stopWorkout() {
+        if (!workoutActive) return;
+        
+        workoutActive = false;
+        clearInterval(workoutTimerInterval);
+        
+        // Stop auto simulation if active
+        if (isAutoSimulating) {
+            toggleAutoSim();
+        }
+
+        // Remove device motion listener
+        window.removeEventListener('devicemotion', handleDeviceMotion);
+        
+        // Reset UI status
+        document.getElementById('workout-live-stats').classList.add('opacity-40');
+        document.getElementById('workout-live-stats').classList.remove('opacity-100');
+        document.getElementById('workout-sim-controls').classList.add('hidden');
+        
+        const dot = document.getElementById('sensor-status-dot');
+        const statusText = document.getElementById('workout-sensor-status');
+        dot.className = "w-2 h-2 rounded-full bg-gray-500";
+        statusText.textContent = "Inactive";
+
+        const actionBtn = document.getElementById('btn-workout-action');
+        actionBtn.innerHTML = `<span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Workout`;
+        actionBtn.classList.add('bg-primary', 'text-on-primary');
+        actionBtn.classList.remove('bg-[#ffb4ab]', 'text-[#690005]');
+
+        // Save workout session to backend database
+        if (steps > 0 || workoutSeconds > 5) {
+            actionBtn.disabled = true;
+            actionBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[18px]">sync</span> Saving Session...`;
+            
+            try {
+                const response = await fetch('/api/workouts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        duration: workoutSeconds,
+                        steps: steps,
+                        distance: distance,
+                        calories: Math.round(calories)
+                    })
+                });
+                
+                if (response.ok) {
+                    console.log("Workout session saved successfully.");
+                } else {
+                    console.error("Failed to save workout session.");
+                }
+            } catch (err) {
+                console.error("Save workout network error:", err);
+            }
+            
+            actionBtn.disabled = false;
+            actionBtn.innerHTML = `<span class="material-symbols-outlined text-[18px]">play_arrow</span> Start Workout`;
+        }
+
+        // Reset timer display
+        document.getElementById('workout-timer').textContent = "00:00";
+        
+        // Reload history
+        loadWorkoutHistory();
+    }
+
+    // Initialize/request sensor permission
+    function initializeSensor() {
+        const dot = document.getElementById('sensor-status-dot');
+        const statusText = document.getElementById('workout-sensor-status');
+        
+        if (typeof DeviceMotionEvent !== 'undefined') {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                // iOS 13+ require permission gesture
+                DeviceMotionEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('devicemotion', handleDeviceMotion);
+                            dot.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                            statusText.textContent = "Sensor Active";
+                        } else {
+                            dot.className = "w-2 h-2 rounded-full bg-yellow-500";
+                            statusText.textContent = "Sim Active";
+                            console.warn("DeviceMotion permission denied. Falling back to simulator.");
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error requesting DeviceMotion permission:", err);
+                        dot.className = "w-2 h-2 rounded-full bg-yellow-500";
+                        statusText.textContent = "Sim Active";
+                    });
+            } else {
+                // Android/standard browser where permission isn't explicitly required via popup
+                window.addEventListener('devicemotion', handleDeviceMotion);
+                dot.className = "w-2 h-2 rounded-full bg-green-500 animate-pulse";
+                statusText.textContent = "Sensor Active";
+            }
+        } else {
+            // Not supported (e.g. desktop)
+            dot.className = "w-2 h-2 rounded-full bg-yellow-500";
+            statusText.textContent = "Sim Active";
+            console.log("DeviceMotionEvent not supported on this device. Simulation enabled.");
+        }
+    }
+
+    // Accelerometer Step Counter Peak Detection Algorithm
+    function handleDeviceMotion(event) {
+        let acc = event.accelerationIncludingGravity || event.acceleration;
+        if (!acc) return;
+
+        let x = acc.x || 0;
+        let y = acc.y || 0;
+        let z = acc.z || 0;
+
+        let magnitude = Math.sqrt(x*x + y*y + z*z);
+
+        // Self-calibrating moving average
+        movingAverage = movingAverage * 0.98 + magnitude * 0.02;
+        let delta = Math.abs(magnitude - movingAverage);
+
+        if (delta > ACCEL_THRESHOLD) {
+            let now = Date.now();
+            if (now - lastStepTime > STEP_COOLDOWN) {
+                registerStep();
+                lastStepTime = now;
+            }
+        }
+    }
+
+    // Increment step and update values
+    function registerStep() {
+        if (!workoutActive) return;
+        steps++;
+        
+        // Calculate distance (stride length in meters)
+        distance = steps * strideLength;
+        
+        // Calorie formula: steps * weight in kg * 0.0007
+        calories = steps * userWeight * 0.0007;
+
+        updateWorkoutDisplay();
+    }
+
+    // Update frontend text fields
+    function updateWorkoutDisplay() {
+        document.getElementById('live-steps').textContent = steps;
+        
+        // Display distance in kilometers
+        const distKm = (distance / 1000).toFixed(2);
+        document.getElementById('live-distance').textContent = `${distKm} km`;
+        
+        // Display calories
+        document.getElementById('live-calories').textContent = Math.round(calories);
+    }
+
+    // Desktop Testing Simulation: Manual step increment
+    function simulateStep() {
+        if (!workoutActive) return;
+        registerStep();
+    }
+
+    // Desktop Testing Simulation: Toggle auto-walking
+    function toggleAutoSim() {
+        if (!workoutActive) return;
+        
+        const autoBtn = document.getElementById('btn-auto-sim');
+        if (isAutoSimulating) {
+            if (autoSimInterval) {
+                clearTimeout(autoSimInterval);
+                autoSimInterval = null;
+            }
+            isAutoSimulating = false;
+            autoBtn.textContent = "Auto Walk";
+            autoBtn.classList.remove('bg-white/20', 'border-primary');
+        } else {
+            isAutoSimulating = true;
+            autoBtn.textContent = "Walking...";
+            autoBtn.classList.add('bg-white/20', 'border-primary');
+            
+            // Trigger step at variable intervals mimicking real walking pace
+            const triggerMockStep = () => {
+                if (!workoutActive) return;
+                registerStep();
+                
+                // Reschedule next step with random variation
+                const nextInterval = 800 + Math.random() * 400; // 0.8s to 1.2s
+                autoSimInterval = setTimeout(triggerMockStep, nextInterval);
+            };
+            autoSimInterval = setTimeout(triggerMockStep, 900);
+        }
+    }
+
+    // Fetch and render Workout History list
+    async function loadWorkoutHistory() {
+        const rowsContainer = document.getElementById('workout-history-rows');
+        const countEl = document.getElementById('history-count');
+        if (!rowsContainer) return;
+
+        try {
+            const response = await fetch(`/api/workouts?email=${encodeURIComponent(userEmail)}`);
+            if (response.ok) {
+                const workouts = await response.json();
+                countEl.textContent = `${workouts.length} Session${workouts.length === 1 ? '' : 's'}`;
+
+                if (workouts.length === 0) {
+                    rowsContainer.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="py-8 text-center text-secondary opacity-60 italic text-sm">
+                                No workouts recorded yet. Start your first session above!
+                            </td>
+                        </tr>`;
+                    return;
+                }
+
+                rowsContainer.innerHTML = workouts.map(w => {
+                    const dateStr = new Date(w.date).toLocaleString([], {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    const mins = String(Math.floor(w.duration / 60)).padStart(2, '0');
+                    const secs = String(w.duration % 60).padStart(2, '0');
+                    const durStr = `${mins}:${secs}`;
+                    
+                    const distKm = (w.distance / 1000).toFixed(2);
+                    const calStr = w.calories !== undefined ? Math.round(w.calories) : '-';
+
+                    return `
+                        <tr class="hover:bg-white/[0.02] transition-colors">
+                            <td class="py-4 px-6 text-sm text-secondary">${dateStr}</td>
+                            <td class="py-4 px-6 font-semibold text-sm">${durStr}</td>
+                            <td class="py-4 px-6 text-sm text-primary font-bold">${w.steps}</td>
+                            <td class="py-4 px-6 text-sm text-secondary">${distKm} km</td>
+                            <td class="py-4 px-6 text-sm text-secondary">${calStr} kcal</td>
+                        </tr>`;
+                }).join('');
+            }
+        } catch (e) {
+            console.error("Failed to load workout history:", e);
+            rowsContainer.innerHTML = `
+                <tr>
+                    <td colspan="5" class="py-8 text-center text-[#ffb4ab] opacity-60 italic text-sm">
+                        Failed to retrieve workout history from server.
+                    </td>
+                </tr>`;
+        }
+    }
+
+    // Run calibration and history loading on initialization
+    if (userEmail) {
+        loadTelemetryCalibration();
+        loadWorkoutHistory();
+    }
 </script>
 
 </body>

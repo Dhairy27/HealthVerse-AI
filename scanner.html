@@ -3,24 +3,21 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <title>Scanner | FitForge Intelligence</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Public+Sans:wght@300;400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 <style>
         :root {
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --obsidian-surface: #0a0a0a;
-            --primary-silver: #e2e8f0;
+            --glass-border: #2B2B2B;
+            --obsidian-surface: #050505;
+            --primary-silver: #e5e2e1;
         }
-        body {
-            font-family: 'Public Sans', sans-serif;
-            background-color: var(--obsidian-surface);
-            color: var(--primary-silver);
-            overflow-x: hidden;
-        }
+        body { background-color: #050505; color: #e5e2e1; -webkit-font-smoothing: antialiased; }
         .font-headline { font-family: 'Space Grotesk', sans-serif; }
         .glass-panel {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid #2B2B2B;
         }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
@@ -43,6 +40,14 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #2B2B2B; border-radius: 3px; }
+        .gradient-text {
+            background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 <script id="tailwind-config">
         tailwind.config = {
@@ -50,81 +55,112 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: "#ffffff",
-                        secondary: "#94a3b8",
-                        surface: "#0a0a0a",
-                        "surface-variant": "#1a1a1a",
-                        "glass-border": "rgba(255, 255, 255, 0.1)",
-                        "on-surface-variant": "#e2e8f0"
+                        "surface-obsidian": "#050505",
+                        "surface": "#131313",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#353534",
+                        "surface-variant": "#353534",
+                        "surface-bright": "#3a3939",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "secondary": "#c4c7c8",
+                        "on-surface": "#e5e2e1",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-background": "#e5e2e1",
+                        "outline": "#8e9192",
+                        "outline-variant": "#444748",
+                        "glass-border": "#2B2B2B",
+                        "accent-silver": "#c6c6c6",
+                        "error": "#ffb4ab",
+                        "status-error": "#ffb4ab"
                     },
-                    fontFamily: {
-                        headline: ["Space Grotesk", "sans-serif"],
-                        body: ["Public Sans", "sans-serif"]
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                    spacing: { "gutter": "32px", "stack-sm": "16px", "stack-md": "32px", "stack-lg": "64px", "stack-xl": "120px", "margin-desktop": "80px", "margin-mobile": "24px", "container-max": "1440px" },
+                    fontFamily: { "body-md": ["Inter"], "headline-lg": ["Space Grotesk"], "body-lg": ["Inter"], "label-md": ["Inter"], "headline-md": ["Space Grotesk"], "label-sm": ["Inter"], "display-lg": ["Space Grotesk"] },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "headline-md": ["32px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "display-lg": ["72px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "700" }]
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="flex min-h-screen">
-<!-- SideNavBar -->
-<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r border-glass-border bg-opacity-50 backdrop-blur-xl shadow-2xl z-50 bg-surface" id="SideNavBar">
-<div class="p-8">
-<div class="h-8 w-auto flex items-center mb-1"><img src="assets/logo.svg" alt="FitForge Logo" class="h-full object-contain"></div>
-<p class="text-[10px] uppercase tracking-[0.2em] text-secondary opacity-50">Peak Performance</p>
-</div>
-<nav class="flex-1 px-4 mt-4 space-y-2">
-<!-- Dashboard -->
-<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span><span class="font-body text-lg tracking-tight">Dashboard</span></a>
-<!-- Workouts -->
-<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="workout.html"><span class="material-symbols-outlined">fitness_center</span><span class="font-body text-lg tracking-tight">Workouts</span></a>
-<!-- Nutrition -->
-<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="nutrition.html"><span class="material-symbols-outlined">restaurant</span><span class="font-body text-lg tracking-tight">Nutrition</span></a>
-<!-- Scanner (ACTIVE) -->
-<a class="flex items-center gap-4 px-6 py-4 rounded-full text-primary font-bold bg-white/10 border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)] active:scale-95 animate-pulse" href="scanner.html"><span class="material-symbols-outlined scale-110">qr_code_scanner</span><span class="font-body text-lg tracking-tight">Scanner</span></a>
-<!-- Progress -->
-<a class="flex items-center gap-4 px-6 py-3 rounded-full hover:bg-white/5 transition-all duration-300 text-secondary opacity-60" href="progress.html"><span class="material-symbols-outlined">query_stats</span><span class="font-body text-lg tracking-tight">Progress</span></a>
-</nav>
-<div class="p-4 mt-auto">
-<div class="glass-panel p-4 rounded-xl mb-6">
-<p class="text-xs font-headline mb-2 text-primary">Upgrade to Pro</p>
-<div class="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-<div class="bg-primary h-full w-2/3"></div>
-</div>
-</div>
-<div class="space-y-1">
-<a class="flex items-center gap-4 p-3 rounded-lg text-secondary opacity-60 hover:text-primary transition-all" href="#">
-<span class="material-symbols-outlined">settings</span>
-<span class="text-sm">Settings</span>
-</a>
-<a class="flex items-center gap-4 p-3 rounded-lg text-secondary opacity-60 hover:text-primary transition-all cursor-pointer" onclick="logout()">
-<span class="material-symbols-outlined">logout</span>
-<span class="text-sm">Logout</span>
-</a>
-</div>
-<div class="mt-6 flex items-center gap-3 p-2">
-<div class="w-10 h-10 rounded-full border border-primary/20 p-0.5">
-<img class="w-full h-full rounded-full object-cover" data-alt="Athlete Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjtX3xVv8ASg_64etktISCPDNJB8IJ9JYLIUkzutO3uuDssHYv6r8KCzDu4QPttTL3JPo65SVXgmU_Pf3anJmzpeayujo_04f2khORw_Qz2WBzr_wr4X2TKjy6qbGzKoIIqxPpt9OYu2j9pmIcG3tx7tlW5fOmI5TY-Vunh90AfhBZcFEYeieKsvXyBCoMy8Ys8bMAwwU9dWvLeav1JM-bc3Y4JAWLBYN_qIlltaxSgQspVpxEA5Et">
-</div>
-<div class="overflow-hidden">
-<p class="text-xs font-bold text-primary truncate">Athlete Profile</p>
-<p class="text-[10px] text-secondary">Pro Member</p>
-</div>
-</div>
-</div>
+<body class="font-body-md overflow-x-hidden bg-surface-obsidian text-on-surface">
+
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-obsidian border-r border-glass-border backdrop-blur-xl shadow-2xl flex flex-col z-50">
+    <div class="p-8">
+        <a href="index.html" class="flex items-center gap-2 mb-2">
+            <img alt="FitForge Logo" class="h-10 w-auto object-contain" src="assets/logo.svg">
+        </a>
+        <h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">FitForge</h1>
+        <p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary opacity-60">Peak Performance</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-2 mt-4">
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-body-md text-body-md tracking-tight">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="workout.html">
+            <span class="material-symbols-outlined">fitness_center</span>
+            <span class="font-body-md text-body-md tracking-tight">Workouts</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="nutrition.html">
+            <span class="material-symbols-outlined">restaurant</span>
+            <span class="font-body-md text-body-md tracking-tight">Nutrition</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-primary font-bold bg-white/10 transition-all duration-300 active:scale-95" href="scanner.html">
+            <span class="material-symbols-outlined">qr_code_scanner</span>
+            <span class="font-body-md text-body-md tracking-tight">Scanner</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="progress.html">
+            <span class="material-symbols-outlined">query_stats</span>
+            <span class="font-body-md text-body-md tracking-tight">Progress</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="profile.html">
+            <span class="material-symbols-outlined">person</span>
+            <span class="font-body-md text-body-md tracking-tight">Profile</span>
+        </a>
+    </nav>
+    <div class="p-4 border-t border-glass-border mb-4">
+        <button class="w-full py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">
+            Upgrade to Pro
+        </button>
+    </div>
 </aside>
-<!-- Main Content Area -->
-<main class="ml-64 flex-1 relative flex flex-col min-h-screen">
-<!-- TopNavBar -->
-<header class="flex justify-end items-center px-12 w-full h-20 bg-transparent relative z-20">
-<div class="flex items-center gap-8">
-<div class="flex gap-6">
-<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer transition-colors active:scale-95">notifications</span>
-<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer transition-colors active:scale-95 font-bold" id="greeting-text">account_circle</span>
-</div>
-</div>
-</header>
-<div class="grid grid-cols-12 gap-6 p-8 pt-0">
+
+<!-- Main Content Shell -->
+<main class="ml-64 min-h-screen flex flex-col bg-surface-obsidian text-on-surface">
+    <!-- Top Navbar -->
+    <header class="h-20 flex justify-between items-center px-12 w-full z-40 bg-transparent sticky top-0 backdrop-blur-sm">
+        <div>
+            <h2 class="font-headline-md text-headline-md text-primary font-bold">Food Scanner</h2>
+        </div>
+        <div class="flex items-center gap-stack-md">
+            <div class="flex items-center gap-4">
+                <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <a href="profile.html" class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
+                    <span class="material-symbols-outlined">account_circle</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Canvas -->
+    <div class="px-12 py-stack-lg flex-1">
+        <div class="grid grid-cols-12 gap-6">
 <!-- LEFT: CAMERA VIEWPORT -->
 <div class="col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group bg-black shadow-inner min-h-[500px] lg:h-[650px]">
 <!-- Real-time Feed Simulation -->
@@ -278,6 +314,7 @@
 </div>
 </div>
 </div>
+</div>
     <!-- Footer -->
     <footer class="px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
         <div class="flex items-center gap-3">
@@ -301,7 +338,22 @@
 </main>
 <!-- Micro-interaction Scripts -->
 <script>
-        if (!localStorage.getItem('userEmail')) { window.location.href = 'login.html'; }
+        // Auth check
+        const userEmail = localStorage.getItem('userEmail');
+        if (!userEmail) { 
+            window.location.href = 'login.html'; 
+        } else {
+            // Enforce completed protocol details
+            fetch(`/api/user/protocol?email=${encodeURIComponent(userEmail)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const proto = data.protocol || {};
+                    if (!proto.age || !proto.height || !proto.weight || !proto.biologicalSex) {
+                        window.location.href = 'protocol.html';
+                    }
+                })
+                .catch(err => console.error("Error validating protocol completion:", err));
+        }
         function logout() { localStorage.removeItem('userEmail'); localStorage.removeItem('userName'); window.location.href = 'login.html'; }
 
         document.addEventListener('DOMContentLoaded', () => {

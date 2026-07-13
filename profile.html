@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>FitForge | Profile</title>
+    <meta name="description" content="FitForge Elite User Profile - View your biometric baseline and performance achievements.">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-obsidian": "#050505",
+                        "surface": "#131313",
+                        "surface-container": "#201f1f",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container-highest": "#353534",
+                        "surface-variant": "#353534",
+                        "surface-bright": "#3a3939",
+                        "surface-dim": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "primary": "#ffffff",
+                        "on-primary": "#2f3131",
+                        "secondary": "#c4c7c8",
+                        "on-surface": "#e5e2e1",
+                        "on-surface-variant": "#c4c7c8",
+                        "on-background": "#e5e2e1",
+                        "outline": "#8e9192",
+                        "outline-variant": "#444748",
+                        "glass-border": "#2B2B2B",
+                        "accent-silver": "#c6c6c6",
+                        "error": "#ffb4ab",
+                        "status-error": "#ffb4ab"
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                    spacing: { "gutter": "32px", "stack-sm": "16px", "stack-md": "32px", "stack-lg": "64px", "stack-xl": "120px", "margin-desktop": "80px", "margin-mobile": "24px", "container-max": "1440px" },
+                    fontFamily: { "body-md": ["Inter"], "headline-lg": ["Space Grotesk"], "body-lg": ["Inter"], "label-md": ["Inter"], "headline-md": ["Space Grotesk"], "label-sm": ["Inter"], "display-lg": ["Space Grotesk"] },
+                    fontSize: {
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline-lg": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "headline-md": ["32px", { lineHeight: "1.3", letterSpacing: "-0.01em", fontWeight: "500" }],
+                        "label-md": ["14px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "1.2", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "display-lg": ["72px", { lineHeight: "1.1", letterSpacing: "-0.04em", fontWeight: "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #e5e2e1; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid #2B2B2B;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+        .radial-glow { background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #2B2B2B; border-radius: 3px; }
+        .gradient-text {
+            background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="font-body-md overflow-x-hidden bg-surface-obsidian text-on-surface">
+
+<!-- Sidebar Navigation -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-obsidian border-r border-glass-border backdrop-blur-xl shadow-2xl flex flex-col z-50">
+    <div class="p-8">
+        <a href="index.html" class="flex items-center gap-2 mb-2">
+            <img alt="FitForge Logo" class="h-10 w-auto object-contain" src="assets/logo.svg">
+        </a>
+        <h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">FitForge</h1>
+        <p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary opacity-60">Peak Performance</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-2 mt-4">
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="font-body-md text-body-md tracking-tight">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="workout.html">
+            <span class="material-symbols-outlined">fitness_center</span>
+            <span class="font-body-md text-body-md tracking-tight">Workouts</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="nutrition.html">
+            <span class="material-symbols-outlined">restaurant</span>
+            <span class="font-body-md text-body-md tracking-tight">Nutrition</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="scanner.html">
+            <span class="material-symbols-outlined">qr_code_scanner</span>
+            <span class="font-body-md text-body-md tracking-tight">Scanner</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="progress.html">
+            <span class="material-symbols-outlined">query_stats</span>
+            <span class="font-body-md text-body-md tracking-tight">Progress</span>
+        </a>
+        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-primary font-bold bg-white/10 transition-all duration-300 active:scale-95" href="profile.html">
+            <span class="material-symbols-outlined">person</span>
+            <span class="font-body-md text-body-md tracking-tight">Profile</span>
+        </a>
+    </nav>
+    <div class="p-4 border-t border-glass-border mb-4">
+        <button class="w-full py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">
+            Upgrade to Pro
+        </button>
+    </div>
+</aside>
+
+<!-- Main Content Shell -->
+<main class="ml-64 min-h-screen flex flex-col bg-surface-obsidian text-on-surface">
+    <!-- Top Navbar -->
+    <header class="h-20 flex justify-between items-center px-12 w-full z-40 bg-transparent sticky top-0 backdrop-blur-sm">
+        <div>
+            <h2 class="font-headline-md text-headline-md text-primary font-bold">My Profile</h2>
+        </div>
+        <div class="flex items-center gap-stack-md">
+            <div class="flex items-center gap-4">
+                <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="text-primary opacity-100 transition-opacity active:scale-95 border border-primary/20 bg-white/5 rounded-full p-1">
+                    <span class="material-symbols-outlined text-primary text-xl">person</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Canvas -->
+    <div class="px-12 py-stack-lg flex-1">
+        <!-- Profile Banner Card -->
+        <div class="glass-card rounded-xl p-8 mb-gutter flex flex-col md:flex-row items-center gap-8 border-glass-border">
+            <div class="relative flex-shrink-0">
+                <div class="w-24 h-24 rounded-full bg-white/5 border border-glass-border flex items-center justify-center text-4xl font-headline font-bold text-primary" id="avatar-initials">
+                    --
+                </div>
+                <div class="absolute inset-0 radial-glow -z-10 animate-pulse"></div>
+            </div>
+            <div class="flex-1 text-center md:text-left">
+                <h3 class="font-headline-lg text-headline-md font-bold mb-1 text-primary" id="profile-name">Loading Profile...</h3>
+                <p class="text-secondary opacity-60 mb-2 font-body-md" id="profile-email">email@address.com</p>
+                <div class="flex flex-wrap gap-2 justify-center md:justify-start mt-4">
+                    <span class="px-3.5 py-1 border border-glass-border bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-widest text-primary flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                        Biological Status: Synced
+                    </span>
+                    <span class="px-3.5 py-1 border border-glass-border bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-widest text-secondary opacity-60" id="profile-joined">
+                        Member since: --
+                    </span>
+                </div>
+            </div>
+            <div class="flex-shrink-0 w-full md:w-auto flex justify-center mt-4 md:mt-0">
+                <button onclick="logout()" class="px-6 py-3 border border-red-500/30 bg-red-500/5 hover:bg-red-500 hover:text-white transition-all text-red-400 font-bold uppercase tracking-widest text-[9px] rounded-full flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-[0_0_20px_rgba(239,68,68,0.1)]">
+                    <span class="material-symbols-outlined text-sm">logout</span>
+                    Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Biometrics Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-gutter">
+            <!-- Biological Telemetry -->
+            <div class="glass-card p-stack-md rounded-xl flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <p class="text-label-sm uppercase tracking-widest text-secondary opacity-60 mb-1">Biological Telemetry</p>
+                        <h4 class="font-headline-md text-headline-md text-primary">Baseline</h4>
+                    </div>
+                    <span class="material-symbols-outlined text-primary/40">biotech</span>
+                </div>
+                <div class="space-y-3 font-body-md text-sm border-t border-glass-border/30 pt-4" id="bio-details">
+                    <div class="flex justify-between"><span class="opacity-60 text-secondary">Age:</span><span id="detail-age" class="font-bold text-primary">-- yrs</span></div>
+                    <div class="flex justify-between"><span class="opacity-60 text-secondary">Sex:</span><span id="detail-sex" class="font-bold text-primary">--</span></div>
+                    <div class="flex justify-between"><span class="opacity-60 text-secondary">Height:</span><span id="detail-height" class="font-bold text-primary">-- cm</span></div>
+                    <div class="flex justify-between"><span class="opacity-60 text-secondary">Weight:</span><span id="detail-weight" class="font-bold text-primary">-- kg</span></div>
+                </div>
+            </div>
+
+            <!-- BMI Analytics Card -->
+            <div class="glass-card p-stack-md rounded-xl flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-label-sm uppercase tracking-widest text-secondary opacity-60 mb-1">BMI Analytics</p>
+                        <h4 class="font-headline-md text-headline-md text-primary" id="bmi-value">--</h4>
+                    </div>
+                    <span class="material-symbols-outlined text-primary/40">fitness_center</span>
+                </div>
+                <div class="space-y-4">
+                    <div class="w-full bg-white/10 h-2 rounded-full relative overflow-hidden" id="bmi-scale-bar">
+                        <!-- BMI indicator dot -->
+                        <div class="absolute w-2.5 h-2.5 bg-primary border border-surface-obsidian rounded-full top-1/2 -translate-y-1/2 transition-all duration-500" id="bmi-indicator-dot" style="left: 0%;"></div>
+                    </div>
+                    <div class="flex justify-between text-xs font-semibold text-secondary uppercase tracking-widest">
+                        <span>Under</span>
+                        <span class="text-green-400 font-bold">Normal (18.5-25)</span>
+                        <span>Over</span>
+                    </div>
+                    <div class="border-t border-glass-border/30 pt-4">
+                        <p id="bmi-status" class="text-xs text-secondary opacity-70 leading-relaxed font-body-md italic">Biometric metrics loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle & Environment -->
+            <div class="glass-card p-stack-md rounded-xl flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <p class="text-label-sm uppercase tracking-widest text-secondary opacity-60 mb-1">Lifestyle &amp; Load</p>
+                        <h4 class="font-headline-md text-headline-md text-primary">Activity</h4>
+                    </div>
+                    <span class="material-symbols-outlined text-primary/40">work</span>
+                </div>
+                <div class="space-y-3 font-body-md text-sm border-t border-glass-border/30 pt-4" id="lifestyle-details">
+                    <div class="flex flex-col gap-0.5"><span class="opacity-60 text-secondary text-xs uppercase tracking-wider">Occupation:</span><span id="detail-occupation" class="font-bold text-primary truncate">--</span></div>
+                    <div class="flex flex-col gap-0.5"><span class="opacity-60 text-secondary text-xs uppercase tracking-wider">Activity Level:</span><span id="detail-activity" class="font-bold text-primary uppercase tracking-wider text-xs mt-0.5">--</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals & Achievements Section -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-gutter">
+            <!-- Active Performance Goals -->
+            <div class="glass-card p-stack-md rounded-xl md:col-span-5 flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <p class="text-label-sm uppercase tracking-widest text-secondary opacity-60 mb-1">Performance Protocol</p>
+                        <h4 class="font-headline-md text-headline-md text-primary">Goals</h4>
+                    </div>
+                    <span class="material-symbols-outlined text-primary/40">my_location</span>
+                </div>
+                <div class="flex flex-wrap gap-2.5 mt-4" id="goals-chips-container">
+                    <span class="text-xs italic text-secondary opacity-60">No goals added. Update your onboarding telemetry.</span>
+                </div>
+                <div class="mt-8 pt-4 border-t border-glass-border/30">
+                    <p class="text-[10px] text-secondary opacity-50 font-label uppercase tracking-widest leading-relaxed">
+                        Metrics sync: Realtime with neural backend calibration.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Lifetime Activity Summary Achievements -->
+            <div class="glass-card p-stack-md rounded-xl md:col-span-7 flex flex-col justify-between">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <p class="text-label-sm uppercase tracking-widest text-secondary opacity-60 mb-1">Lifetime Statistics</p>
+                        <h4 class="font-headline-md text-headline-md text-primary">Achievements</h4>
+                    </div>
+                    <span class="material-symbols-outlined text-primary/40">emoji_events</span>
+                </div>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-4 text-center">
+                    <div class="bg-white/5 border border-glass-border p-3.5 rounded-lg flex flex-col justify-center">
+                        <p class="text-[9px] uppercase tracking-widest text-secondary opacity-50 font-label">Sessions</p>
+                        <p class="font-headline text-2xl font-bold text-primary mt-1" id="stat-sessions">0</p>
+                    </div>
+                    <div class="bg-white/5 border border-glass-border p-3.5 rounded-lg flex flex-col justify-center">
+                        <p class="text-[9px] uppercase tracking-widest text-secondary opacity-50 font-label">Steps</p>
+                        <p class="font-headline text-2xl font-bold text-primary mt-1" id="stat-steps">0</p>
+                    </div>
+                    <div class="bg-white/5 border border-glass-border p-3.5 rounded-lg flex flex-col justify-center">
+                        <p class="text-[9px] uppercase tracking-widest text-secondary opacity-50 font-label">Distance</p>
+                        <p class="font-headline text-2xl font-bold text-primary mt-1" id="stat-distance">0.00 km</p>
+                    </div>
+                    <div class="bg-white/5 border border-glass-border p-3.5 rounded-lg flex flex-col justify-center">
+                        <p class="text-[9px] uppercase tracking-widest text-secondary opacity-50 font-label">Est. Calories</p>
+                        <p class="font-headline text-2xl font-bold text-primary mt-1" id="stat-calories">0 kcal</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-glass-border/30 flex items-center justify-between">
+                    <span class="text-[10px] text-secondary opacity-50 uppercase tracking-wider">Sync: Online</span>
+                    <span class="material-symbols-outlined text-secondary opacity-40 text-sm">trending_up</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
+        <div class="flex items-center gap-3">
+            <div class="h-6 w-6">
+                <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+            </div>
+            <span class="font-headline text-sm font-bold text-primary">FitForge</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+            <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+            <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+            <a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                System Status: Online
+            </a>
+        </div>
+        <div class="text-secondary opacity-40 text-[10px]">
+            &copy; 2024 FitForge. Engineered for Excellence.
+        </div>
+    </footer>
+</main>
+
+<script>
+    // Auth Check
+    const userEmail = localStorage.getItem('userEmail');
+    const userName = localStorage.getItem('userName');
+    if (!userEmail) { 
+        window.location.href = 'login.html'; 
+    } else {
+        // Enforce completed protocol details
+        fetch(`/api/user/protocol?email=${encodeURIComponent(userEmail)}`)
+            .then(res => res.json())
+            .then(data => {
+                const proto = data.protocol || {};
+                if (!proto.age || !proto.height || !proto.weight || !proto.biologicalSex) {
+                    window.location.href = 'protocol.html';
+                }
+            })
+            .catch(err => console.error("Error validating protocol completion:", err));
+    }
+
+    // Logout
+    function logout() {
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userName');
+        window.location.href = 'login.html';
+    }
+
+    // Card interactivity (Mouse glow effect)
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+            card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+    });
+
+    // Render User Avatar Initials
+    if (userName) {
+        const parts = userName.split(' ');
+        const initials = parts.map(p => p[0]).join('').substring(0, 2).toUpperCase();
+        document.getElementById('avatar-initials').textContent = initials;
+    }
+
+    // Load User Profile Data
+    async function loadUserProfile() {
+        try {
+            const response = await fetch(`/api/user/profile?email=${encodeURIComponent(userEmail)}`);
+            if (response.ok) {
+                const user = await response.json();
+                
+                // Set Header details
+                document.getElementById('profile-name').textContent = user.name || userName;
+                document.getElementById('profile-email').textContent = user.email;
+                if (user.createdAt) {
+                    const joinedDate = new Date(user.createdAt).toLocaleDateString([], {
+                        year: 'numeric',
+                        month: 'short'
+                    });
+                    document.getElementById('profile-joined').textContent = `Member since: ${joinedDate}`;
+                }
+
+                // Set Biological telemetry baseline details
+                const proto = user.protocol || {};
+                document.getElementById('detail-age').textContent = proto.age ? `${proto.age} yrs` : 'Not set';
+                
+                let biologicalSex = 'Not set';
+                if (proto.biologicalSex) {
+                    biologicalSex = proto.biologicalSex.charAt(0).toUpperCase() + proto.biologicalSex.slice(1);
+                }
+                document.getElementById('detail-sex').textContent = biologicalSex;
+                document.getElementById('detail-height').textContent = proto.height ? `${proto.height} cm` : 'Not set';
+                document.getElementById('detail-weight').textContent = proto.weight ? `${proto.weight} kg` : 'Not set';
+
+                // BMI Calculation
+                if (proto.height && proto.weight) {
+                    const heightM = proto.height / 100;
+                    const bmi = (proto.weight / (heightM * heightM)).toFixed(1);
+                    document.getElementById('bmi-value').textContent = bmi;
+                    
+                    let status = '';
+                    let dotOffset = 0; // percentage from left
+                    
+                    if (bmi < 18.5) {
+                        status = 'Underweight range - consider adjustments to caloric intake.';
+                        dotOffset = Math.max(5, (bmi / 18.5) * 33);
+                    } else if (bmi >= 18.5 && bmi < 25) {
+                        status = 'Healthy weight range - excellent biological alignment.';
+                        dotOffset = 33 + ((bmi - 18.5) / 6.5) * 34;
+                    } else if (bmi >= 25 && bmi < 30) {
+                        status = 'Overweight range - consider reviewing energy partition.';
+                        dotOffset = 67 + ((bmi - 25) / 5.0) * 18;
+                    } else {
+                        status = 'Obese range - consider consult and load adjustments.';
+                        dotOffset = Math.min(95, 85 + ((bmi - 30) / 10.0) * 10);
+                    }
+                    
+                    document.getElementById('bmi-status').textContent = status;
+                    document.getElementById('bmi-indicator-dot').style.left = `${dotOffset}%`;
+                } else {
+                    document.getElementById('bmi-value').textContent = '--';
+                    document.getElementById('bmi-status').textContent = 'Please configure height & weight baseline to compute BMI.';
+                    document.getElementById('bmi-indicator-dot').style.left = '0%';
+                }
+
+                // Set Lifestyle & occupation
+                document.getElementById('detail-occupation').textContent = proto.occupation || 'Not set';
+                
+                let activityLvl = 'Not set';
+                if (proto.activityLevel) {
+                    if (proto.activityLevel === 'sedentary') activityLvl = 'Sedentary';
+                    else if (proto.activityLevel === 'moderate') activityLvl = 'Moderately Active';
+                    else if (proto.activityLevel === 'high') activityLvl = 'Highly Active';
+                }
+                document.getElementById('detail-activity').textContent = activityLvl;
+
+                // Goals chips rendering
+                const goalsContainer = document.getElementById('goals-chips-container');
+                if (proto.goals && proto.goals.length > 0) {
+                    goalsContainer.innerHTML = proto.goals.map(goal => `
+                        <span class="px-3.5 py-1.5 border border-glass-border bg-white/5 rounded-full text-xs font-bold text-primary">
+                            ${goal}
+                        </span>
+                    `).join('');
+                } else {
+                    goalsContainer.innerHTML = `
+                        <span class="text-xs italic text-secondary opacity-60">
+                            No goals added. Update your onboarding telemetry.
+                        </span>`;
+                }
+
+            } else {
+                console.error("Failed to load user profile endpoint.");
+            }
+        } catch (e) {
+            console.error("Network error fetching user profile:", e);
+        }
+    }
+
+    // Load Lifetime Workout Summary
+    async function loadWorkoutSummary() {
+        try {
+            const response = await fetch(`/api/workouts?email=${encodeURIComponent(userEmail)}`);
+            if (response.ok) {
+                const workouts = await response.json();
+                
+                let totalSteps = 0;
+                let totalDistance = 0;
+                let totalCalories = 0;
+                
+                workouts.forEach(w => {
+                    totalSteps += w.steps || 0;
+                    totalDistance += w.distance || 0;
+                    totalCalories += w.calories || 0;
+                });
+                
+                document.getElementById('stat-sessions').textContent = workouts.length;
+                document.getElementById('stat-steps').textContent = totalSteps.toLocaleString();
+                document.getElementById('stat-distance').textContent = `${(totalDistance / 1000).toFixed(2)} km`;
+                document.getElementById('stat-calories').textContent = `${Math.round(totalCalories).toLocaleString()} kcal`;
+            }
+        } catch (e) {
+            console.error("Network error fetching workout summary stats:", e);
+        }
+    }
+
+    // Run data fetch operations on page load
+    if (userEmail) {
+        loadUserProfile();
+        loadWorkoutSummary();
+    }
+</script>
+</body>
+</html>
