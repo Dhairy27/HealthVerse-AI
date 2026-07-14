@@ -21,21 +21,23 @@ GOOGLE_CLIENT_SECRET=your_google_oauth_client_secret
 
 Follow these steps to pull the latest changes, make edits, push to the `setup` branch, and create a pull request:
 
-1. **Pull Latest from Main**:
+1. **Pull Latest from Setup**:
    ```bash
-   git checkout main
-   git pull origin main
+   git checkout setup
+   git pull origin setup
    ```
 
 2. **Create or Switch to the Setup Branch**:
+   - **After Edit in code**
    ```bash
    git checkout -b setup
    ```
 
 3. **Stage and Commit Edits**:
    ```bash
+   git init
    git add .
-   git commit -m "Your descriptive commit message"
+   git commit -m "merge"
    ```
 
 4. **Push to the Remote Repository**:
