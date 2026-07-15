@@ -26,6 +26,11 @@ Follow these steps to pull the latest changes, make edits, push to the `setup` b
    git checkout setup
    git pull origin setup
    ```
+   *Note: If the pull does not work properly or fails due to local changes/conflicts, you can hard reset your local state to match the remote and clean any untracked files by running:*
+   ```bash
+   git reset --hard origin/setup
+   git clean -fd
+   ```
 
 2. **After Update in Code (For push code to GitHub)**:
    ```bash

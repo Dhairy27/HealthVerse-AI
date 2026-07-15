@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -50,7 +51,9 @@ const userSchema = new mongoose.Schema({
     trialEnd: { type: Date, default: null },
     startDate: { type: Date, default: null },
     endDate: { type: Date, default: null }
-  }
+  },
+  resetOTP: { type: String, default: null },
+  resetOTPExpires: { type: Date, default: null }
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
@@ -187,6 +190,119 @@ app.post('/api/auth/google', async (req, res) => {
   } catch (error) {
     console.error('Google Auth error:', error);
     res.status(500).json({ error: 'Failed to process Google authentication.' });
+  }
+});
+
+// Nodemailer transporter helper
+const getEmailTransporter = () => {
+  const emailUser = process.env.EMAIL_USER;
+  const emailPass = process.env.EMAIL_PASS;
+  
+  if (!emailUser || !emailPass) {
+    return null;
+  }
+
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: emailUser,
+      pass: emailPass
+    }
+  });
+};
+
+// 2a. Forgot Password Route - Generates and sends OTP
+app.post('/api/auth/forgot-password', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required.' });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.status(404).json({ error: 'No account registered with this email.' });
+    }
+
+    // Generate 6-digit OTP code
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expires = new Date(Date.now() + 15 * 60 * 1000); // 15 mins validity
+
+    user.resetOTP = otp;
+    user.resetOTPExpires = expires;
+    await user.save();
+
+    const transporter = getEmailTransporter();
+    if (!transporter) {
+      console.warn('Gmail credentials not set in .env. Logging OTP code:');
+      console.log(`[FORGOT PASSWORD OTP FOR ${user.email}]: ${otp}`);
+      return res.status(200).json({ 
+        message: 'Verification code generated.', 
+        note: 'Email system offline. Verification code printed in server console logs.' 
+      });
+    }
+
+    const mailOptions = {
+      from: `"FitForge" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      subject: 'FitForge Password Reset Verification Code',
+      text: `Hello ${user.name},\n\nWe received a request to reset your FitForge account password. Please use the following 6-digit verification code to proceed:\n\n${otp}\n\nThis code is valid for 15 minutes. If you did not make this request, you can safely ignore this email.\n\nBest regards,\nFitForge Support Team`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #ffffff;">
+          <h2 style="color: #131313; text-align: center; border-bottom: 2px solid #131313; padding-bottom: 10px;">FitForge Password Reset</h2>
+          <p style="color: #555555; font-size: 16px;">Hello ${user.name},</p>
+          <p style="color: #555555; font-size: 16px;">We received a request to reset your FitForge account password. Please use the verification code below to proceed:</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <span style="display: inline-block; font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #131313; background-color: #f5f5f5; padding: 12px 24px; border-radius: 6px; border: 1px solid #cccccc;">${otp}</span>
+          </div>
+          <p style="color: #888888; font-size: 12px; text-align: center;">This code is valid for 15 minutes. If you did not make this request, please ignore this email.</p>
+        </div>
+      `
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.status(200).json({ message: 'Verification code sent to your email.' });
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Failed to process forgot password request.' });
+  }
+});
+
+// 2b. Reset Password Route - Verifies OTP and updates password
+app.post('/api/auth/reset-password', async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    // Verify OTP and Expiration
+    if (!user.resetOTP || user.resetOTP !== otp) {
+      return res.status(400).json({ error: 'Invalid verification code.' });
+    }
+
+    if (!user.resetOTPExpires || new Date() > new Date(user.resetOTPExpires)) {
+      return res.status(400).json({ error: 'Verification code has expired. Please request a new one.' });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPassword;
+    user.resetOTP = null;
+    user.resetOTPExpires = null;
+    await user.save();
+
+    res.status(200).json({ message: 'Password has been successfully updated.' });
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ error: 'Failed to reset password.' });
   }
 });
 
