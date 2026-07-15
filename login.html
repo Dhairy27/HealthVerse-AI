@@ -259,42 +259,7 @@
     </div>
 </main>
 
-<!-- Developer Mock Google Modal -->
-<div id="mock-google-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="glass-card rounded-[2rem] p-8 max-w-md w-full">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="font-headline-md text-[20px] text-primary font-bold">Developer: Mock Google Login</h3>
-            <button id="close-mock-btn" class="text-secondary hover:text-primary transition-colors cursor-pointer">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-        <p class="text-on-surface-variant text-sm mb-6">Google OAuth is not configured. Select a mock profile or enter custom details below.</p>
-        <div class="space-y-3 mb-6">
-            <button class="mock-user-btn btn-secondary w-full rounded-lg py-3 px-4 text-left flex items-center gap-3 cursor-pointer" data-email="john.doe@example.com" data-name="John Doe">
-                <span class="material-symbols-outlined text-primary">person</span>
-                <div>
-                    <div class="text-sm font-bold text-primary">John Doe</div>
-                    <div class="text-xs text-on-surface-variant">john.doe@example.com</div>
-                </div>
-            </button>
-            <button class="mock-user-btn btn-secondary w-full rounded-lg py-3 px-4 text-left flex items-center gap-3 cursor-pointer" data-email="jane.smith@example.com" data-name="Jane Smith">
-                <span class="material-symbols-outlined text-primary">person</span>
-                <div>
-                    <div class="text-sm font-bold text-primary">Jane Smith</div>
-                    <div class="text-xs text-on-surface-variant">jane.smith@example.com</div>
-                </div>
-            </button>
-        </div>
-        <div class="border-t border-[#2B2B2B] pt-4 space-y-3">
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest font-bold">Custom Profile</p>
-            <input id="mock-custom-name" class="w-full bg-surface-container-lowest border border-[#2B2B2B] rounded-lg py-2 px-4 text-sm text-primary focus:border-primary focus:ring-0" placeholder="Full Name" type="text">
-            <input id="mock-custom-email" class="w-full bg-surface-container-lowest border border-[#2B2B2B] rounded-lg py-2 px-4 text-sm text-primary focus:border-primary focus:ring-0" placeholder="Email Address" type="email">
-            <button id="btn-custom-mock-login" class="btn-primary w-full rounded-full py-3 font-label-md text-label-md font-bold cursor-pointer">
-                Use Custom Profile
-            </button>
-        </div>
-    </div>
-</div>
+
 
 <!-- Backend Integration Script -->
 <script>
@@ -306,13 +271,7 @@
         const googleBtn = document.getElementById('google-login-btn');
         const errorContainer = document.getElementById('error-container');
 
-        // Mock modal elements
-        const mockModal = document.getElementById('mock-google-modal');
-        const closeMockBtn = document.getElementById('close-mock-btn');
-        const mockUserBtns = document.querySelectorAll('.mock-user-btn');
-        const customMockName = document.getElementById('mock-custom-name');
-        const customMockEmail = document.getElementById('mock-custom-email');
-        const customMockBtn = document.getElementById('btn-custom-mock-login');
+
 
         // 1. Password login form handler
         form.addEventListener('submit', async (e) => {
@@ -396,33 +355,64 @@
 
         window.addEventListener('load', () => initGoogleTokenClient());
 
-        googleBtn.addEventListener('click', () => {
-            initGoogleTokenClient();
-            if (googleClientId && tokenClient) {
+        async function loginWithGoogle() {
+            try {
+                errorContainer.classList.add('hidden');
+                googleBtn.disabled = true;
+                const originalBtnText = googleBtn.innerHTML;
+                googleBtn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[15px] mr-1">sync</span> INITIALIZING...`;
+
+                // 1. Fetch Client ID if we don't have it
+                if (!googleClientId) {
+                    const res = await fetch('/api/auth/google-config');
+                    if (!res.ok) throw new Error('Failed to retrieve Google OAuth configuration.');
+                    const data = await res.json();
+                    googleClientId = data.googleClientId;
+                }
+
+                if (!googleClientId) {
+                    throw new Error('Google Sign-In is not configured on the server.');
+                }
+
+                // 2. Load Google SDK if not present
+                if (!window.google) {
+                    // Try to wait for it first in case it's still loading
+                    for (let i = 0; i < 20; i++) {
+                        if (window.google) break;
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                }
+
+                if (!window.google) {
+                    throw new Error('Google Identity Services library failed to load. Please check your internet connection or disable any ad-blockers.');
+                }
+
+                // 3. Initialize token client if not yet done
+                if (!tokenClient) {
+                    initGoogleTokenClient();
+                }
+
+                if (!tokenClient) {
+                    throw new Error('Failed to initialize Google Sign-In client.');
+                }
+
+                // 4. Request token
                 tokenClient.requestAccessToken();
-            } else {
-                mockModal.classList.remove('hidden');
+
+                // Restore button
+                googleBtn.disabled = false;
+                googleBtn.innerHTML = originalBtnText;
+
+            } catch (err) {
+                console.error('Google Sign-In error:', err);
+                errorContainer.textContent = err.message;
+                errorContainer.classList.remove('hidden');
+                googleBtn.disabled = false;
+                googleBtn.innerHTML = 'Continue with Google';
             }
-        });
+        }
 
-        closeMockBtn.addEventListener('click', () => mockModal.classList.add('hidden'));
-
-        mockUserBtns.forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const email = btn.getAttribute('data-email');
-                const name = btn.getAttribute('data-name');
-                mockModal.classList.add('hidden');
-                await handleGoogleAuth(email, name);
-            });
-        });
-
-        customMockBtn.addEventListener('click', async () => {
-            const name = customMockName.value.trim();
-            const email = customMockEmail.value.trim();
-            if (!name || !email) { alert('Please provide both name and email.'); return; }
-            mockModal.classList.add('hidden');
-            await handleGoogleAuth(email, name);
-        });
+        googleBtn.addEventListener('click', loginWithGoogle);
 
         async function handleGoogleAuth(email, name) {
             errorContainer.classList.add('hidden');
