@@ -219,7 +219,10 @@
             </div>
             <div class="flex items-center gap-stack-md">
                 <div class="flex items-center gap-4">
-                    <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
+                    <button id="btn-api-settings" class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95 cursor-pointer bg-transparent border-0">
+                        <span class="material-symbols-outlined">settings</span>
+                    </button>
+                    <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95 bg-transparent border-0">
                         <span class="material-symbols-outlined">notifications</span>
                     </button>
                     <a href="profile.html"
@@ -366,13 +369,12 @@
                                             Portion Entry</label>
                                         <div class="grid grid-cols-12 gap-4">
                                             <div class="col-span-12 md:col-span-6">
-                                                <input id="input-text-food-name" type="text"
-                                                    placeholder="e.g. Chicken Breast"
+                                                <input id="input-text-food-name" type="text" placeholder="Food Name"
                                                     class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary focus:outline-none focus:border-primary transition-colors" />
                                             </div>
                                             <div class="col-span-8 md:col-span-4">
                                                 <input id="input-text-food-weight" type="number" step="any"
-                                                    placeholder="e.g. 200"
+                                                    placeholder="Quantity"
                                                     class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary focus:outline-none focus:border-primary transition-colors" />
                                             </div>
                                             <div class="col-span-4 md:col-span-2">
@@ -397,8 +399,7 @@
                                         <label
                                             class="block text-[10px] text-primary/40 uppercase tracking-widest font-bold font-headline">Describe
                                             what you ate (Natural Language)</label>
-                                        <textarea id="input-text-food-desc" rows="4"
-                                            placeholder="e.g. I had 200g of grilled chicken breast and 100g of brown rice."
+                                        <textarea id="input-text-food-desc" rows="4" placeholder="Describe your meal"
                                             class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary focus:outline-none focus:border-primary resize-none transition-colors"></textarea>
                                     </div>
                                 </div>
@@ -430,83 +431,341 @@
                 <div class="col-span-12 lg:col-span-4 lg:pl-8 flex flex-col h-full gap-6">
                     <!-- Header Card -->
                     <div class="glass-panel p-6 rounded-[2rem] border-white/10">
-                        <div class="flex justify-between items-start mb-6">
+            <div class="flex justify-between items-start mb-6">
                             <div>
                                 <h2 class="font-headline text-xl font-bold">Instant Extraction</h2>
                                 <p class="text-xs text-secondary mt-1 tracking-wide">Real-time Vision Synthesis</p>
                             </div>
-                            <span
-                                class="material-symbols-outlined text-primary bg-white/5 p-2 rounded-xl">monitoring</span>
+                            <span class="material-symbols-outlined text-primary bg-white/5 p-2 rounded-xl">monitoring</span>
                         </div>
-                        <div class="space-y-4">
-                            <!-- Confidence Score -->
-                            <div class="flex justify-between items-end">
-                                <span class="text-xs text-secondary uppercase tracking-widest">Confidence</span>
-                                <span class="text-lg font-headline font-bold text-primary"
-                                    id="confidence-val">--%</span>
+                        <div class="flex items-center justify-between gap-4">
+                            <div class="space-y-4 flex-1">
+                                <!-- Confidence Score -->
+                                <div class="flex justify-between items-end">
+                                    <span id="confidence-label" class="text-xs text-secondary uppercase tracking-widest text-[10px]">Confidence</span>
+                                    <span class="text-lg font-headline font-bold text-primary" id="confidence-val">--%</span>
+                                </div>
+                                <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div class="h-full bg-white w-0 shadow-[0_0_10px_white] transition-all duration-1000" id="confidence-bar"></div>
+                                </div>
+                                <button id="btn-edit-macros" class="hidden text-[10px] text-white/50 hover:text-white flex items-center gap-1 mt-3 px-3 py-1.5 border border-white/10 rounded-lg bg-white/5 active:scale-95 transition-all cursor-pointer">
+                                    <span class="material-symbols-outlined text-[12px]">edit</span> Adjust Metrics
+                                </button>
                             </div>
-                            <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                                <div class="h-full bg-white w-0 shadow-[0_0_10px_white] transition-all duration-1000"
-                                    id="confidence-bar"></div>
+
+                            <!-- Visual Donut Chart -->
+                            <div id="macro-chart-container" class="hidden flex items-center justify-center relative w-20 h-20 shrink-0">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="10" />
+                                    <circle id="chart-carbs" cx="50" cy="50" r="40" fill="transparent" stroke="#fb923c" stroke-width="10" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                                    <circle id="chart-protein" cx="50" cy="50" r="40" fill="transparent" stroke="#34d399" stroke-width="10" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                                    <circle id="chart-fats" cx="50" cy="50" r="40" fill="transparent" stroke="#f87171" stroke-width="10" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span id="chart-kcal-val" class="font-headline text-[13px] font-bold text-white leading-none">0</span>
+                                    <span class="text-[7px] text-secondary opacity-60 uppercase mt-0.5 scale-90">kcal</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- Macros Bento Items -->
-                    <div class="grid grid-cols-2 gap-4 flex-1">
+                    <div id="macros-display-container" class="grid grid-cols-2 gap-4 flex-1">
                         <!-- Protein -->
-                        <div
-                            class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
                             <div class="flex justify-between items-center">
-                                <span class="material-symbols-outlined text-secondary text-sm">bolt</span>
-                                <span
-                                    class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                                <span class="material-symbols-outlined text-emerald-400 text-sm">bolt</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
                             </div>
-                            <div class="mt-4">
-                                <p class="text-3xl font-headline font-bold" id="protein-val">0g</p>
-                                <p class="text-xs text-secondary mt-1">Protein</p>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="protein-val">0g</p>
+                                <p class="text-[11px] text-secondary">Protein</p>
                             </div>
                         </div>
                         <!-- Carbs -->
-                        <div
-                            class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
                             <div class="flex justify-between items-center">
-                                <span class="material-symbols-outlined text-secondary text-sm">grain</span>
-                                <span
-                                    class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                                <span class="material-symbols-outlined text-orange-400 text-sm">grain</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
                             </div>
-                            <div class="mt-4">
-                                <p class="text-3xl font-headline font-bold" id="carbs-val">0g</p>
-                                <p class="text-xs text-secondary mt-1">Net Carbs</p>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="carbs-val">0g</p>
+                                <p class="text-[11px] text-secondary">Net Carbs</p>
                             </div>
                         </div>
                         <!-- Fats -->
-                        <div
-                            class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
                             <div class="flex justify-between items-center">
-                                <span class="material-symbols-outlined text-secondary text-sm">water_drop</span>
-                                <span
-                                    class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                                <span class="material-symbols-outlined text-red-400 text-sm">water_drop</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
                             </div>
-                            <div class="mt-4">
-                                <p class="text-3xl font-headline font-bold" id="fats-val">0g</p>
-                                <p class="text-xs text-secondary mt-1">Healthy Fats</p>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="fats-val">0g</p>
+                                <p class="text-[11px] text-secondary">Healthy Fats</p>
                             </div>
                         </div>
                         <!-- Calories -->
-                        <div
-                            class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
                             <div class="flex justify-between items-center">
-                                <span
-                                    class="material-symbols-outlined text-secondary text-sm">local_fire_department</span>
-                                <span
-                                    class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Total</span>
+                                <span class="material-symbols-outlined text-primary text-sm">local_fire_department</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Total</span>
                             </div>
-                            <div class="mt-4">
-                                <p class="text-3xl font-headline font-bold" id="calories-val">0</p>
-                                <p class="text-xs text-secondary mt-1">Kcal Est.</p>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="calories-val">0</p>
+                                <p class="text-[11px] text-secondary">Calories (kcal)</p>
+                            </div>
+                        </div>
+                        <!-- Fiber -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-purple-400 text-sm">filter_vintage</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="fiber-val">0g</p>
+                                <p class="text-[11px] text-secondary">Dietary Fiber</p>
+                            </div>
+                        </div>
+                        <!-- Sugar -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-yellow-400 text-sm">cookie</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="sugar-val">0g</p>
+                                <p class="text-[11px] text-secondary">Sugars</p>
+                            </div>
+                        </div>
+                        <!-- Sodium -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-sky-400 text-sm">science</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="sodium-val">0mg</p>
+                                <p class="text-[11px] text-secondary">Sodium (mg)</p>
+                            </div>
+                        </div>
+                        <!-- Cholesterol -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-rose-400 text-sm">egg_alt</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="cholesterol-val">0mg</p>
+                                <p class="text-[11px] text-secondary">Cholesterol</p>
+                            </div>
+                        </div>
+                        <!-- Potassium -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default col-span-2">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-teal-400 text-sm">spa</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="potassium-val">0mg</p>
+                                <p class="text-[11px] text-secondary">Potassium (mg)</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Macros Edit Container -->
+                    <div id="macros-edit-container" class="glass-panel p-6 rounded-[1.5rem] hidden flex-col justify-between gap-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-headline font-bold uppercase tracking-wider text-white">Adjust Extracted Metrics</span>
+                            <span class="material-symbols-outlined text-secondary/40 text-sm">tune</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Meal Name</label>
+                                <input id="edit-food-name" type="text" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors font-headline font-bold" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Calories (kcal)</label>
+                                    <input id="edit-calories" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Protein (g)</label>
+                                    <input id="edit-protein" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Net Carbs (g)</label>
+                                    <input id="edit-carbs" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Healthy Fats (g)</label>
+                                    <input id="edit-fats" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Fiber (g)</label>
+                                    <input id="edit-fiber" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Sugar (g)</label>
+                                    <input id="edit-sugar" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Sodium (mg)</label>
+                                    <input id="edit-sodium" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Cholesterol (mg)</label>
+                                    <input id="edit-cholesterol" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Potassium (mg)</label>
+                                    <input id="edit-potassium" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 mt-4">
+                            <button id="btn-edit-cancel" class="flex-1 py-2.5 border border-white/10 rounded-xl font-headline text-[10px] uppercase font-bold text-white/60 hover:bg-white/5 transition-all cursor-pointer">Cancel</button>
+                            <button id="btn-edit-save" class="flex-1 py-2.5 bg-primary text-black rounded-xl font-headline text-[10px] uppercase font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">Apply</button>
+                        </div>
+                    </div>
+
+                    <!-- Health Analysis Card -->
+                    <div id="health-analysis-card" class="glass-panel p-6 rounded-[2rem] border-white/10 hidden space-y-6">
+                        <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                            <div>
+                                <h3 class="font-headline text-lg font-bold text-white">Health Analysis</h3>
+                                <p class="text-[10px] text-secondary tracking-wider uppercase mt-0.5">Nutritional Quality Audit</p>
+                            </div>
+                            <!-- Circular Health Score (0-100) Gauge -->
+                            <div class="relative w-14 h-14 flex items-center justify-center shrink-0">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="42" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="8" />
+                                    <circle id="health-score-ring" cx="50" cy="50" r="42" fill="transparent" stroke="#34d399" stroke-width="8" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round" />
+                                </svg>
+                                <span class="absolute text-sm font-headline font-bold text-white" id="health-score-val">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Suitability Badges -->
+                        <div class="grid grid-cols-2 gap-2 text-[10px]">
+                            <div id="badge-weight-loss" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">weight</span>
+                                <span>Weight Loss</span>
+                            </div>
+                            <div id="badge-muscle-gain" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">fitness_center</span>
+                                <span>Muscle Gain</span>
+                            </div>
+                            <div id="badge-diabetic" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">medical_services</span>
+                                <span>Diabetic Safe</span>
+                            </div>
+                            <div id="badge-balanced" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">balance</span>
+                                <span>Balanced Meal</span>
+                            </div>
+                            <div id="badge-heart-health" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5 col-span-2 justify-center">
+                                <span class="material-symbols-outlined text-[14px]">favorite</span>
+                                <span>Heart Healthy</span>
+                            </div>
+                        </div>
+
+                        <!-- Warnings / Nutrient Flags -->
+                        <div class="space-y-2">
+                            <div id="alert-high-protein" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">done</span>
+                                <span>High Protein Content Detected</span>
+                            </div>
+                            <div id="alert-high-fat" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">warning</span>
+                                <span>High Fat Content Warning</span>
+                            </div>
+                            <div id="alert-high-sugar" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">warning</span>
+                                <span>High Sugar Level Warning</span>
+                            </div>
+                            <div id="alert-high-sodium" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">warning</span>
+                                <span>High Sodium Level Warning</span>
+                            </div>
+                        </div>
+
+                        <!-- Health Explanation -->
+                        <p id="health-explanation" class="text-xs text-secondary/80 leading-relaxed font-sans"></p>
+                    </div>
+
+                    <!-- Recommendations Card -->
+                    <div id="recommendations-card" class="glass-panel p-6 rounded-[2rem] border-white/10 hidden space-y-5">
+                        <div>
+                            <h3 class="font-headline text-lg font-bold text-white">Recommendations</h3>
+                            <p class="text-[10px] text-secondary tracking-wider uppercase mt-0.5">Personalized Dietitian Advice</p>
+                        </div>
+                        <div class="space-y-3.5 text-xs text-secondary/90">
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">schedule</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Best Time to Eat</p>
+                                    <p id="rec-best-time" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">swap_horiz</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Healthier Alternatives</p>
+                                    <ul id="rec-alternatives" class="list-disc pl-4 mt-0.5 space-y-1"></ul>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">restaurant_menu</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Portion Advice</p>
+                                    <p id="rec-portion" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">local_drink</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Hydration target</p>
+                                    <p id="rec-water" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">exercise</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Workout Suggestion</p>
+                                    <p id="rec-workout" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">layers</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Foods to Pair With</p>
+                                    <ul id="rec-pairing" class="list-disc pl-4 mt-0.5 space-y-1"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Goal Integration Card -->
+                    <div id="daily-integration-card" class="glass-panel p-6 rounded-[2rem] border-white/10 hidden">
+                        <p class="text-xs text-secondary mb-4 uppercase tracking-[0.2em] font-headline">Daily Goal Integration</p>
+                        <div class="space-y-4">
+                            <!-- Calorie integration -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-[10px]">
+                                    <span class="text-secondary/60">Calories Fulfill</span>
+                                    <span class="text-white font-bold" id="daily-cal-pct">0% of daily target</span>
+                                </div>
+                                <div class="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div id="daily-cal-proj-bar" class="absolute left-0 top-0 h-full bg-white/30 animate-pulse rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                                    <div id="daily-cal-bar" class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Protein integration -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-[10px]">
+                                    <span class="text-secondary/60">Protein Fulfill</span>
+                                    <span class="text-white font-bold" id="daily-prot-pct">0% of daily target</span>
+                                </div>
                     <!-- Footer Log Card -->
                     <div class="glass-panel p-6 rounded-[2rem] mt-auto">
                         <p class="text-xs text-secondary mb-4 uppercase tracking-[0.2em]">Matrix Findings</p>
@@ -589,10 +848,127 @@
             const valCarbs = document.getElementById('carbs-val');
             const valFats = document.getElementById('fats-val');
             const valCalories = document.getElementById('calories-val');
+            const valFiber = document.getElementById('fiber-val');
+            const valSugar = document.getElementById('sugar-val');
+            const valSodium = document.getElementById('sodium-val');
+            const valCholesterol = document.getElementById('cholesterol-val');
+            const valPotassium = document.getElementById('potassium-val');
             const listFindings = document.getElementById('findings-list');
             const btnLogJournal = document.getElementById('btn-log-journal');
             const matrixStatusText = document.getElementById('matrix-status-text');
             const matrixStatusDot = document.getElementById('matrix-status-dot');
+
+            // Right Panel Custom UI Elements
+            const btnEditMacros = document.getElementById('btn-edit-macros');
+            const macroChartContainer = document.getElementById('macro-chart-container');
+            const dailyIntegrationCard = document.getElementById('daily-integration-card');
+            const macrosDisplayContainer = document.getElementById('macros-display-container');
+            const macrosEditContainer = document.getElementById('macros-edit-container');
+
+            const editFoodName = document.getElementById('edit-food-name');
+            const editCalories = document.getElementById('edit-calories');
+            const editProtein = document.getElementById('edit-protein');
+            const editCarbs = document.getElementById('edit-carbs');
+            const editFats = document.getElementById('edit-fats');
+            const editFiber = document.getElementById('edit-fiber');
+            const editSugar = document.getElementById('edit-sugar');
+            const editSodium = document.getElementById('edit-sodium');
+            const editCholesterol = document.getElementById('edit-cholesterol');
+            const editPotassium = document.getElementById('edit-potassium');
+
+            const btnEditCancel = document.getElementById('btn-edit-cancel');
+            const btnEditSave = document.getElementById('btn-edit-save');
+
+            // Health Analysis & Recommendations Cards
+            const healthAnalysisCard = document.getElementById('health-analysis-card');
+            const healthScoreVal = document.getElementById('health-score-val');
+            const healthScoreRing = document.getElementById('health-score-ring');
+            const badgeWeightLoss = document.getElementById('badge-weight-loss');
+            const badgeMuscleGain = document.getElementById('badge-muscle-gain');
+            const badgeDiabetic = document.getElementById('badge-diabetic');
+            const badgeBalanced = document.getElementById('badge-balanced');
+            const badgeHeartHealth = document.getElementById('badge-heart-health');
+            const alertHighProtein = document.getElementById('alert-high-protein');
+            const alertHighFat = document.getElementById('alert-high-fat');
+            const alertHighSugar = document.getElementById('alert-high-sugar');
+            const alertHighSodium = document.getElementById('alert-high-sodium');
+            const healthExplanation = document.getElementById('health-explanation');
+
+            const recommendationsCard = document.getElementById('recommendations-card');
+            const recBestTime = document.getElementById('rec-best-time');
+            const recAlternatives = document.getElementById('rec-alternatives');
+            const recPortion = document.getElementById('rec-portion');
+            const recWater = document.getElementById('rec-water');
+            const recWorkout = document.getElementById('rec-workout');
+            const recPairing = document.getElementById('rec-pairing');
+
+            // API Settings Elements
+            const btnApiSettings = document.getElementById('btn-api-settings');
+            const apiModal = document.getElementById('api-modal');
+            const btnCloseApiModal = document.getElementById('btn-close-api-modal');
+            const inputApiKey = document.getElementById('input-api-key');
+            const btnClearApiKey = document.getElementById('btn-clear-api-key');
+            const btnSaveApiKey = document.getElementById('btn-save-api-key');
+
+            // Set Initial API key
+            if (localStorage.getItem('gemini_api_key')) {
+                inputApiKey.value = localStorage.getItem('gemini_api_key');
+            }
+
+            // Daily Target Values
+            let dailyCaloriesTarget = 2000;
+            let dailyProteinTarget = 150;
+
+            const dailyCalProjBar = document.getElementById('daily-cal-proj-bar');
+            const dailyProtProjBar = document.getElementById('daily-prot-proj-bar');
+
+            // Daily Consumption Totals (Today)
+            let todayCaloriesConsumed = 0;
+            let todayProteinConsumed = 0;
+            let todayCarbsConsumed = 0;
+            let todayFatsConsumed = 0;
+
+            function fetchTodayIntake() {
+                if (!userEmail) return;
+                const todayStr = new Date().toISOString().split('T')[0];
+                fetch(`/api/nutrition/logs?email=${encodeURIComponent(userEmail)}&date=${todayStr}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const logs = data.logs || [];
+                        todayCaloriesConsumed = 0;
+                        todayProteinConsumed = 0;
+                        todayCarbsConsumed = 0;
+                        todayFatsConsumed = 0;
+                        logs.forEach(log => {
+                            todayCaloriesConsumed += Number(log.calories || 0);
+                            todayProteinConsumed += Number(log.protein || 0);
+                            todayCarbsConsumed += Number(log.carbs || 0);
+                            todayFatsConsumed += Number(log.fat || 0);
+                        });
+                        console.log("Loaded today's intake totals:", todayCaloriesConsumed, todayProteinConsumed);
+                        if (scanState === 'ready') {
+                            updateStandbyDashboard();
+                        }
+                    })
+                    .catch(err => console.error("Error fetching today's logs:", err));
+            }
+
+            if (userEmail) {
+                fetch(`/api/user/diet-profile?email=${encodeURIComponent(userEmail)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.dietProfile && data.dietProfile.dailyCalories) {
+                            dailyCaloriesTarget = Number(data.dietProfile.dailyCalories);
+                            dailyProteinTarget = Math.round((dailyCaloriesTarget * 0.3) / 4);
+                            console.log("Loaded Daily Calorie Target:", dailyCaloriesTarget, "Protein Target:", dailyProteinTarget);
+                        }
+                        fetchTodayIntake();
+                    })
+                    .catch(err => {
+                        console.error("Error fetching diet profile:", err);
+                        fetchTodayIntake();
+                    });
+            }
 
             // Text Mode Entry Elements
             const tabBtnCamera = document.getElementById('tab-btn-camera');
@@ -689,7 +1065,7 @@
                     'dog', 'cat', 'bird', 'horse', 'cow', 'sheep', 'pig', 'monkey',
                     'plant', 'tree', 'flower', 'pot', 'soil', 'grass'
                 ];
-                
+
                 for (const kw of nonFoodKeywords) {
                     if (norm.includes(kw)) return false;
                 }
@@ -709,7 +1085,7 @@
                 for (const kw of foodKeywords) {
                     if (norm.includes(kw)) return true;
                 }
-                
+
                 return true;
             }
 
@@ -832,6 +1208,75 @@
                 callback(compressed);
             }
 
+            function updateStandbyDashboard() {
+                const dailyCarbsTarget = Math.round((dailyCaloriesTarget * 0.4) / 4);
+                const dailyFatsTarget = Math.round((dailyCaloriesTarget * 0.3) / 9);
+
+                // Set Header values to show today's target
+                const labelConfidence = document.getElementById('confidence-label');
+                if (labelConfidence) labelConfidence.innerText = "Today's Intake";
+                
+                if (valConfidence) valConfidence.innerText = `${Math.round((todayCaloriesConsumed / dailyCaloriesTarget) * 100) || 0}%`;
+                if (barConfidence) barConfidence.style.width = `${Math.min(Math.round((todayCaloriesConsumed / dailyCaloriesTarget) * 100) || 0, 100)}%`;
+
+                // Set Bento Card values
+                if (valProtein) valProtein.innerText = `${todayProteinConsumed}g / ${dailyProteinTarget}g`;
+                if (valCarbs) valCarbs.innerText = `${todayCarbsConsumed}g / ${dailyCarbsTarget}g`;
+                if (valFats) valFats.innerText = `${todayFatsConsumed}g / ${dailyFatsTarget}g`;
+                if (valCalories) valCalories.innerText = `${todayCaloriesConsumed} / ${dailyCaloriesTarget}`;
+                if (valFiber) valFiber.innerText = "0g";
+                if (valSugar) valSugar.innerText = "0g";
+                if (valSodium) valSodium.innerText = "0mg";
+                if (valCholesterol) valCholesterol.innerText = "0mg";
+                if (valPotassium) valPotassium.innerText = "0mg";
+
+                // Render Today's Macro Donut Chart
+                const chartKcalVal = document.getElementById('chart-kcal-val');
+                const chartCarbs = document.getElementById('chart-carbs');
+                const chartProtein = document.getElementById('chart-protein');
+                const chartFats = document.getElementById('chart-fats');
+                
+                if (chartKcalVal) chartKcalVal.innerText = todayCaloriesConsumed;
+                
+                const calProt = todayProteinConsumed * 4;
+                const calCarb = todayCarbsConsumed * 4;
+                const calFat = todayFatsConsumed * 9;
+                const calSum = calProt + calCarb + calFat || 1;
+                
+                const pctCarbs = calCarb / calSum;
+                const pctProtein = calProt / calSum;
+                const pctFats = calFat / calSum;
+                
+                const circ = 2 * Math.PI * 40; // 251.327
+                
+                if (chartCarbs && chartProtein && chartFats) {
+                    chartCarbs.style.strokeDashoffset = circ * (1 - pctCarbs);
+                    
+                    chartProtein.style.strokeDashoffset = circ * (1 - pctProtein);
+                    chartProtein.style.transform = `rotate(${pctCarbs * 360}deg)`;
+                    chartProtein.style.transformOrigin = 'center';
+                    
+                    chartFats.style.strokeDashoffset = circ * (1 - pctFats);
+                    chartFats.style.transform = `rotate(${(pctCarbs + pctProtein) * 360}deg)`;
+                    chartFats.style.transformOrigin = 'center';
+                }
+
+                if (macroChartContainer) macroChartContainer.classList.remove('hidden');
+            }
+
+            function resetEditViews() {
+                if (btnEditMacros) btnEditMacros.classList.add('hidden');
+                if (macroChartContainer) macroChartContainer.classList.add('hidden');
+                if (dailyIntegrationCard) dailyIntegrationCard.classList.add('hidden');
+                if (healthAnalysisCard) healthAnalysisCard.classList.add('hidden');
+                if (recommendationsCard) recommendationsCard.classList.add('hidden');
+                if (macrosEditContainer) {
+                    macrosEditContainer.classList.add('hidden');
+                    macrosEditContainer.classList.remove('flex');
+                }
+                if (macrosDisplayContainer) macrosDisplayContainer.classList.remove('hidden');
+            }
+
             // State Manager
             function setUIState(state) {
                 scanState = state;
@@ -844,6 +1289,8 @@
                         video.classList.add('hidden');
                         simulatedBg.classList.remove('hidden');
                     }
+
+                    resetEditViews();
 
                     // Reset text entry inputs if in text mode
                     if (currentInputMode === 'text') {
@@ -869,6 +1316,9 @@
                     scanningLine.classList.add('hidden');
                     arContainer.innerHTML = '';
 
+                    // Show Today's Dashboard summary when ready
+                    updateStandbyDashboard();
+
                     valConfidence.innerText = "--%";
                     barConfidence.style.width = "0%";
                     valProtein.innerText = "0g";
@@ -888,6 +1338,8 @@
                     btnReset.innerText = "RETAKE";
                     btnGallery.classList.add('hidden');
 
+                    resetEditViews();
+
                     primaryIcon.innerText = "monitoring";
                     primaryText.innerText = "ANALYZE FOOD";
                     btnPrimary.disabled = false;
@@ -902,6 +1354,8 @@
                 else if (state === 'scanning') {
                     btnReset.classList.add('hidden');
                     btnGallery.classList.add('hidden');
+
+                    resetEditViews();
 
                     // Hide food hint input
                     foodHintContainer.classList.add('hidden');
@@ -931,25 +1385,48 @@
 
                     scanningLine.classList.add('hidden');
 
+                    const isLowConfidence = scannedFoodData && scannedFoodData.confidence < 70;
+
                     if (scannedFoodData && scannedFoodData.totalCalories === 0) {
                         btnLogJournal.classList.add('opacity-40');
                         btnLogJournal.disabled = true;
                         btnLogJournal.innerText = "NO FOOD DETECTED";
+                        resetEditViews();
+                    } else if (isLowConfidence) {
+                        btnLogJournal.classList.add('opacity-40');
+                        btnLogJournal.disabled = true;
+                        btnLogJournal.innerText = "ACCURACY TOO LOW";
+                        
+                        btnPrimary.disabled = true;
+                        btnPrimary.classList.add('opacity-50');
+                        
+                        resetEditViews();
                     } else {
                         btnLogJournal.classList.remove('opacity-40');
                         btnLogJournal.disabled = false;
                         btnLogJournal.innerText = "LOG TO JOURNAL";
+
+                        if (btnEditMacros) btnEditMacros.classList.remove('hidden');
+                        if (macroChartContainer) macroChartContainer.classList.remove('hidden');
+                        if (dailyIntegrationCard) dailyIntegrationCard.classList.remove('hidden');
+                        if (healthAnalysisCard) healthAnalysisCard.classList.remove('hidden');
+                        if (recommendationsCard) recommendationsCard.classList.remove('hidden');
                     }
 
-                    matrixStatusText.innerText = "EXTRACTION_COMPLETE";
-                    matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-400";
+                    matrixStatusText.innerText = isLowConfidence ? "LOW_CONFIDENCE_WARNING" : "EXTRACTION_COMPLETE";
+                    matrixStatusDot.className = isLowConfidence ? "w-2 h-2 rounded-full bg-red-400 animate-pulse" : "w-2 h-2 rounded-full bg-emerald-400";
 
                     // Handle manual text viewport summary display
                     if (currentInputMode === 'text') {
                         textEntryInputs.classList.add('hidden');
                         textEntrySummary.classList.remove('hidden');
-                        document.getElementById('text-summary-title').innerText = "Extraction Complete";
-                        document.getElementById('text-summary-desc').innerText = "Your food portion has been successfully parsed and calibrated. Check the metrics dashboard on the right to log your meal.";
+                        if (isLowConfidence) {
+                            document.getElementById('text-summary-title').innerText = "Low Confidence";
+                            document.getElementById('text-summary-desc').innerText = "This food could not be identified accurately. Please upload a clearer image.";
+                        } else {
+                            document.getElementById('text-summary-title').innerText = "Extraction Complete";
+                            document.getElementById('text-summary-desc').innerText = "Your food portion has been successfully parsed and calibrated. Check the metrics dashboard on the right to log your meal.";
+                        }
                     }
                 }
                 else if (state === 'logged') {
@@ -968,6 +1445,17 @@
                     btnLogJournal.classList.add('opacity-40');
                     btnLogJournal.disabled = true;
                     btnLogJournal.innerText = "LOGGED SUCCESSFULLY";
+
+                    if (btnEditMacros) btnEditMacros.classList.add('hidden');
+                    if (macroChartContainer) macroChartContainer.classList.remove('hidden');
+                    if (dailyIntegrationCard) dailyIntegrationCard.classList.remove('hidden');
+                    if (healthAnalysisCard) healthAnalysisCard.classList.remove('hidden');
+                    if (recommendationsCard) recommendationsCard.classList.remove('hidden');
+                    if (macrosEditContainer) {
+                        macrosEditContainer.classList.add('hidden');
+                        macrosEditContainer.classList.remove('flex');
+                    }
+                    if (macrosDisplayContainer) macrosDisplayContainer.classList.remove('hidden');
 
                     matrixStatusText.innerText = "JOURNAL_UPDATED";
                     matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
@@ -1001,9 +1489,15 @@
                 setUIState('scanning');
 
                 try {
+                    const headers = { 'Content-Type': 'application/json' };
+                    const userKey = localStorage.getItem('gemini_api_key');
+                    if (userKey) {
+                        headers['x-gemini-key'] = userKey;
+                    }
+
                     const response = await fetch('/api/scan-food', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: headers,
                         body: JSON.stringify({
                             image: currentImageBase64,
                             name: payloadName,
@@ -1043,6 +1537,171 @@
                 animateValue(valProtein, 0, data.protein, "g");
                 animateValue(valCarbs, 0, data.carbs, "g");
                 animateValue(valFats, 0, data.fat, "g");
+                animateValue(valFiber, 0, data.fiber || 0, "g");
+                animateValue(valSugar, 0, data.sugar || 0, "g");
+                animateValue(valSodium, 0, data.sodium || 0, "mg");
+                animateValue(valCholesterol, 0, data.cholesterol || 0, "mg");
+                animateValue(valPotassium, 0, data.potassium || 0, "mg");
+
+                // Render SVG Donut Chart
+                const chartKcalVal = document.getElementById('chart-kcal-val');
+                const chartCarbs = document.getElementById('chart-carbs');
+                const chartProtein = document.getElementById('chart-protein');
+                const chartFats = document.getElementById('chart-fats');
+
+                if (chartKcalVal) chartKcalVal.innerText = data.totalCalories;
+
+                const c_protein = Number(data.protein || 0);
+                const c_carbs = Number(data.carbs || 0);
+                const c_fat = Number(data.fat || 0);
+
+                const calProt = c_protein * 4;
+                const calCarb = c_carbs * 4;
+                const calFat = c_fat * 9;
+                const calSum = calProt + calCarb + calFat || 1;
+
+                const pctCarbs = calCarb / calSum;
+                const pctProtein = calProt / calSum;
+                const pctFats = calFat / calSum;
+
+                const circ = 2 * Math.PI * 40; // 251.327
+
+                if (chartCarbs && chartProtein && chartFats) {
+                    chartCarbs.style.strokeDashoffset = circ * (1 - pctCarbs);
+
+                    chartProtein.style.strokeDashoffset = circ * (1 - pctProtein);
+                    chartProtein.style.transform = `rotate(${pctCarbs * 360}deg)`;
+                    chartProtein.style.transformOrigin = 'center';
+
+                    chartFats.style.strokeDashoffset = circ * (1 - pctFats);
+                    chartFats.style.transform = `rotate(${(pctCarbs + pctProtein) * 360}deg)`;
+                    chartFats.style.transformOrigin = 'center';
+                }
+
+                // Health Score Circular Progress Ring
+                const healthAnalysis = data.healthAnalysis || { healthScore: 0, isHealthy: false, suitableWeightLoss: false, suitableMuscleGain: false, suitableDiabetic: false, suitableHeartHealth: false, isBalanced: false, explanation: "" };
+                const score = healthAnalysis.healthScore || 0;
+                healthScoreVal.innerText = score;
+
+                const scoreRingCirc = 2 * Math.PI * 42; // ~263.89
+                const scoreOffset = scoreRingCirc * (1 - score / 100);
+                healthScoreRing.style.strokeDashoffset = scoreOffset;
+
+                // Color of the health ring based on score
+                if (score >= 80) {
+                    healthScoreRing.setAttribute('stroke', '#34d399'); // Emerald
+                } else if (score >= 50) {
+                    healthScoreRing.setAttribute('stroke', '#f59e0b'); // Amber
+                } else {
+                    healthScoreRing.setAttribute('stroke', '#f87171'); // Red
+                }
+
+                // Suitability Badges styling helper
+                const setBadgeStatus = (badgeElement, isSuitable) => {
+                    if (!badgeElement) return;
+                    if (isSuitable) {
+                        badgeElement.className = "flex items-center gap-2 bg-emerald-500/10 px-3.5 py-2.5 rounded-xl border border-emerald-500/30 text-emerald-400 text-[10px] font-bold";
+                        const icon = badgeElement.querySelector('.material-symbols-outlined');
+                        if (icon) icon.className = "material-symbols-outlined text-[14px] text-emerald-400";
+                    } else {
+                        badgeElement.className = "flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5 text-secondary/40 text-[10px]";
+                        const icon = badgeElement.querySelector('.material-symbols-outlined');
+                        if (icon) icon.className = "material-symbols-outlined text-[14px] text-secondary/30";
+                    }
+                };
+
+                setBadgeStatus(badgeWeightLoss, healthAnalysis.suitableWeightLoss);
+                setBadgeStatus(badgeMuscleGain, healthAnalysis.suitableMuscleGain);
+                setBadgeStatus(badgeDiabetic, healthAnalysis.suitableDiabetic);
+                setBadgeStatus(badgeBalanced, healthAnalysis.isBalanced);
+                setBadgeStatus(badgeHeartHealth, healthAnalysis.suitableHeartHealth);
+
+                // Alerts / Warnings
+                if (healthAnalysis.highProtein) {
+                    alertHighProtein.classList.remove('hidden');
+                } else {
+                    alertHighProtein.classList.add('hidden');
+                }
+
+                if (healthAnalysis.highFat) {
+                    alertHighFat.classList.remove('hidden');
+                } else {
+                    alertHighFat.classList.add('hidden');
+                }
+
+                if (healthAnalysis.highSugar) {
+                    alertHighSugar.classList.remove('hidden');
+                } else {
+                    alertHighSugar.classList.add('hidden');
+                }
+
+                if (healthAnalysis.highSodium) {
+                    alertHighSodium.classList.remove('hidden');
+                } else {
+                    alertHighSodium.classList.add('hidden');
+                }
+
+                healthExplanation.innerText = healthAnalysis.explanation || "";
+
+                // Personalized Recommendations
+                const recs = data.recommendations || { bestTimeToEat: "N/A", alternatives: [], portionAdvice: "N/A", waterRecommendation: "N/A", workoutRecommendation: "N/A", foodsToPairWith: [] };
+                recBestTime.innerText = recs.bestTimeToEat || "N/A";
+                recPortion.innerText = recs.portionAdvice || "N/A";
+                recWater.innerText = recs.waterRecommendation || "N/A";
+                recWorkout.innerText = recs.workoutRecommendation || "N/A";
+
+                recAlternatives.innerHTML = "";
+                if (recs.alternatives && recs.alternatives.length > 0) {
+                    recs.alternatives.forEach(alt => {
+                        const li = document.createElement('li');
+                        li.innerText = alt;
+                        recAlternatives.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.innerText = "No alternatives required.";
+                    recAlternatives.appendChild(li);
+                }
+
+                recPairing.innerHTML = "";
+                if (recs.foodsToPairWith && recs.foodsToPairWith.length > 0) {
+                    recs.foodsToPairWith.forEach(pair => {
+                        const li = document.createElement('li');
+                        li.innerText = pair;
+                        recPairing.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.innerText = "No specific pairings suggested.";
+                    recPairing.appendChild(li);
+                }
+
+                // Render Daily Budget Contribution Integration
+                const dailyCalPct = document.getElementById('daily-cal-pct');
+                const dailyCalBar = document.getElementById('daily-cal-bar');
+                const dailyCalProjBar = document.getElementById('daily-cal-proj-bar');
+                const dailyProtPct = document.getElementById('daily-prot-pct');
+                const dailyProtBar = document.getElementById('daily-prot-bar');
+                const dailyProtProjBar = document.getElementById('daily-prot-proj-bar');
+
+                if (dailyCalPct && dailyCalBar && dailyCalProjBar && dailyProtPct && dailyProtBar && dailyProtProjBar) {
+                    const currentCalPct = Math.round((todayCaloriesConsumed / dailyCaloriesTarget) * 100);
+                    const combinedCalPct = Math.round(((todayCaloriesConsumed + data.totalCalories) / dailyCaloriesTarget) * 100);
+
+                    const currentProtPct = Math.round((todayProteinConsumed / dailyProteinTarget) * 100);
+                    const combinedProtPct = Math.round(((todayProteinConsumed + data.protein) / dailyProteinTarget) * 100);
+
+                    dailyCalPct.innerText = `Currently ${todayCaloriesConsumed} kcal (${currentCalPct}%) → Projected ${todayCaloriesConsumed + data.totalCalories} kcal (${combinedCalPct}%) / Target ${dailyCaloriesTarget}`;
+                    dailyProtPct.innerText = `Currently ${todayProteinConsumed}g (${currentProtPct}%) → Projected ${todayProteinConsumed + data.protein}g (${combinedProtPct}%) / Target ${dailyProteinTarget}g`;
+
+                    // Solid current bar
+                    dailyCalBar.style.width = `${Math.min(currentCalPct, 100)}%`;
+                    dailyProtBar.style.width = `${Math.min(currentProtPct, 100)}%`;
+
+                    // Pulsing projected bar
+                    dailyCalProjBar.style.width = `${Math.min(combinedCalPct, 100)}%`;
+                    dailyProtProjBar.style.width = `${Math.min(combinedProtPct, 100)}%`;
+                }
 
                 listFindings.innerHTML = '';
 
@@ -1058,28 +1717,30 @@
                         const li = document.createElement('li');
                         li.className = "flex items-center justify-between group cursor-pointer border-b border-white/5 pb-2 last:border-b-0";
                         li.innerHTML = `
-    <div class="flex items-center gap-3">
-        <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
-        <div class="flex flex-col">
-            <span class="text-sm font-body text-primary">${item.name}</span>
-            <span class="text-[10px] text-secondary/40">${item.portion || '1 serving'}</span>
-        </div>
-    </div>
-    <div class="flex flex-col items-end">
-        <span class="text-xs font-headline text-primary font-bold">${item.calories} kcal</span>
-        <span class="text-[9px] text-secondary/40 font-semibold">P:${item.protein}g C:${item.carbs}g F:${item.fat}g</span>
-    </div>
-`;
+                            <div class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-body text-primary">${item.name}</span>
+                                    <span class="text-[10px] text-secondary/40">${item.portion || '1 serving'}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span class="text-xs font-headline text-primary font-bold">${item.calories} kcal</span>
+                                <span class="text-[9px] text-secondary/40 font-semibold">P:${item.protein}g C:${item.carbs}g F:${item.fat}g</span>
+                            </div>
+                        `;
                         listFindings.appendChild(li);
                     });
                 } else {
-                    listFindings.innerHTML = `<li class="flex items-center justify-between group cursor-pointer">
-<div class="flex items-center gap-3">
-    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-    <span class="text-sm font-body text-primary">${data.foodName}</span>
-</div>
-<span class="text-xs font-headline text-secondary">${data.totalCalories} kcal</span>
-</li>`;
+                    listFindings.innerHTML = `
+                        <li class="flex items-center justify-between group cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                <span class="text-sm font-body text-primary">${data.foodName}</span>
+                            </div>
+                            <span class="text-xs font-headline text-secondary">${data.totalCalories} kcal</span>
+                        </li>
+                    `;
                 }
 
                 arContainer.innerHTML = '';
@@ -1100,12 +1761,12 @@
                         overlayDiv.style.animationDelay = `${pos.delay}s`;
 
                         overlayDiv.innerHTML = `
-    <div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 backdrop-blur-md border border-white/20 shadow-lg">
-        <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white]"></div>
-        <span class="font-headline text-xs font-bold tracking-tight text-white">${item.name} (${item.portion || '1 serving'})</span>
-    </div>
-    <div class="w-px h-8 bg-white/40 ml-4"></div>
-`;
+                            <div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 backdrop-blur-md border border-white/20 shadow-lg">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white]"></div>
+                                <span class="font-headline text-xs font-bold tracking-tight text-white">${item.name} (${item.portion || '1 serving'})</span>
+                            </div>
+                            <div class="w-px h-8 bg-white/40 ml-4"></div>
+                        `;
                         arContainer.appendChild(overlayDiv);
                     });
                 }
@@ -1144,6 +1805,13 @@
                             protein: scannedFoodData.protein,
                             carbs: scannedFoodData.carbs,
                             fat: scannedFoodData.fat,
+                            fiber: scannedFoodData.fiber || 0,
+                            sugar: scannedFoodData.sugar || 0,
+                            sodium: scannedFoodData.sodium || 0,
+                            cholesterol: scannedFoodData.cholesterol || 0,
+                            potassium: scannedFoodData.potassium || 0,
+                            healthAnalysis: scannedFoodData.healthAnalysis || null,
+                            recommendations: scannedFoodData.recommendations || null,
                             items: scannedFoodData.items,
                             imageUrl: currentImageBase64,
                             date: new Date().toISOString()
@@ -1210,8 +1878,113 @@
                 setUIState('ready');
             });
 
+            // Edit / Calibrate Macros Event Listeners
+            btnEditMacros.addEventListener('click', () => {
+                if (!scannedFoodData) return;
+
+                // Pre-populate input fields with current scanned data
+                editFoodName.value = scannedFoodData.foodName || "";
+                editCalories.value = scannedFoodData.totalCalories || 0;
+                editProtein.value = scannedFoodData.protein || 0;
+                editCarbs.value = scannedFoodData.carbs || 0;
+                editFats.value = scannedFoodData.fat || 0;
+                editFiber.value = scannedFoodData.fiber || 0;
+                editSugar.value = scannedFoodData.sugar || 0;
+                editSodium.value = scannedFoodData.sodium || 0;
+                editCholesterol.value = scannedFoodData.cholesterol || 0;
+                editPotassium.value = scannedFoodData.potassium || 0;
+
+                // Toggle visibility to edit container
+                macrosDisplayContainer.classList.add('hidden');
+                macrosEditContainer.classList.remove('hidden');
+                macrosEditContainer.classList.add('flex');
+            });
+
+            btnEditCancel.addEventListener('click', () => {
+                macrosEditContainer.classList.add('hidden');
+                macrosEditContainer.classList.remove('flex');
+                macrosDisplayContainer.classList.remove('hidden');
+            });
+
+            btnEditSave.addEventListener('click', () => {
+                if (!scannedFoodData) return;
+
+                // Save adjusted values
+                scannedFoodData.foodName = editFoodName.value.trim() || "Logged Meal";
+                scannedFoodData.totalCalories = Math.max(0, Math.round(Number(editCalories.value)));
+                scannedFoodData.protein = Math.max(0, Math.round(Number(editProtein.value)));
+                scannedFoodData.carbs = Math.max(0, Math.round(Number(editCarbs.value)));
+                scannedFoodData.fat = Math.max(0, Math.round(Number(editFats.value)));
+                scannedFoodData.fiber = Math.max(0, Math.round(Number(editFiber.value)));
+                scannedFoodData.sugar = Math.max(0, Math.round(Number(editSugar.value)));
+                scannedFoodData.sodium = Math.max(0, Math.round(Number(editSodium.value)));
+                scannedFoodData.cholesterol = Math.max(0, Math.round(Number(editCholesterol.value)));
+                scannedFoodData.potassium = Math.max(0, Math.round(Number(editPotassium.value)));
+
+                // Update items array so it matches the custom summary if necessary
+                scannedFoodData.items = [{
+                    name: scannedFoodData.foodName,
+                    calories: scannedFoodData.totalCalories,
+                    protein: scannedFoodData.protein,
+                    carbs: scannedFoodData.carbs,
+                    fat: scannedFoodData.fat,
+                    fiber: scannedFoodData.fiber,
+                    sugar: scannedFoodData.sugar,
+                    sodium: scannedFoodData.sodium,
+                    cholesterol: scannedFoodData.cholesterol,
+                    potassium: scannedFoodData.potassium,
+                    portion: "1 serving (calibrated)"
+                }];
+
+                // Re-render displaying customized metrics
+                renderNutritionalResults(scannedFoodData);
+
+                // Toggle views back
+                macrosEditContainer.classList.add('hidden');
+                macrosEditContainer.classList.remove('flex');
+                macrosDisplayContainer.classList.remove('hidden');
+
+                // If it was manual text log summary screen, update the summary card too
+                if (currentInputMode === 'text') {
+                    document.getElementById('text-summary-title').innerText = "Extraction Complete";
+                    document.getElementById('text-summary-desc').innerText = `Your meal "${scannedFoodData.foodName}" has been calibrated with ${scannedFoodData.totalCalories} kcal.`;
+                }
+            });
+
             btnLogJournal.addEventListener('click', () => {
                 saveLogToJournal();
+            });
+
+            // API Settings Modal Event Listeners
+            btnApiSettings.addEventListener('click', () => {
+                apiModal.classList.remove('hidden');
+                apiModal.classList.add('flex');
+            });
+
+            btnCloseApiModal.addEventListener('click', () => {
+                apiModal.classList.add('hidden');
+                apiModal.classList.remove('flex');
+            });
+
+            btnSaveApiKey.addEventListener('click', () => {
+                const key = inputApiKey.value.trim();
+                if (key) {
+                    localStorage.setItem('gemini_api_key', key);
+                    showToast("API Key Saved successfully!");
+                } else {
+                    localStorage.removeItem('gemini_api_key');
+                    showToast("API Key Cleared!");
+                }
+                apiModal.classList.add('hidden');
+                apiModal.classList.remove('flex');
+            });
+
+            btnClearApiKey.addEventListener('click', () => {
+                inputApiKey.value = "";
+                localStorage.removeItem('gemini_api_key');
+                showToast("API Key Cleared!");
+                apiModal.classList.add('hidden');
+                apiModal.classList.remove('flex');
             });
 
             // Tab Mode click listeners
@@ -1306,6 +2079,30 @@
             window.toggleSidebar = toggleSidebar;
         });
     </script>
+    <!-- API Settings Modal -->
+    <div id="api-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="glass-panel max-w-md w-full p-8 rounded-[2rem] border-white/10 space-y-6 relative bg-[#0d0d0f]/90 border border-white/10">
+            <button id="btn-close-api-modal" class="absolute top-6 right-6 text-secondary hover:text-primary transition-colors cursor-pointer bg-transparent border-0">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="space-y-2">
+                <h3 class="font-headline text-2xl font-bold text-white">Gemini API Key</h3>
+                <p class="text-xs text-secondary opacity-60">Set a custom API key for direct client-side food scanning. Leave blank to use server defaults or fallbacks.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="relative">
+                    <input id="input-api-key" type="password" placeholder="Enter your Gemini API key..." 
+                        class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary placeholder-secondary/30 focus:outline-none focus:border-primary transition-colors" />
+                </div>
+                <div class="flex gap-4">
+                    <button id="btn-clear-api-key" class="flex-1 py-3 border border-white/10 rounded-xl font-headline text-xs hover:bg-white/5 transition-all text-white/60 cursor-pointer bg-transparent uppercase font-bold">Clear</button>
+                    <button id="btn-save-api-key" class="flex-1 py-3 bg-primary text-black rounded-xl font-headline text-xs hover:scale-105 active:scale-95 transition-all cursor-pointer border-0 uppercase font-bold">Save Key</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="subscription-check.js"></script>
 </body>
+
 </html>
