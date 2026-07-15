@@ -1538,10 +1538,139 @@ app.get('/api/user/diet-plan', async (req, res) => {
   }
 });
 
+const FOOD_DATABASE = {
+  chicken: { calories: 165, protein: 31, carbs: 0, fat: 3.6, name: "Chicken Breast" },
+  "chicken breast": { calories: 165, protein: 31, carbs: 0, fat: 3.6, name: "Chicken Breast" },
+  beef: { calories: 250, protein: 26, carbs: 0, fat: 17, name: "Beef" },
+  steak: { calories: 250, protein: 26, carbs: 0, fat: 17, name: "Steak" },
+  rice: { calories: 130, protein: 2.7, carbs: 28, fat: 0.3, name: "Cooked Rice" },
+  "brown rice": { calories: 111, protein: 2.6, carbs: 23, fat: 0.9, name: "Cooked Brown Rice" },
+  "white rice": { calories: 130, protein: 2.7, carbs: 28, fat: 0.3, name: "Cooked White Rice" },
+  salmon: { calories: 208, protein: 20, carbs: 0, fat: 13, name: "Salmon Fillet" },
+  tuna: { calories: 130, protein: 28, carbs: 0, fat: 1, name: "Tuna" },
+  fish: { calories: 150, protein: 20, carbs: 0, fat: 5, name: "Fish" },
+  broccoli: { calories: 34, protein: 2.8, carbs: 7, fat: 0.4, name: "Broccoli" },
+  salad: { calories: 45, protein: 1.5, carbs: 6, fat: 2, name: "Mixed Salad" },
+  spinach: { calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4, name: "Spinach" },
+  egg: { calories: 155, protein: 13, carbs: 1.1, fat: 11, name: "Egg" },
+  eggs: { calories: 155, protein: 13, carbs: 1.1, fat: 11, name: "Egg" },
+  "egg white": { calories: 52, protein: 11, carbs: 0.7, fat: 0.2, name: "Egg White" },
+  "egg whites": { calories: 52, protein: 11, carbs: 0.7, fat: 0.2, name: "Egg White" },
+  apple: { calories: 52, protein: 0.3, carbs: 14, fat: 0.2, name: "Apple" },
+  banana: { calories: 89, protein: 1.1, carbs: 23, fat: 0.3, name: "Banana" },
+  watermelon: { calories: 30, protein: 0.6, carbs: 8, fat: 0.2, name: "Watermelon" },
+  orange: { calories: 47, protein: 0.9, carbs: 12, fat: 0.1, name: "Orange" },
+  berries: { calories: 50, protein: 1, carbs: 12, fat: 0.5, name: "Mixed Berries" },
+  strawberry: { calories: 32, protein: 0.7, carbs: 7.7, fat: 0.3, name: "Strawberry" },
+  blueberries: { calories: 57, protein: 0.7, carbs: 14, fat: 0.3, name: "Blueberries" },
+  pizza: { calories: 266, protein: 11, carbs: 33, fat: 10, name: "Pizza" },
+  burger: { calories: 295, protein: 17, carbs: 24, fat: 14, name: "Burger" },
+  pasta: { calories: 131, protein: 5, carbs: 25, fat: 1.1, name: "Cooked Pasta" },
+  oats: { calories: 389, protein: 16.9, carbs: 66, fat: 6.9, name: "Rolled Oats" },
+  oatmeal: { calories: 68, protein: 2.4, carbs: 12, fat: 1.4, name: "Oatmeal" },
+  whey: { calories: 400, protein: 80, carbs: 6, fat: 6, name: "Whey Protein Powder" },
+  "protein powder": { calories: 400, protein: 80, carbs: 6, fat: 6, name: "Protein Powder" },
+  "peanut butter": { calories: 588, protein: 25, carbs: 20, fat: 50, name: "Peanut Butter" },
+  milk: { calories: 50, protein: 3.3, carbs: 4.8, fat: 2, name: "Whole Milk" },
+  "almond milk": { calories: 15, protein: 0.6, carbs: 0.3, fat: 1.2, name: "Almond Milk" },
+  bread: { calories: 265, protein: 9, carbs: 49, fat: 3.2, name: "White Bread" },
+  "whole wheat bread": { calories: 247, protein: 13, carbs: 41, fat: 3.4, name: "Whole Wheat Bread" },
+  almonds: { calories: 579, protein: 21, carbs: 22, fat: 50, name: "Almonds" },
+  walnuts: { calories: 654, protein: 15, carbs: 14, fat: 65, name: "Walnuts" },
+  avocados: { calories: 160, protein: 2, carbs: 9, fat: 15, name: "Avocado" },
+  avocado: { calories: 160, protein: 2, carbs: 9, fat: 15, name: "Avocado" },
+  potato: { calories: 87, protein: 1.9, carbs: 20, fat: 0.1, name: "Boiled Potato" },
+  potatoes: { calories: 87, protein: 1.9, carbs: 20, fat: 0.1, name: "Boiled Potato" },
+  "sweet potato": { calories: 86, protein: 1.6, carbs: 20, fat: 0.1, name: "Sweet Potato" },
+  yogurt: { calories: 59, protein: 10, carbs: 3.6, fat: 0.4, name: "Greek Yogurt" },
+  "greek yogurt": { calories: 59, protein: 10, carbs: 3.6, fat: 0.4, name: "Greek Yogurt" },
+  cheese: { calories: 402, protein: 25, carbs: 1.3, fat: 33, name: "Cheddar Cheese" },
+  butter: { calories: 717, protein: 0.9, carbs: 0.1, fat: 81, name: "Butter" },
+  oil: { calories: 884, protein: 0, carbs: 0, fat: 100, name: "Olive Oil" },
+  "olive oil": { calories: 884, protein: 0, carbs: 0, fat: 100, name: "Olive Oil" },
+  sugar: { calories: 387, protein: 0, carbs: 100, fat: 0, name: "Sugar" }
+};
+
+function getCalorieDetails(name, weightGrams) {
+  const normName = name.toLowerCase().trim();
+  let matchKey = Object.keys(FOOD_DATABASE).find(k => normName.includes(k) || k.includes(normName));
+  const base = FOOD_DATABASE[matchKey] || { calories: 150, protein: 10, carbs: 15, fat: 5, name: name };
+
+  const factor = weightGrams / 100;
+  return {
+    name: base.name,
+    calories: Math.round(base.calories * factor),
+    protein: Math.round(base.protein * factor),
+    carbs: Math.round(base.carbs * factor),
+    fat: Math.round(base.fat * factor),
+    portion: `${weightGrams}g`
+  };
+}
+
 // Mock Vision Analysis helper function
 function getMockVisionAnalysis(fileName) {
-  const name = (fileName || '').toLowerCase();
-  
+  const name = (fileName || '').toLowerCase().trim();
+
+  // Try to parse using regex for weights / amounts
+  let parsedItems = [];
+  let match;
+  const itemRegex = /(\d+(?:\.\d+)?)\s*(g|gram|grams|kg|kilogram|kilograms)?\s*(?:of\s+)?([a-zA-Z\s\-_]+?)(?:and|,|\.|$)/gi;
+  while ((match = itemRegex.exec(name)) !== null) {
+    let val = parseFloat(match[1]);
+    let unitStr = (match[2] || 'g').toLowerCase();
+    let nameStr = match[3].trim();
+    nameStr = nameStr.replace(/^(had|ate|took|eat|consumed|with)\s+/i, '').trim();
+    if (!nameStr) continue;
+
+    let weightGrams = val;
+    if (unitStr.startsWith('kg') || unitStr.startsWith('kilogram')) {
+      weightGrams = val * 1000;
+    }
+
+    const details = getCalorieDetails(nameStr, weightGrams);
+    parsedItems.push(details);
+  }
+
+  // If no weights matched, look for keywords in the string directly
+  if (parsedItems.length === 0) {
+    const keywords = Object.keys(FOOD_DATABASE);
+    for (const key of keywords) {
+      if (name.includes(key)) {
+        parsedItems.push(getCalorieDetails(key, 150)); // Default to 150g portion
+      }
+    }
+  }
+
+  // If we matched items, return them!
+  if (parsedItems.length > 0) {
+    let totalCalories = 0;
+    let protein = 0;
+    let carbs = 0;
+    let fat = 0;
+    parsedItems.forEach(item => {
+      totalCalories += item.calories;
+      protein += item.protein;
+      carbs += item.carbs;
+      fat += item.fat;
+    });
+
+    let dominantName = parsedItems.map(item => item.name).join(' & ');
+    if (dominantName.length > 40) {
+      dominantName = parsedItems[0].name + " & others";
+    }
+
+    return {
+      foodName: dominantName,
+      confidence: 96,
+      totalCalories,
+      protein,
+      carbs,
+      fat,
+      items: parsedItems
+    };
+  }
+
+  // Default fallback keyword checks (for default filename fallbacks)
   if (name.includes('chicken') || name.includes('breast') || name.includes('poultry') || name.includes('quinoa')) {
     return {
       foodName: "Grilled Chicken & Quinoa with Broccoli",
@@ -1557,7 +1686,7 @@ function getMockVisionAnalysis(fileName) {
       ]
     };
   }
-  
+
   if (name.includes('pizza') || name.includes('pepperoni') || name.includes('cheese')) {
     return {
       foodName: "Pepperoni Pizza Slices",
@@ -1650,18 +1779,18 @@ function getMockVisionAnalysis(fileName) {
     };
   }
 
-  // Default fallback if no keywords match
+  // Default fallback if no keywords match at all (e.g. non-food image)
   return {
-    foodName: "Mediterranean Salmon Bowl & Greek Yogurt",
-    confidence: 90,
-    totalCalories: 485,
-    protein: 30,
-    carbs: 45,
-    fat: 18,
+    foodName: "Unknown Item (No Food Detected)",
+    confidence: 0,
+    totalCalories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
     items: [
-      { name: "Mediterranean Salmon Bowl", calories: 350, protein: 24, carbs: 25, fat: 14, portion: "1 bowl" },
-      { name: "Greek Yogurt Side", calories: 135, protein: 6, carbs: 20, fat: 4, portion: "150g" }
-    ]
+      { name: "Non-Food Object", calories: 0, protein: 0, carbs: 0, fat: 0, portion: "N/A" }
+    ],
+    warning: "No food detected in photo. Please write a description in the hint box for calibration."
   };
 }
 
@@ -1731,6 +1860,132 @@ app.post('/api/scan-food', async (req, res) => {
   } catch (error) {
     console.error("Scan food error:", error);
     res.status(500).json({ error: "Failed to scan food image." });
+  }
+});
+
+// 4i-2. Analyze Manual Text Food Entry API Endpoint
+app.post('/api/analyze-text-food', async (req, res) => {
+  try {
+    const { text, foodName, weight, unit, email } = req.body;
+
+    // If we have Gemini API Key, try calling Gemini for highest accuracy text parsing
+    if (process.env.GEMINI_API_KEY) {
+      try {
+        let promptText = "";
+        if (text) {
+          promptText = `Analyze this food intake description: "${text}".`;
+        } else if (foodName && weight) {
+          promptText = `Analyze this food intake: ${weight}${unit} of ${foodName}.`;
+        } else {
+          return res.status(400).json({ error: "Invalid text input details." });
+        }
+
+        const prompt = `${promptText} Identify each item, estimate/extract its portion/weight, and its approximate calories, protein (g), carbs (g), and fat (g). Also, calculate the overall total calories and total macros for the entire meal. You must respond ONLY with a JSON object in this exact format (no markdown formatting, no code blocks, no backticks, no comments): \n{\n  \"foodName\": \"name of the overall meal/dominant items\",\n  \"confidence\": 100,\n  \"totalCalories\": 385,\n  \"protein\": 42,\n  \"carbs\": 28,\n  \"fat\": 12,\n  \"items\": [\n    { \"name\": \"Grilled Chicken Breast\", \"calories\": 220, \"protein\": 35, \"carbs\": 0, \"fat\": 5, \"portion\": \"200g\" }\n  ]\n}`;
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { responseMimeType: "application/json" }
+          })
+        });
+
+        if (response.ok) {
+          const resultJson = await response.json();
+          const responseText = resultJson.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (responseText) {
+            const data = JSON.parse(responseText);
+            return res.status(200).json(data);
+          }
+        }
+      } catch (geminiError) {
+        console.error("Gemini text analysis failed, using local database parser:", geminiError);
+      }
+    }
+
+    // Local database parser fallback (when Gemini key is absent or fails)
+    let items = [];
+    let dominantMealName = "Logged Meal";
+
+    if (foodName && weight) {
+      let weightGrams = parseFloat(weight);
+      if (unit === 'kg') weightGrams *= 1000;
+      const details = getCalorieDetails(foodName, weightGrams);
+      items.push(details);
+      dominantMealName = details.name;
+    } else if (text) {
+      let match;
+      const itemRegex = /(\d+(?:\.\d+)?)\s*(g|gram|grams|kg|kilogram|kilograms)?\s*(?:of\s+)?([a-zA-Z\s\-_]+?)(?:and|,|\.|$)/gi;
+      while ((match = itemRegex.exec(text)) !== null) {
+        let val = parseFloat(match[1]);
+        let unitStr = (match[2] || 'g').toLowerCase();
+        let nameStr = match[3].trim();
+        nameStr = nameStr.replace(/^(had|ate|took|eat|consumed|with)\s+/i, '').trim();
+        if (!nameStr) continue;
+
+        let weightGrams = val;
+        if (unitStr.startsWith('kg') || unitStr.startsWith('kilogram')) {
+          weightGrams = val * 1000;
+        }
+
+        const details = getCalorieDetails(nameStr, weightGrams);
+        items.push(details);
+      }
+
+      if (items.length === 0) {
+        const words = text.toLowerCase().split(/\s+/);
+        for (const word of words) {
+          const cleaned = word.replace(/[^a-z]/g, '');
+          if (FOOD_DATABASE[cleaned]) {
+            items.push(getCalorieDetails(cleaned, 150));
+          }
+        }
+      }
+
+      if (items.length > 0) {
+        dominantMealName = items.map(item => item.name).join(' & ');
+        if (dominantMealName.length > 40) {
+          dominantMealName = items[0].name + " & others";
+        }
+      } else {
+        items.push({
+          name: text.substring(0, 30),
+          calories: 250,
+          protein: 10,
+          carbs: 30,
+          fat: 8,
+          portion: "1 portion"
+        });
+        dominantMealName = text.substring(0, 30);
+      }
+    }
+
+    let totalCalories = 0;
+    let protein = 0;
+    let carbs = 0;
+    let fat = 0;
+    items.forEach(item => {
+      totalCalories += item.calories;
+      protein += item.protein;
+      carbs += item.carbs;
+      fat += item.fat;
+    });
+
+    const payload = {
+      foodName: dominantMealName,
+      confidence: 100,
+      totalCalories,
+      protein,
+      carbs,
+      fat,
+      items,
+      simulated: true
+    };
+    return res.status(200).json(payload);
+  } catch (error) {
+    console.error("Text analyze error:", error);
+    res.status(500).json({ error: "Failed to analyze food text." });
   }
 });
 
