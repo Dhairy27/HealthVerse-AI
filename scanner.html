@@ -1,55 +1,105 @@
-<!DOCTYPE html><html class="dark" lang="en" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Scanner | FitForge Intelligence</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-<style>
+<!DOCTYPE html>
+<html class="dark" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Scanner | FitForge Intelligence</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.0/dist/mobilenet.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <style>
         :root {
             --glass-border: #2B2B2B;
             --obsidian-surface: #050505;
             --primary-silver: #e5e2e1;
         }
-        body { background-color: #050505; color: #e5e2e1; -webkit-font-smoothing: antialiased; }
-        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+
+        body {
+            background-color: #050505;
+            color: #e5e2e1;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-headline {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
         .glass-panel {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid #2B2B2B;
         }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
+
         .scanning-line {
             height: 2px;
             background: linear-gradient(90deg, transparent, #ffffff, transparent);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
             animation: scan 3s ease-in-out infinite;
         }
+
         @keyframes scan {
-            0% { top: 10%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 90%; opacity: 0; }
+            0% {
+                top: 10%;
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 90%;
+                opacity: 0;
+            }
         }
+
         .ar-overlay-float {
             animation: float 4s ease-in-out infinite;
         }
+
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #2B2B2B; border-radius: 3px; }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2B2B2B;
+            border-radius: 3px;
+        }
+
         .gradient-text {
             background: linear-gradient(180deg, #FFFFFF 0%, #8e9192 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
     </style>
-<script id="tailwind-config">
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -95,780 +145,1964 @@
         }
     </script>
 </head>
+
 <body class="font-body-md overflow-x-hidden bg-surface-obsidian text-on-surface">
 
-<!-- Sidebar Navigation -->
-<aside id="sidebar-nav" class="fixed left-0 top-0 h-full w-64 bg-surface-obsidian border-r border-glass-border backdrop-blur-xl shadow-2xl flex flex-col z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
-    <div class="p-8">
-        <a href="index.html" class="flex items-center gap-2 mb-2">
-            <img alt="FitForge Logo" class="h-10 w-auto object-contain" src="assets/logo.svg">
-        </a>
-        <h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">FitForge</h1>
-        <p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary opacity-60">Shape.Sweat.Shine</p>
-    </div>
-    <nav class="flex-1 px-4 space-y-2 mt-4">
-        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="dashboard.html">
-            <span class="material-symbols-outlined">dashboard</span>
-            <span class="font-body-md text-body-md tracking-tight">Dashboard</span>
-        </a>
-        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="workout.html">
-            <span class="material-symbols-outlined">fitness_center</span>
-            <span class="font-body-md text-body-md tracking-tight">Workouts</span>
-        </a>
-        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="nutrition.html">
-            <span class="material-symbols-outlined">restaurant</span>
-            <span class="font-body-md text-body-md tracking-tight">Nutrition</span>
-        </a>
-        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-primary font-bold bg-white/10 transition-all duration-300 active:scale-95" href="scanner.html">
-            <span class="material-symbols-outlined">qr_code_scanner</span>
-            <span class="font-body-md text-body-md tracking-tight">Scanner</span>
-        </a>
-        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="progress.html">
-            <span class="material-symbols-outlined">query_stats</span>
-            <span class="font-body-md text-body-md tracking-tight">Progress</span>
-        </a>
-        <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95" href="profile.html">
-            <span class="material-symbols-outlined">person</span>
-            <span class="font-body-md text-body-md tracking-tight">Profile</span>
-        </a>
-    </nav>
-    <div class="p-4 border-t border-glass-border mb-4">
-        <button id="sidebar-upgrade-btn" class="w-full py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">
-            Upgrade to Pro
-        </button>
-    </div>
-</aside>
-
-<!-- Sidebar Mobile Backdrop -->
-<div id="sidebar-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
-
-<!-- Main Content Shell -->
-<main class="ml-0 lg:ml-64 min-h-screen flex flex-col bg-surface-obsidian text-on-surface transition-all duration-300">
-    <!-- Top Navbar -->
-    <header class="h-20 flex justify-between items-center px-4 md:px-12 w-full z-40 bg-transparent sticky top-0 backdrop-blur-sm">
-        <div class="flex items-center gap-4">
-            <!-- Hamburger Toggle Menu Button -->
-            <button onclick="toggleSidebar()" class="lg:hidden text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95 flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">menu</span>
-            </button>
-            <h2 class="font-headline-md text-headline-md text-primary font-bold">Food Scanner</h2>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar-nav"
+        class="fixed left-0 top-0 h-full w-64 bg-surface-obsidian border-r border-glass-border backdrop-blur-xl shadow-2xl flex flex-col z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+        <div class="p-8">
+            <a href="index.html" class="flex items-center gap-2 mb-2">
+                <img alt="FitForge Logo" class="h-10 w-auto object-contain" src="assets/logo.svg">
+            </a>
+            <h1 class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">FitForge</h1>
+            <p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary opacity-60">Shape.Sweat.Shine
+            </p>
         </div>
-        <div class="flex items-center gap-stack-md">
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95"
+                href="dashboard.html">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-body-md text-body-md tracking-tight">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95"
+                href="workout.html">
+                <span class="material-symbols-outlined">fitness_center</span>
+                <span class="font-body-md text-body-md tracking-tight">Workouts</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95"
+                href="nutrition.html">
+                <span class="material-symbols-outlined">restaurant</span>
+                <span class="font-body-md text-body-md tracking-tight">Nutrition</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-primary font-bold bg-white/10 transition-all duration-300 active:scale-95"
+                href="scanner.html">
+                <span class="material-symbols-outlined">qr_code_scanner</span>
+                <span class="font-body-md text-body-md tracking-tight">Scanner</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95"
+                href="progress.html">
+                <span class="material-symbols-outlined">query_stats</span>
+                <span class="font-body-md text-body-md tracking-tight">Progress</span>
+            </a>
+            <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-secondary opacity-60 hover:bg-white/5 transition-all duration-300 active:scale-95"
+                href="profile.html">
+                <span class="material-symbols-outlined">person</span>
+                <span class="font-body-md text-body-md tracking-tight">Profile</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-glass-border mb-4">
+            <button id="sidebar-upgrade-btn"
+                class="w-full py-3 bg-primary text-on-primary font-label-md text-label-md rounded-full font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">
+                Upgrade to Pro
+            </button>
+        </div>
+    </aside>
+
+    <!-- Sidebar Mobile Backdrop -->
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden"
+        onclick="toggleSidebar()"></div>
+
+    <!-- Main Content Shell -->
+    <main
+        class="ml-0 lg:ml-64 min-h-screen flex flex-col bg-surface-obsidian text-on-surface transition-all duration-300">
+        <!-- Top Navbar -->
+        <header
+            class="h-20 flex justify-between items-center px-4 md:px-12 w-full z-40 bg-transparent sticky top-0 backdrop-blur-sm">
             <div class="flex items-center gap-4">
-                <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
-                    <span class="material-symbols-outlined">notifications</span>
+                <!-- Hamburger Toggle Menu Button -->
+                <button onclick="toggleSidebar()"
+                    class="lg:hidden text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
                 </button>
-                <a href="profile.html" class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
-                    <span class="material-symbols-outlined">account_circle</span>
-                </a>
+                <h2 class="font-headline-md text-headline-md text-primary font-bold">Food Scanner</h2>
+            </div>
+            <div class="flex items-center gap-stack-md">
+                <div class="flex items-center gap-4">
+                    <button id="btn-api-settings" class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95 cursor-pointer bg-transparent border-0">
+                        <span class="material-symbols-outlined">settings</span>
+                    </button>
+                    <button class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95 bg-transparent border-0">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <a href="profile.html"
+                        class="text-primary opacity-60 hover:opacity-100 transition-opacity active:scale-95">
+                        <span class="material-symbols-outlined">account_circle</span>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Canvas -->
+        <div class="px-4 md:px-12 py-stack-lg flex-1">
+            <!-- Input Mode Selection Tabs -->
+            <div class="flex gap-4 mb-6">
+                <button id="tab-btn-camera"
+                    class="px-6 py-2.5 rounded-full border border-primary bg-primary text-black font-bold uppercase tracking-wider text-[10px] active:scale-95 transition-all cursor-pointer">
+                    Photo Scanner
+                </button>
+                <button id="tab-btn-text"
+                    class="px-6 py-2.5 rounded-full border border-glass-border bg-white/5 text-primary font-bold uppercase tracking-wider text-[10px] hover:bg-white/10 active:scale-95 transition-all cursor-pointer">
+                    Manual Text Log
+                </button>
+            </div>
+
+            <div class="grid grid-cols-12 gap-6">
+                <!-- LEFT: CAMERA VIEWPORT -->
+                <div id="camera-viewport"
+                    class="col-span-12 lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group bg-black shadow-inner min-h-[500px] lg:h-[650px] flex items-center justify-center">
+                    <!-- Real-time Feed Video Stream -->
+                    <video id="camera-video" class="absolute inset-0 w-full h-full object-cover hidden z-0" autoplay
+                        playsinline></video>
+
+                    <!-- Image Preview (captured or uploaded) -->
+                    <img id="preview-image" class="absolute inset-0 w-full h-full object-cover hidden z-0"
+                        alt="Captured food preview" />
+
+                    <!-- Real-time Feed Simulation (Static Mock Background) -->
+                    <div id="simulated-bg" class="absolute inset-0 z-0">
+                        <div class="w-full h-full bg-cover bg-center transition-transform duration-[10s] scale-110 group-hover:scale-100"
+                            style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1000&auto=format&fit=crop&q=80')">
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+
+                    <!-- Scanning Line -->
+                    <div id="scanning-line" class="scanning-line absolute w-full left-0 z-10 hidden"></div>
+
+                    <!-- AR Overlays Dynamic Container -->
+                    <div id="ar-overlays-container" class="absolute inset-0 z-20 pointer-events-none"></div>
+
+                    <!-- HUD Elements -->
+                    <div class="absolute top-8 left-8 z-20 flex flex-col gap-4">
+                        <div class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-2 border-white/5">
+                            <span class="text-[10px] uppercase tracking-widest text-secondary">Matrix Status</span>
+                            <span class="text-xs font-headline text-primary flex items-center gap-2">
+                                <span id="matrix-status-dot"
+                                    class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <span id="matrix-status-text">ACTIVE_SYNC</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Input hint overlay (shown only in preview state) -->
+                    <div id="food-hint-container"
+                        class="absolute bottom-28 left-1/2 -translate-x-1/2 w-[85%] max-w-md z-30 hidden">
+                        <div
+                            class="glass-panel p-4 rounded-2xl border border-white/20 flex flex-col gap-2 backdrop-blur-md">
+                            <label
+                                class="block text-[9px] text-primary/60 uppercase tracking-widest font-bold font-headline text-center">Identify
+                                this food (Optional description / hint for accuracy)</label>
+                            <input id="food-hint-input" type="text"
+                                placeholder="e.g. 200g grilled chicken & 100g white rice"
+                                class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors text-center" />
+                        </div>
+                    </div>
+
+                    <!-- BOTTOM CONTROLS -->
+                    <div
+                        class="absolute bottom-8 left-0 right-0 z-30 flex justify-center items-center px-4 md:px-12 gap-4 w-full">
+                        <!-- Main Actions Container -->
+                        <div class="flex items-center gap-4">
+                            <!-- Reset/Retake Button -->
+                            <button id="btn-reset"
+                                class="hidden px-6 py-3.5 glass-panel text-white font-headline text-xs font-bold rounded-full hover:bg-white/10 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-sm">refresh</span>
+                                RETAKE
+                            </button>
+
+                            <!-- Main Action Button -->
+                            <button id="btn-primary-action"
+                                class="px-10 py-5 bg-primary text-black font-headline font-bold rounded-full hover:scale-105 active:scale-95 transition-transform cursor-pointer flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.3)] active:shadow-[0_0_40px_rgba(255,255,255,0.5)]">
+                                <span class="material-symbols-outlined" id="primary-action-icon">photo_camera</span>
+                                <span id="primary-action-text">CAPTURE PHOTO</span>
+                            </button>
+
+                            <!-- Gallery Button -->
+                            <button id="btn-gallery"
+                                class="px-6 py-3.5 glass-panel text-white font-headline text-xs font-bold rounded-full hover:bg-white/10 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
+                                <span class="material-symbols-outlined text-sm">photo_library</span>
+                                GALLERY
+                            </button>
+                        </div>
+
+                        <!-- Flash & Options -->
+                        <div
+                            class="absolute right-4 md:right-12 flex items-center glass-panel px-6 py-3 rounded-full gap-4 select-none opacity-40 hover:opacity-100 transition-opacity hidden md:flex">
+                            <button id="btn-toggle-camera"
+                                class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">flip_camera_ios</button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Elements for Camera & File Picker -->
+                    <input type="file" id="file-input" accept="image/*" class="hidden" />
+                    <canvas id="capture-canvas" class="hidden"></canvas>
+
+                    <!-- Corner Frame Accents -->
+                    <div
+                        class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/20 pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/20 pointer-events-none">
+                    </div>
+                </div>
+
+                <!-- LEFT: MANUAL TEXT LOG VIEWPORT -->
+                <div id="text-entry-viewport"
+                    class="col-span-12 lg:col-span-8 glass-card rounded-[2rem] p-8 md:p-12 border border-white/10 flex flex-col justify-between min-h-[500px] lg:h-[650px] hidden relative overflow-hidden">
+                    <!-- Ambient glow inside text entry card -->
+                    <div class="absolute inset-0 bg-gradient-to-b from-white/[0.01] to-transparent pointer-events-none">
+                    </div>
+                    <div class="relative z-10 flex-1 flex flex-col justify-between">
+                        <div id="text-entry-inputs" class="space-y-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-headline text-2xl font-bold mb-2 uppercase text-white">Manual Food Log
+                                    Input</h3>
+                                <p class="text-xs text-secondary opacity-60 mb-8">Enter your food item and specify the
+                                    exact portion in grams or kilograms for accurate AI calorie synthesis.</p>
+
+                                <div class="space-y-6">
+                                    <!-- Option A: Structured Entry -->
+                                    <div class="space-y-3">
+                                        <label
+                                            class="block text-[10px] text-primary/40 uppercase tracking-widest font-bold font-headline">Structured
+                                            Portion Entry</label>
+                                        <div class="grid grid-cols-12 gap-4">
+                                            <div class="col-span-12 md:col-span-6">
+                                                <input id="input-text-food-name" type="text" placeholder="Food Name"
+                                                    class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary focus:outline-none focus:border-primary transition-colors" />
+                                            </div>
+                                            <div class="col-span-8 md:col-span-4">
+                                                <input id="input-text-food-weight" type="number" step="any"
+                                                    placeholder="Quantity"
+                                                    class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary focus:outline-none focus:border-primary transition-colors" />
+                                            </div>
+                                            <div class="col-span-4 md:col-span-2">
+                                                <select id="input-text-food-unit"
+                                                    class="w-full bg-black/40 border border-glass-border rounded-xl px-3 py-3 text-sm text-primary focus:outline-none focus:border-primary cursor-pointer">
+                                                    <option value="g">g</option>
+                                                    <option value="kg">kg</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-4 my-6">
+                                        <div class="h-px bg-white/10 flex-1"></div>
+                                        <span
+                                            class="text-[9px] uppercase tracking-widest text-secondary/30 font-bold font-headline">OR</span>
+                                        <div class="h-px bg-white/10 flex-1"></div>
+                                    </div>
+
+                                    <!-- Option B: Natural Language Description -->
+                                    <div class="space-y-2">
+                                        <label
+                                            class="block text-[10px] text-primary/40 uppercase tracking-widest font-bold font-headline">Describe
+                                            what you ate (Natural Language)</label>
+                                        <textarea id="input-text-food-desc" rows="4" placeholder="Describe your meal"
+                                            class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary focus:outline-none focus:border-primary resize-none transition-colors"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-4 mt-8">
+                                <button id="btn-text-analyze"
+                                    class="px-10 py-4.5 bg-primary text-black font-headline font-bold rounded-full hover:scale-105 active:scale-95 transition-transform cursor-pointer flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                                    <span class="material-symbols-outlined text-base">analytics</span>
+                                    ANALYZE & EXTRACT
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="text-entry-summary"
+                            class="hidden flex-1 flex flex-col items-center justify-center text-center p-6 space-y-4">
+                            <span
+                                class="material-symbols-outlined text-emerald-400 text-6xl animate-bounce">check_circle</span>
+                            <h3 class="font-headline text-2xl font-bold uppercase text-white" id="text-summary-title">
+                                Extraction Complete</h3>
+                            <p class="text-xs text-secondary opacity-60 max-w-sm" id="text-summary-desc">Your food
+                                portion has been successfully parsed and calibrated. Check the metrics dashboard on the
+                                right to log your meal.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: DATA PANEL -->
+                <div class="col-span-12 lg:col-span-4 lg:pl-8 flex flex-col h-full gap-6">
+                    <!-- Header Card -->
+                    <div class="glass-panel p-6 rounded-[2rem] border-white/10">
+            <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h2 class="font-headline text-xl font-bold">Instant Extraction</h2>
+                                <p class="text-xs text-secondary mt-1 tracking-wide">Real-time Vision Synthesis</p>
+                            </div>
+                            <span class="material-symbols-outlined text-primary bg-white/5 p-2 rounded-xl">monitoring</span>
+                        </div>
+                        <div class="flex items-center justify-between gap-4">
+                            <div class="space-y-4 flex-1">
+                                <!-- Confidence Score -->
+                                <div class="flex justify-between items-end">
+                                    <span id="confidence-label" class="text-xs text-secondary uppercase tracking-widest text-[10px]">Confidence</span>
+                                    <span class="text-lg font-headline font-bold text-primary" id="confidence-val">--%</span>
+                                </div>
+                                <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div class="h-full bg-white w-0 shadow-[0_0_10px_white] transition-all duration-1000" id="confidence-bar"></div>
+                                </div>
+                                <button id="btn-edit-macros" class="hidden text-[10px] text-white/50 hover:text-white flex items-center gap-1 mt-3 px-3 py-1.5 border border-white/10 rounded-lg bg-white/5 active:scale-95 transition-all cursor-pointer">
+                                    <span class="material-symbols-outlined text-[12px]">edit</span> Adjust Metrics
+                                </button>
+                            </div>
+
+                            <!-- Visual Donut Chart -->
+                            <div id="macro-chart-container" class="hidden flex items-center justify-center relative w-20 h-20 shrink-0">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="10" />
+                                    <circle id="chart-carbs" cx="50" cy="50" r="40" fill="transparent" stroke="#fb923c" stroke-width="10" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                                    <circle id="chart-protein" cx="50" cy="50" r="40" fill="transparent" stroke="#34d399" stroke-width="10" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                                    <circle id="chart-fats" cx="50" cy="50" r="40" fill="transparent" stroke="#f87171" stroke-width="10" stroke-dasharray="251.2" stroke-dashoffset="251.2" stroke-linecap="round" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span id="chart-kcal-val" class="font-headline text-[13px] font-bold text-white leading-none">0</span>
+                                    <span class="text-[7px] text-secondary opacity-60 uppercase mt-0.5 scale-90">kcal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macros Bento Items -->
+                    <div id="macros-display-container" class="grid grid-cols-2 gap-4 flex-1">
+                        <!-- Protein -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-emerald-400 text-sm">bolt</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="protein-val">0g</p>
+                                <p class="text-[11px] text-secondary">Protein</p>
+                            </div>
+                        </div>
+                        <!-- Carbs -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-orange-400 text-sm">grain</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="carbs-val">0g</p>
+                                <p class="text-[11px] text-secondary">Net Carbs</p>
+                            </div>
+                        </div>
+                        <!-- Fats -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-red-400 text-sm">water_drop</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="fats-val">0g</p>
+                                <p class="text-[11px] text-secondary">Healthy Fats</p>
+                            </div>
+                        </div>
+                        <!-- Calories -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-primary text-sm">local_fire_department</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Total</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="calories-val">0</p>
+                                <p class="text-[11px] text-secondary">Calories (kcal)</p>
+                            </div>
+                        </div>
+                        <!-- Fiber -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-purple-400 text-sm">filter_vintage</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="fiber-val">0g</p>
+                                <p class="text-[11px] text-secondary">Dietary Fiber</p>
+                            </div>
+                        </div>
+                        <!-- Sugar -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-yellow-400 text-sm">cookie</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="sugar-val">0g</p>
+                                <p class="text-[11px] text-secondary">Sugars</p>
+                            </div>
+                        </div>
+                        <!-- Sodium -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-sky-400 text-sm">science</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="sodium-val">0mg</p>
+                                <p class="text-[11px] text-secondary">Sodium (mg)</p>
+                            </div>
+                        </div>
+                        <!-- Cholesterol -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-rose-400 text-sm">egg_alt</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="cholesterol-val">0mg</p>
+                                <p class="text-[11px] text-secondary">Cholesterol</p>
+                            </div>
+                        </div>
+                        <!-- Potassium -->
+                        <div class="glass-panel p-5 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default col-span-2">
+                            <div class="flex justify-between items-center">
+                                <span class="material-symbols-outlined text-teal-400 text-sm">spa</span>
+                                <span class="text-[9px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
+                            </div>
+                            <div class="mt-3">
+                                <p class="text-2xl font-headline font-bold text-white" id="potassium-val">0mg</p>
+                                <p class="text-[11px] text-secondary">Potassium (mg)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Macros Edit Container -->
+                    <div id="macros-edit-container" class="glass-panel p-6 rounded-[1.5rem] hidden flex-col justify-between gap-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-headline font-bold uppercase tracking-wider text-white">Adjust Extracted Metrics</span>
+                            <span class="material-symbols-outlined text-secondary/40 text-sm">tune</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Meal Name</label>
+                                <input id="edit-food-name" type="text" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors font-headline font-bold" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Calories (kcal)</label>
+                                    <input id="edit-calories" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Protein (g)</label>
+                                    <input id="edit-protein" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Net Carbs (g)</label>
+                                    <input id="edit-carbs" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Healthy Fats (g)</label>
+                                    <input id="edit-fats" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Fiber (g)</label>
+                                    <input id="edit-fiber" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Sugar (g)</label>
+                                    <input id="edit-sugar" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Sodium (mg)</label>
+                                    <input id="edit-sodium" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Cholesterol (mg)</label>
+                                    <input id="edit-cholesterol" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                                <div class="col-span-2">
+                                    <label class="block text-[9px] text-secondary/40 uppercase tracking-widest font-bold mb-1.5">Potassium (mg)</label>
+                                    <input id="edit-potassium" type="number" class="w-full bg-black/60 border border-glass-border rounded-xl px-4 py-2.5 text-xs text-primary focus:outline-none focus:border-primary transition-colors" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 mt-4">
+                            <button id="btn-edit-cancel" class="flex-1 py-2.5 border border-white/10 rounded-xl font-headline text-[10px] uppercase font-bold text-white/60 hover:bg-white/5 transition-all cursor-pointer">Cancel</button>
+                            <button id="btn-edit-save" class="flex-1 py-2.5 bg-primary text-black rounded-xl font-headline text-[10px] uppercase font-bold hover:scale-105 active:scale-95 transition-all cursor-pointer">Apply</button>
+                        </div>
+                    </div>
+
+                    <!-- Health Analysis Card -->
+                    <div id="health-analysis-card" class="glass-panel p-6 rounded-[2rem] border-white/10 hidden space-y-6">
+                        <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                            <div>
+                                <h3 class="font-headline text-lg font-bold text-white">Health Analysis</h3>
+                                <p class="text-[10px] text-secondary tracking-wider uppercase mt-0.5">Nutritional Quality Audit</p>
+                            </div>
+                            <!-- Circular Health Score (0-100) Gauge -->
+                            <div class="relative w-14 h-14 flex items-center justify-center shrink-0">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="42" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="8" />
+                                    <circle id="health-score-ring" cx="50" cy="50" r="42" fill="transparent" stroke="#34d399" stroke-width="8" stroke-dasharray="263.89" stroke-dashoffset="263.89" stroke-linecap="round" />
+                                </svg>
+                                <span class="absolute text-sm font-headline font-bold text-white" id="health-score-val">0</span>
+                            </div>
+                        </div>
+
+                        <!-- Suitability Badges -->
+                        <div class="grid grid-cols-2 gap-2 text-[10px]">
+                            <div id="badge-weight-loss" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">weight</span>
+                                <span>Weight Loss</span>
+                            </div>
+                            <div id="badge-muscle-gain" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">fitness_center</span>
+                                <span>Muscle Gain</span>
+                            </div>
+                            <div id="badge-diabetic" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">medical_services</span>
+                                <span>Diabetic Safe</span>
+                            </div>
+                            <div id="badge-balanced" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5">
+                                <span class="material-symbols-outlined text-[14px]">balance</span>
+                                <span>Balanced Meal</span>
+                            </div>
+                            <div id="badge-heart-health" class="flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5 col-span-2 justify-center">
+                                <span class="material-symbols-outlined text-[14px]">favorite</span>
+                                <span>Heart Healthy</span>
+                            </div>
+                        </div>
+
+                        <!-- Warnings / Nutrient Flags -->
+                        <div class="space-y-2">
+                            <div id="alert-high-protein" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">done</span>
+                                <span>High Protein Content Detected</span>
+                            </div>
+                            <div id="alert-high-fat" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">warning</span>
+                                <span>High Fat Content Warning</span>
+                            </div>
+                            <div id="alert-high-sugar" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">warning</span>
+                                <span>High Sugar Level Warning</span>
+                            </div>
+                            <div id="alert-high-sodium" class="hidden flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 text-[10px]">
+                                <span class="material-symbols-outlined text-sm">warning</span>
+                                <span>High Sodium Level Warning</span>
+                            </div>
+                        </div>
+
+                        <!-- Health Explanation -->
+                        <p id="health-explanation" class="text-xs text-secondary/80 leading-relaxed font-sans"></p>
+                    </div>
+
+                    <!-- Recommendations Card -->
+                    <div id="recommendations-card" class="glass-panel p-6 rounded-[2rem] border-white/10 hidden space-y-5">
+                        <div>
+                            <h3 class="font-headline text-lg font-bold text-white">Recommendations</h3>
+                            <p class="text-[10px] text-secondary tracking-wider uppercase mt-0.5">Personalized Dietitian Advice</p>
+                        </div>
+                        <div class="space-y-3.5 text-xs text-secondary/90">
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">schedule</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Best Time to Eat</p>
+                                    <p id="rec-best-time" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">swap_horiz</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Healthier Alternatives</p>
+                                    <ul id="rec-alternatives" class="list-disc pl-4 mt-0.5 space-y-1"></ul>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">restaurant_menu</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Portion Advice</p>
+                                    <p id="rec-portion" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">local_drink</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Hydration target</p>
+                                    <p id="rec-water" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">exercise</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Workout Suggestion</p>
+                                    <p id="rec-workout" class="mt-0.5"></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-primary text-sm mt-0.5">layers</span>
+                                <div>
+                                    <p class="text-white font-bold text-[10px] uppercase tracking-wider">Foods to Pair With</p>
+                                    <ul id="rec-pairing" class="list-disc pl-4 mt-0.5 space-y-1"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Goal Integration Card -->
+                    <div id="daily-integration-card" class="glass-panel p-6 rounded-[2rem] border-white/10 hidden">
+                        <p class="text-xs text-secondary mb-4 uppercase tracking-[0.2em] font-headline">Daily Goal Integration</p>
+                        <div class="space-y-4">
+                            <!-- Calorie integration -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-[10px]">
+                                    <span class="text-secondary/60">Calories Fulfill</span>
+                                    <span class="text-white font-bold" id="daily-cal-pct">0% of daily target</span>
+                                </div>
+                                <div class="relative h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div id="daily-cal-proj-bar" class="absolute left-0 top-0 h-full bg-white/30 animate-pulse rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                                    <div id="daily-cal-bar" class="absolute left-0 top-0 h-full bg-primary rounded-full transition-all duration-1000" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                            <!-- Protein integration -->
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between text-[10px]">
+                                    <span class="text-secondary/60">Protein Fulfill</span>
+                                    <span class="text-white font-bold" id="daily-prot-pct">0% of daily target</span>
+                                </div>
+                    <!-- Footer Log Card -->
+                    <div class="glass-panel p-6 rounded-[2rem] mt-auto">
+                        <p class="text-xs text-secondary mb-4 uppercase tracking-[0.2em]">Matrix Findings</p>
+                        <ul class="space-y-4 max-h-[160px] overflow-y-auto pr-2" id="findings-list">
+                            <li class="text-xs text-secondary/40 text-center py-4">Scan a food photo to extract
+                                nutrients</li>
+                        </ul>
+                        <button id="btn-log-journal"
+                            class="w-full mt-6 py-3 border border-white/10 rounded-xl font-headline text-xs hover:bg-white/5 transition-all active:scale-95 cursor-pointer text-white opacity-40"
+                            disabled>
+                            LOG TO JOURNAL
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </header>
-
-    <!-- Content Canvas -->
-    <div class="px-4 md:px-12 py-stack-lg flex-1">
-        <div class="grid grid-cols-12 gap-6">
-<!-- LEFT: CAMERA VIEWPORT -->
-<div id="camera-viewport" class="col-span-12 lg:col-span-8 relative rounded-[2rem] overflow-hidden border border-white/10 group bg-black shadow-inner min-h-[500px] lg:h-[650px] flex items-center justify-center">
-<!-- Real-time Feed Video Stream -->
-<video id="camera-video" class="absolute inset-0 w-full h-full object-cover hidden z-0" autoplay playsinline></video>
-
-<!-- Image Preview (captured or uploaded) -->
-<img id="preview-image" class="absolute inset-0 w-full h-full object-cover hidden z-0" alt="Captured food preview" />
-
-<!-- Real-time Feed Simulation (Static Mock Background) -->
-<div id="simulated-bg" class="absolute inset-0 z-0">
-<div class="w-full h-full bg-cover bg-center transition-transform duration-[10s] scale-110 group-hover:scale-100" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1000&auto=format&fit=crop&q=80')"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-</div>
-
-<!-- Scanning Line -->
-<div id="scanning-line" class="scanning-line absolute w-full left-0 z-10 hidden"></div>
-
-<!-- AR Overlays Dynamic Container -->
-<div id="ar-overlays-container" class="absolute inset-0 z-20 pointer-events-none"></div>
-
-<!-- HUD Elements -->
-<div class="absolute top-8 left-8 z-20 flex flex-col gap-4">
-<div class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-2 border-white/5">
-<span class="text-[10px] uppercase tracking-widest text-secondary">Matrix Status</span>
-<span class="text-xs font-headline text-primary flex items-center gap-2">
-<span id="matrix-status-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-<span id="matrix-status-text">ACTIVE_SYNC</span>
-</span>
-</div>
-</div>
-
-<!-- BOTTOM CONTROLS -->
-<div class="absolute bottom-8 left-0 right-0 z-30 flex justify-between items-center px-12 gap-4 w-full">
-<!-- Zoom Controls -->
-<div class="flex items-center glass-panel px-6 py-3 rounded-full gap-6 select-none opacity-40 hover:opacity-100 transition-opacity">
-<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">remove</button>
-<span class="text-xs font-headline font-bold text-primary">1.0X</span>
-<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">add</button>
-</div>
-
-<!-- Main Actions Container -->
-<div class="flex items-center gap-4">
-<!-- Reset/Retake Button -->
-<button id="btn-reset" class="hidden px-6 py-3.5 glass-panel text-white font-headline text-xs font-bold rounded-full hover:bg-white/10 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
-<span class="material-symbols-outlined text-sm">refresh</span>
-RETAKE
-</button>
-
-<!-- Main Action Button -->
-<button id="btn-primary-action" class="px-10 py-5 bg-primary text-black font-headline font-bold rounded-full hover:scale-105 active:scale-95 transition-transform cursor-pointer flex items-center gap-2 shadow-[0_0_30px_rgba(255,255,255,0.3)] active:shadow-[0_0_40px_rgba(255,255,255,0.5)]">
-<span class="material-symbols-outlined" id="primary-action-icon">photo_camera</span>
-<span id="primary-action-text">CAPTURE PHOTO</span>
-</button>
-
-<!-- Gallery Button -->
-<button id="btn-gallery" class="px-6 py-3.5 glass-panel text-white font-headline text-xs font-bold rounded-full hover:bg-white/10 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer">
-<span class="material-symbols-outlined text-sm">photo_library</span>
-GALLERY
-</button>
-</div>
-
-<!-- Flash & Options -->
-<div class="flex items-center glass-panel px-6 py-3 rounded-full gap-6 select-none opacity-40 hover:opacity-100 transition-opacity">
-<button id="btn-toggle-camera" class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">flip_camera_ios</button>
-<div class="w-px h-4 bg-white/10"></div>
-<button class="material-symbols-outlined text-secondary hover:text-primary transition-colors active:scale-95">filter_center_focus</button>
-</div>
-</div>
-
-<!-- Hidden Elements for Camera & File Picker -->
-<input type="file" id="file-input" accept="image/*" class="hidden" />
-<canvas id="capture-canvas" class="hidden"></canvas>
-
-<!-- Corner Frame Accents -->
-<div class="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/20 pointer-events-none"></div>
-<div class="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-white/20 pointer-events-none"></div>
-</div>
-
-<!-- RIGHT: DATA PANEL -->
-<div class="col-span-12 lg:col-span-4 lg:pl-8 flex flex-col h-full gap-6">
-<!-- Header Card -->
-<div class="glass-panel p-6 rounded-[2rem] border-white/10">
-<div class="flex justify-between items-start mb-6">
-<div>
-<h2 class="font-headline text-xl font-bold">Instant Extraction</h2>
-<p class="text-xs text-secondary mt-1 tracking-wide">Real-time Vision Synthesis</p>
-</div>
-<span class="material-symbols-outlined text-primary bg-white/5 p-2 rounded-xl">monitoring</span>
-</div>
-<div class="space-y-4">
-<!-- Confidence Score -->
-<div class="flex justify-between items-end">
-<span class="text-xs text-secondary uppercase tracking-widest">Confidence</span>
-<span class="text-lg font-headline font-bold text-primary" id="confidence-val">--%</span>
-</div>
-<div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-<div class="h-full bg-white w-0 shadow-[0_0_10px_white] transition-all duration-1000" id="confidence-bar"></div>
-</div>
-</div>
-</div>
-<!-- Macros Bento Items -->
-<div class="grid grid-cols-2 gap-4 flex-1">
-<!-- Protein -->
-<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
-<div class="flex justify-between items-center">
-<span class="material-symbols-outlined text-secondary text-sm">bolt</span>
-<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
-</div>
-<div class="mt-4">
-<p class="text-3xl font-headline font-bold" id="protein-val">0g</p>
-<p class="text-xs text-secondary mt-1">Protein</p>
-</div>
-</div>
-<!-- Carbs -->
-<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
-<div class="flex justify-between items-center">
-<span class="material-symbols-outlined text-secondary text-sm">grain</span>
-<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
-</div>
-<div class="mt-4">
-<p class="text-3xl font-headline font-bold" id="carbs-val">0g</p>
-<p class="text-xs text-secondary mt-1">Net Carbs</p>
-</div>
-</div>
-<!-- Fats -->
-<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
-<div class="flex justify-between items-center">
-<span class="material-symbols-outlined text-secondary text-sm">water_drop</span>
-<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Measured</span>
-</div>
-<div class="mt-4">
-<p class="text-3xl font-headline font-bold" id="fats-val">0g</p>
-<p class="text-xs text-secondary mt-1">Healthy Fats</p>
-</div>
-</div>
-<!-- Calories -->
-<div class="glass-panel p-6 rounded-[1.5rem] flex flex-col justify-between hover:border-white/20 transition-all cursor-default">
-<div class="flex justify-between items-center">
-<span class="material-symbols-outlined text-secondary text-sm">local_fire_department</span>
-<span class="text-[10px] text-white/40 font-headline uppercase tracking-widest">Total</span>
-</div>
-<div class="mt-4">
-<p class="text-3xl font-headline font-bold" id="calories-val">0</p>
-<p class="text-xs text-secondary mt-1">Kcal Est.</p>
-</div>
-</div>
-</div>
-<!-- Footer Log Card -->
-<div class="glass-panel p-6 rounded-[2rem] mt-auto">
-<p class="text-xs text-secondary mb-4 uppercase tracking-[0.2em]">Matrix Findings</p>
-<ul class="space-y-4 max-h-[160px] overflow-y-auto pr-2" id="findings-list">
-<li class="text-xs text-secondary/40 text-center py-4">Scan a food photo to extract nutrients</li>
-</ul>
-<button id="btn-log-journal" class="w-full mt-6 py-3 border border-white/10 rounded-xl font-headline text-xs hover:bg-white/5 transition-all active:scale-95 cursor-pointer text-white opacity-40" disabled>
-LOG TO JOURNAL
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Footer -->
-<footer class="px-4 md:px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
-<div class="flex items-center gap-3">
-<div class="h-6 w-6">
-<img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
-</div>
-<span class="font-headline text-sm font-bold text-primary">FitForge</span>
-</div>
-<div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
-<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
-<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
-<a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
-<span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-System Status: Online
-</a>
-</div>
-<div class="text-secondary opacity-40 text-[10px]">
-&copy; 2024 FitForge. Engineered for Excellence.
-</div>
-</footer>
-</main>
-<!-- Micro-interaction Scripts -->
-<script>
-// Auth check
-const userEmail = localStorage.getItem('userEmail');
-if (!userEmail) { 
-window.location.href = 'login.html'; 
-} else {
-// Enforce completed protocol details
-fetch(`/api/user/protocol?email=${encodeURIComponent(userEmail)}`)
-.then(res => res.json())
-.then(data => {
-const proto = data.protocol || {};
-if (!proto.age || !proto.height || !proto.weight || !proto.biologicalSex) {
-window.location.href = 'protocol.html';
-}
-})
-.catch(err => console.error("Error validating protocol completion:", err));
-}
-function logout() { localStorage.removeItem('userEmail'); localStorage.removeItem('userName'); window.location.href = 'login.html'; }
-
-document.addEventListener('DOMContentLoaded', () => {
-const video = document.getElementById('camera-video');
-const previewImg = document.getElementById('preview-image');
-const simulatedBg = document.getElementById('simulated-bg');
-const arContainer = document.getElementById('ar-overlays-container');
-const scanningLine = document.getElementById('scanning-line');
-
-const btnPrimary = document.getElementById('btn-primary-action');
-const btnReset = document.getElementById('btn-reset');
-const btnGallery = document.getElementById('btn-gallery');
-const btnToggleCamera = document.getElementById('btn-toggle-camera');
-const fileInput = document.getElementById('file-input');
-const captureCanvas = document.getElementById('capture-canvas');
-
-const primaryIcon = document.getElementById('primary-action-icon');
-const primaryText = document.getElementById('primary-action-text');
-
-// Right Panel Elements
-const valConfidence = document.getElementById('confidence-val');
-const barConfidence = document.getElementById('confidence-bar');
-const valProtein = document.getElementById('protein-val');
-const valCarbs = document.getElementById('carbs-val');
-const valFats = document.getElementById('fats-val');
-const valCalories = document.getElementById('calories-val');
-const listFindings = document.getElementById('findings-list');
-const btnLogJournal = document.getElementById('btn-log-journal');
-const matrixStatusText = document.getElementById('matrix-status-text');
-const matrixStatusDot = document.getElementById('matrix-status-dot');
-
-let mediaStream = null;
-let currentFacingMode = 'environment';
-let currentImageBase64 = null;
-let currentFileName = 'captured_meal.jpg';
-let scannedFoodData = null;
-let scanState = 'ready'; // ready, preview, scanning, scanned, logged
-
-// Initialize Camera
-function startCamera() {
-if (mediaStream) {
-mediaStream.getTracks().forEach(track => track.stop());
-}
-
-const constraints = {
-video: {
-facingMode: currentFacingMode,
-width: { ideal: 1280 },
-height: { ideal: 720 }
-}
-};
-
-navigator.mediaDevices.getUserMedia(constraints)
-.then(stream => {
-mediaStream = stream;
-video.srcObject = stream;
-video.classList.remove('hidden');
-simulatedBg.classList.add('hidden');
-btnToggleCamera.classList.remove('hidden');
-matrixStatusText.innerText = "CAMERA_STREAMING";
-matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
-})
-.catch(err => {
-console.warn("Webcam access failed/unavailable, falling back to gallery uploads:", err);
-video.classList.add('hidden');
-simulatedBg.classList.remove('hidden');
-btnToggleCamera.classList.add('hidden');
-matrixStatusText.innerText = "GALLERY_MODE";
-matrixStatusDot.className = "w-2 h-2 rounded-full bg-amber-400";
-});
-}
-
-// Try starting camera on load
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-startCamera();
-} else {
-matrixStatusText.innerText = "OFFLINE_GALLERY";
-matrixStatusDot.className = "w-2 h-2 rounded-full bg-amber-400";
-}
-
-// Toggle Camera (Front vs Back)
-btnToggleCamera.addEventListener('click', () => {
-currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
-startCamera();
-});
-
-// Trigger Gallery Picker
-btnGallery.addEventListener('click', () => {
-fileInput.click();
-});
-
-fileInput.addEventListener('change', (e) => {
-const file = e.target.files[0];
-if (!file) return;
-
-currentFileName = file.name;
-const reader = new FileReader();
-reader.onload = (event) => {
-const img = new Image();
-img.onload = () => {
-compressImage(img, (compressedBase64) => {
-currentImageBase64 = compressedBase64;
-previewImg.src = compressedBase64;
-previewImg.classList.remove('hidden');
-video.classList.add('hidden');
-simulatedBg.classList.add('hidden');
-
-setUIState('preview');
-});
-};
-img.src = event.target.result;
-};
-reader.readAsDataURL(file);
-});
-
-// Capture from video stream
-function capturePhoto() {
-if (!mediaStream) return;
-
-const width = video.videoWidth;
-const height = video.videoHeight;
-captureCanvas.width = width;
-captureCanvas.height = height;
-
-const ctx = captureCanvas.getContext('2d');
-if (currentFacingMode === 'user') {
-ctx.translate(width, 0);
-ctx.scale(-1, 1);
-}
-ctx.drawImage(video, 0, 0, width, height);
-
-const rawBase64 = captureCanvas.toDataURL('image/jpeg', 0.9);
-
-// Compress before using
-const img = new Image();
-img.onload = () => {
-compressImage(img, (compressedBase64) => {
-currentImageBase64 = compressedBase64;
-currentFileName = 'captured_photo.jpg';
-previewImg.src = compressedBase64;
-previewImg.classList.remove('hidden');
-video.classList.add('hidden');
-simulatedBg.classList.add('hidden');
-
-setUIState('preview');
-});
-};
-img.src = rawBase64;
-}
-
-// Image Compression
-function compressImage(imgElement, callback, maxDim = 800) {
-let width = imgElement.naturalWidth || imgElement.width;
-let height = imgElement.naturalHeight || imgElement.height;
-
-if (width > maxDim || height > maxDim) {
-if (width > height) {
-height = Math.round((height * maxDim) / width);
-width = maxDim;
-} else {
-width = Math.round((width * maxDim) / height);
-height = maxDim;
-}
-}
-
-captureCanvas.width = width;
-captureCanvas.height = height;
-const ctx = captureCanvas.getContext('2d');
-ctx.drawImage(imgElement, 0, 0, width, height);
-
-const compressed = captureCanvas.toDataURL('image/jpeg', 0.85);
-callback(compressed);
-}
-
-// State Manager
-function setUIState(state) {
-scanState = state;
-if (state === 'ready') {
-previewImg.classList.add('hidden');
-if (mediaStream) {
-video.classList.remove('hidden');
-simulatedBg.classList.add('hidden');
-} else {
-video.classList.add('hidden');
-simulatedBg.classList.remove('hidden');
-}
-
-btnReset.classList.add('hidden');
-btnGallery.classList.remove('hidden');
-
-primaryIcon.innerText = "photo_camera";
-primaryText.innerText = mediaStream ? "CAPTURE PHOTO" : "UPLOAD PHOTO";
-btnPrimary.classList.remove('opacity-50');
-btnPrimary.disabled = false;
-
-scanningLine.classList.add('hidden');
-arContainer.innerHTML = '';
-
-valConfidence.innerText = "--%";
-barConfidence.style.width = "0%";
-valProtein.innerText = "0g";
-valCarbs.innerText = "0g";
-valFats.innerText = "0g";
-valCalories.innerText = "0";
-listFindings.innerHTML = '<li class="text-xs text-secondary/40 text-center py-4">Scan a food photo to extract nutrients</li>';
-btnLogJournal.classList.add('opacity-40');
-btnLogJournal.disabled = true;
-btnLogJournal.innerText = "LOG TO JOURNAL";
-
-matrixStatusText.innerText = mediaStream ? "CAMERA_STREAMING" : "GALLERY_MODE";
-matrixStatusDot.className = mediaStream ? "w-2 h-2 rounded-full bg-emerald-400 animate-pulse" : "w-2 h-2 rounded-full bg-amber-400";
-} 
-else if (state === 'preview') {
-btnReset.classList.remove('hidden');
-btnReset.innerText = "RETAKE";
-btnGallery.classList.add('hidden');
-
-primaryIcon.innerText = "monitoring";
-primaryText.innerText = "ANALYZE FOOD";
-btnPrimary.disabled = false;
-btnPrimary.classList.remove('opacity-50');
-
-scanningLine.classList.add('hidden');
-arContainer.innerHTML = '';
-} 
-else if (state === 'scanning') {
-btnReset.classList.add('hidden');
-btnGallery.classList.add('hidden');
-
-primaryIcon.innerText = "hourglass_empty";
-primaryText.innerText = "ANALYZING...";
-btnPrimary.disabled = true;
-btnPrimary.classList.add('opacity-50');
-
-scanningLine.classList.remove('hidden');
-
-matrixStatusText.innerText = "EXTRACTING_AI_MATRICES";
-matrixStatusDot.className = "w-2 h-2 rounded-full bg-blue-400 animate-pulse";
-} 
-else if (state === 'scanned') {
-btnReset.classList.remove('hidden');
-btnReset.innerText = "NEW SCAN";
-btnGallery.classList.add('hidden');
-
-primaryIcon.innerText = "check_circle";
-primaryText.innerText = "LOG TO JOURNAL";
-btnPrimary.disabled = false;
-btnPrimary.classList.remove('opacity-50');
-
-scanningLine.classList.add('hidden');
-
-btnLogJournal.classList.remove('opacity-40');
-btnLogJournal.disabled = false;
-btnLogJournal.innerText = "LOG TO JOURNAL";
-
-matrixStatusText.innerText = "EXTRACTION_COMPLETE";
-matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-400";
-}
-else if (state === 'logged') {
-btnReset.classList.remove('hidden');
-btnReset.innerText = "SCAN AGAIN";
-btnGallery.classList.add('hidden');
-
-primaryIcon.innerText = "done_all";
-primaryText.innerText = "MEAL LOGGED!";
-btnPrimary.disabled = true;
-btnPrimary.classList.add('opacity-50');
-
-btnLogJournal.classList.add('opacity-40');
-btnLogJournal.disabled = true;
-btnLogJournal.innerText = "LOGGED SUCCESSFULLY";
-
-matrixStatusText.innerText = "JOURNAL_UPDATED";
-matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
-}
-}
-
-// Perform AI Scan
-async function analyzeFood() {
-if (!currentImageBase64) return;
-
-setUIState('scanning');
-
-try {
-const response = await fetch('/api/scan-food', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({
-image: currentImageBase64,
-name: currentFileName,
-email: userEmail
-})
-});
-
-if (!response.ok) {
-throw new Error("Scanning failed.");
-}
-
-const data = await response.json();
-scannedFoodData = data;
-
-renderNutritionalResults(data);
-setUIState('scanned');
-
-triggerCameraFlash();
-} catch (error) {
-console.error("AI scanning error:", error);
-alert("Failed to analyze food. " + error.message);
-setUIState('preview');
-}
-}
-
-// Render Results in Data Panel
-function renderNutritionalResults(data) {
-const confidence = data.confidence || 90;
-valConfidence.innerText = `${confidence}%`;
-barConfidence.style.width = `${confidence}%`;
-
-if (data.simulated) {
-console.info("Notice: Displaying simulated vision metrics. Configure process.env.GEMINI_API_KEY for true AI vision.");
-}
-
-animateValue(valCalories, 0, data.totalCalories, "");
-animateValue(valProtein, 0, data.protein, "g");
-animateValue(valCarbs, 0, data.carbs, "g");
-animateValue(valFats, 0, data.fat, "g");
-
-listFindings.innerHTML = '';
-if (data.items && data.items.length > 0) {
-data.items.forEach(item => {
-const li = document.createElement('li');
-li.className = "flex items-center justify-between group cursor-pointer border-b border-white/5 pb-2 last:border-b-0";
-li.innerHTML = `
-    <div class="flex items-center gap-3">
-        <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
-        <div class="flex flex-col">
-            <span class="text-sm font-body text-primary">${item.name}</span>
-            <span class="text-[10px] text-secondary/40">${item.portion || '1 serving'}</span>
+        <!-- Footer -->
+        <footer
+            class="px-4 md:px-12 py-8 border-t border-glass-border bg-surface-obsidian flex flex-col md:flex-row justify-between items-center gap-4 text-xs mt-auto">
+            <div class="flex items-center gap-3">
+                <div class="h-6 w-6">
+                    <img alt="FitForge Logo" class="h-full w-full object-contain" src="assets/logo.svg">
+                </div>
+                <span class="font-headline text-sm font-bold text-primary">FitForge</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8 text-secondary opacity-60">
+                <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+                <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+                <a class="hover:text-primary transition-colors flex items-center gap-2" href="#">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    System Status: Online
+                </a>
+            </div>
+            <div class="text-secondary opacity-40 text-[10px]">
+                &copy; 2024 FitForge. Engineered for Excellence.
+            </div>
+        </footer>
+    </main>
+    <!-- Micro-interaction Scripts -->
+    <script>
+        // Auth check
+        const userEmail = localStorage.getItem('userEmail');
+        if (!userEmail) {
+            window.location.href = 'login.html';
+        } else {
+            // Enforce completed protocol details
+            fetch(`/api/user/protocol?email=${encodeURIComponent(userEmail)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const proto = data.protocol || {};
+                    if (!proto.age || !proto.height || !proto.weight || !proto.biologicalSex) {
+                        window.location.href = 'protocol.html';
+                    }
+                })
+                .catch(err => console.error("Error validating protocol completion:", err));
+        }
+        function logout() { localStorage.removeItem('userEmail'); localStorage.removeItem('userName'); window.location.href = 'login.html'; }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('camera-video');
+            const previewImg = document.getElementById('preview-image');
+            const simulatedBg = document.getElementById('simulated-bg');
+            const arContainer = document.getElementById('ar-overlays-container');
+            const scanningLine = document.getElementById('scanning-line');
+
+            const btnPrimary = document.getElementById('btn-primary-action');
+            const btnReset = document.getElementById('btn-reset');
+            const btnGallery = document.getElementById('btn-gallery');
+            const btnToggleCamera = document.getElementById('btn-toggle-camera');
+            const fileInput = document.getElementById('file-input');
+            const captureCanvas = document.getElementById('capture-canvas');
+
+            const primaryIcon = document.getElementById('primary-action-icon');
+            const primaryText = document.getElementById('primary-action-text');
+
+            // Right Panel Elements
+            const valConfidence = document.getElementById('confidence-val');
+            const barConfidence = document.getElementById('confidence-bar');
+            const valProtein = document.getElementById('protein-val');
+            const valCarbs = document.getElementById('carbs-val');
+            const valFats = document.getElementById('fats-val');
+            const valCalories = document.getElementById('calories-val');
+            const valFiber = document.getElementById('fiber-val');
+            const valSugar = document.getElementById('sugar-val');
+            const valSodium = document.getElementById('sodium-val');
+            const valCholesterol = document.getElementById('cholesterol-val');
+            const valPotassium = document.getElementById('potassium-val');
+            const listFindings = document.getElementById('findings-list');
+            const btnLogJournal = document.getElementById('btn-log-journal');
+            const matrixStatusText = document.getElementById('matrix-status-text');
+            const matrixStatusDot = document.getElementById('matrix-status-dot');
+
+            // Right Panel Custom UI Elements
+            const btnEditMacros = document.getElementById('btn-edit-macros');
+            const macroChartContainer = document.getElementById('macro-chart-container');
+            const dailyIntegrationCard = document.getElementById('daily-integration-card');
+            const macrosDisplayContainer = document.getElementById('macros-display-container');
+            const macrosEditContainer = document.getElementById('macros-edit-container');
+
+            const editFoodName = document.getElementById('edit-food-name');
+            const editCalories = document.getElementById('edit-calories');
+            const editProtein = document.getElementById('edit-protein');
+            const editCarbs = document.getElementById('edit-carbs');
+            const editFats = document.getElementById('edit-fats');
+            const editFiber = document.getElementById('edit-fiber');
+            const editSugar = document.getElementById('edit-sugar');
+            const editSodium = document.getElementById('edit-sodium');
+            const editCholesterol = document.getElementById('edit-cholesterol');
+            const editPotassium = document.getElementById('edit-potassium');
+
+            const btnEditCancel = document.getElementById('btn-edit-cancel');
+            const btnEditSave = document.getElementById('btn-edit-save');
+
+            // Health Analysis & Recommendations Cards
+            const healthAnalysisCard = document.getElementById('health-analysis-card');
+            const healthScoreVal = document.getElementById('health-score-val');
+            const healthScoreRing = document.getElementById('health-score-ring');
+            const badgeWeightLoss = document.getElementById('badge-weight-loss');
+            const badgeMuscleGain = document.getElementById('badge-muscle-gain');
+            const badgeDiabetic = document.getElementById('badge-diabetic');
+            const badgeBalanced = document.getElementById('badge-balanced');
+            const badgeHeartHealth = document.getElementById('badge-heart-health');
+            const alertHighProtein = document.getElementById('alert-high-protein');
+            const alertHighFat = document.getElementById('alert-high-fat');
+            const alertHighSugar = document.getElementById('alert-high-sugar');
+            const alertHighSodium = document.getElementById('alert-high-sodium');
+            const healthExplanation = document.getElementById('health-explanation');
+
+            const recommendationsCard = document.getElementById('recommendations-card');
+            const recBestTime = document.getElementById('rec-best-time');
+            const recAlternatives = document.getElementById('rec-alternatives');
+            const recPortion = document.getElementById('rec-portion');
+            const recWater = document.getElementById('rec-water');
+            const recWorkout = document.getElementById('rec-workout');
+            const recPairing = document.getElementById('rec-pairing');
+
+            // API Settings Elements
+            const btnApiSettings = document.getElementById('btn-api-settings');
+            const apiModal = document.getElementById('api-modal');
+            const btnCloseApiModal = document.getElementById('btn-close-api-modal');
+            const inputApiKey = document.getElementById('input-api-key');
+            const btnClearApiKey = document.getElementById('btn-clear-api-key');
+            const btnSaveApiKey = document.getElementById('btn-save-api-key');
+
+            // Set Initial API key
+            if (localStorage.getItem('gemini_api_key')) {
+                inputApiKey.value = localStorage.getItem('gemini_api_key');
+            }
+
+            // Daily Target Values
+            let dailyCaloriesTarget = 2000;
+            let dailyProteinTarget = 150;
+
+            const dailyCalProjBar = document.getElementById('daily-cal-proj-bar');
+            const dailyProtProjBar = document.getElementById('daily-prot-proj-bar');
+
+            // Daily Consumption Totals (Today)
+            let todayCaloriesConsumed = 0;
+            let todayProteinConsumed = 0;
+            let todayCarbsConsumed = 0;
+            let todayFatsConsumed = 0;
+
+            function fetchTodayIntake() {
+                if (!userEmail) return;
+                const todayStr = new Date().toISOString().split('T')[0];
+                fetch(`/api/nutrition/logs?email=${encodeURIComponent(userEmail)}&date=${todayStr}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const logs = data.logs || [];
+                        todayCaloriesConsumed = 0;
+                        todayProteinConsumed = 0;
+                        todayCarbsConsumed = 0;
+                        todayFatsConsumed = 0;
+                        logs.forEach(log => {
+                            todayCaloriesConsumed += Number(log.calories || 0);
+                            todayProteinConsumed += Number(log.protein || 0);
+                            todayCarbsConsumed += Number(log.carbs || 0);
+                            todayFatsConsumed += Number(log.fat || 0);
+                        });
+                        console.log("Loaded today's intake totals:", todayCaloriesConsumed, todayProteinConsumed);
+                        if (scanState === 'ready') {
+                            updateStandbyDashboard();
+                        }
+                    })
+                    .catch(err => console.error("Error fetching today's logs:", err));
+            }
+
+            if (userEmail) {
+                fetch(`/api/user/diet-profile?email=${encodeURIComponent(userEmail)}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.dietProfile && data.dietProfile.dailyCalories) {
+                            dailyCaloriesTarget = Number(data.dietProfile.dailyCalories);
+                            dailyProteinTarget = Math.round((dailyCaloriesTarget * 0.3) / 4);
+                            console.log("Loaded Daily Calorie Target:", dailyCaloriesTarget, "Protein Target:", dailyProteinTarget);
+                        }
+                        fetchTodayIntake();
+                    })
+                    .catch(err => {
+                        console.error("Error fetching diet profile:", err);
+                        fetchTodayIntake();
+                    });
+            }
+
+            // Text Mode Entry Elements
+            const tabBtnCamera = document.getElementById('tab-btn-camera');
+            const tabBtnText = document.getElementById('tab-btn-text');
+            const cameraViewport = document.getElementById('camera-viewport');
+            const textEntryViewport = document.getElementById('text-entry-viewport');
+            const textEntryInputs = document.getElementById('text-entry-inputs');
+            const textEntrySummary = document.getElementById('text-entry-summary');
+
+            const btnTextAnalyze = document.getElementById('btn-text-analyze');
+            const inputTextFoodName = document.getElementById('input-text-food-name');
+            const inputTextFoodWeight = document.getElementById('input-text-food-weight');
+            const inputTextFoodUnit = document.getElementById('input-text-food-unit');
+            const inputTextFoodDesc = document.getElementById('input-text-food-desc');
+
+            // Food hint input elements (shown on photo preview)
+            const foodHintContainer = document.getElementById('food-hint-container');
+            const foodHintInput = document.getElementById('food-hint-input');
+
+            let mediaStream = null;
+            let currentFacingMode = 'environment';
+            let currentImageBase64 = null;
+            let currentFileName = 'captured_meal.jpg';
+            let scannedFoodData = null;
+            let scanState = 'ready'; // ready, preview, scanning, scanned, logged
+            let currentInputMode = 'camera'; // camera, text
+
+            // Initialize Camera
+            function startCamera() {
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(track => track.stop());
+                }
+
+                const constraints = {
+                    video: {
+                        facingMode: currentFacingMode,
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    }
+                };
+
+                navigator.mediaDevices.getUserMedia(constraints)
+                    .then(stream => {
+                        mediaStream = stream;
+                        video.srcObject = stream;
+                        video.classList.remove('hidden');
+                        simulatedBg.classList.add('hidden');
+                        btnToggleCamera.classList.remove('hidden');
+                        matrixStatusText.innerText = "CAMERA_STREAMING";
+                        matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+                    })
+                    .catch(err => {
+                        console.warn("Webcam access failed/unavailable, falling back to gallery uploads:", err);
+                        video.classList.add('hidden');
+                        simulatedBg.classList.remove('hidden');
+                        btnToggleCamera.classList.add('hidden');
+                        matrixStatusText.innerText = "GALLERY_MODE";
+                        matrixStatusDot.className = "w-2 h-2 rounded-full bg-amber-400";
+                    });
+            }
+
+            // Try starting camera on load
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                startCamera();
+            } else {
+                matrixStatusText.innerText = "OFFLINE_GALLERY";
+                matrixStatusDot.className = "w-2 h-2 rounded-full bg-amber-400";
+            }
+
+            // Local classification model
+            let localClassifierModel = null;
+            async function loadLocalClassifier() {
+                try {
+                    matrixStatusText.innerText = "LOADING_LOCAL_AI";
+                    localClassifierModel = await mobilenet.load();
+                    matrixStatusText.innerText = mediaStream ? "CAMERA_STREAMING" : "GALLERY_MODE";
+                } catch (err) {
+                    console.error("Failed to load local MobileNet classifier:", err);
+                }
+            }
+            loadLocalClassifier();
+
+            function isFoodClass(className) {
+                const norm = className.toLowerCase();
+                const nonFoodKeywords = [
+                    'screen', 'monitor', 'keyboard', 'computer', 'mouse', 'television', 'laptop',
+                    'sunglass', 'spectacles', 'glasses', 'goggles', 'hair slide', 'hairpin',
+                    'person', 'human', 'face', 'man', 'woman', 'child', 'boy', 'girl',
+                    'ceiling', 'light', 'lamp', 'window', 'door', 'wall', 'floor', 'desk', 'chair', 'table',
+                    'telephone', 'phone', 'cellular', 'camera', 'microphone', 'watch', 'clock',
+                    'backpack', 'bag', 'handbag', 'wallet', 'purse', 'shoe', 'shirt', 'pants', 'jacket',
+                    'book', 'notebook', 'paper', 'pen', 'pencil', 'marker', 'ruler',
+                    'car', 'bicycle', 'motorcycle', 'truck', 'bus', 'train', 'airplane',
+                    'dog', 'cat', 'bird', 'horse', 'cow', 'sheep', 'pig', 'monkey',
+                    'plant', 'tree', 'flower', 'pot', 'soil', 'grass'
+                ];
+
+                for (const kw of nonFoodKeywords) {
+                    if (norm.includes(kw)) return false;
+                }
+
+                const foodKeywords = [
+                    'food', 'dish', 'meal', 'fruit', 'vegetable', 'pizza', 'burger', 'salad', 'sandwich',
+                    'soup', 'meat', 'bread', 'egg', 'beverage', 'drink', 'juice', 'coffee', 'tea', 'milk',
+                    'chocolate', 'cake', 'pie', 'chicken', 'steak', 'pork', 'fish', 'salmon', 'tuna',
+                    'sushi', 'apple', 'banana', 'orange', 'melon', 'berry', 'cheese', 'butter', 'potato',
+                    'rice', 'noodle', 'pasta', 'sauce', 'curry', 'roll', 'taco', 'burrito', 'fries',
+                    'fry', 'bacon', 'turkey', 'sausage', 'yoghurt', 'yogurt', 'cereal', 'donut', 'cookie',
+                    'ice cream', 'popcorn', 'waffle', 'pancake', 'toast', 'plate', 'bowl', 'guacamole',
+                    'consomme', 'chowder', 'potpie', 'spaghetti', 'macaroni', 'meatloaf', 'hotdog',
+                    'burrito', 'taco', 'carbonara', 'pesto'
+                ];
+
+                for (const kw of foodKeywords) {
+                    if (norm.includes(kw)) return true;
+                }
+
+                return true;
+            }
+
+            // Classify the preview image locally in browser
+            async function classifyImageLocally() {
+                if (!localClassifierModel) {
+                    console.warn("MobileNet classifier model not loaded yet.");
+                    return null;
+                }
+                try {
+                    const predictions = await localClassifierModel.classify(previewImg);
+                    console.log("Local MobileNet predictions:", predictions);
+                    if (predictions && predictions.length > 0) {
+                        // Find the first prediction candidate that is classified as food
+                        for (const pred of predictions) {
+                            if (isFoodClass(pred.className)) {
+                                return pred.className;
+                            }
+                        }
+                        // Default to top prediction if none of them matched food
+                        return predictions[0].className;
+                    }
+                } catch (err) {
+                    console.error("Local classification prediction failed:", err);
+                }
+                return null;
+            }
+
+            // Toggle Camera (Front vs Back)
+            btnToggleCamera.addEventListener('click', () => {
+                currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
+                startCamera();
+            });
+
+            // Trigger Gallery Picker
+            btnGallery.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                currentFileName = file.name;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        compressImage(img, (compressedBase64) => {
+                            currentImageBase64 = compressedBase64;
+                            previewImg.src = compressedBase64;
+                            previewImg.classList.remove('hidden');
+                            video.classList.add('hidden');
+                            simulatedBg.classList.add('hidden');
+
+                            setUIState('preview');
+                        });
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Capture from video stream
+            function capturePhoto() {
+                if (!mediaStream) return;
+
+                const width = video.videoWidth;
+                const height = video.videoHeight;
+                captureCanvas.width = width;
+                captureCanvas.height = height;
+
+                const ctx = captureCanvas.getContext('2d');
+                if (currentFacingMode === 'user') {
+                    ctx.translate(width, 0);
+                    ctx.scale(-1, 1);
+                }
+                ctx.drawImage(video, 0, 0, width, height);
+
+                const rawBase64 = captureCanvas.toDataURL('image/jpeg', 0.9);
+
+                // Compress before using
+                const img = new Image();
+                img.onload = () => {
+                    compressImage(img, (compressedBase64) => {
+                        currentImageBase64 = compressedBase64;
+                        currentFileName = 'captured_photo.jpg';
+                        previewImg.src = compressedBase64;
+                        previewImg.classList.remove('hidden');
+                        video.classList.add('hidden');
+                        simulatedBg.classList.add('hidden');
+
+                        setUIState('preview');
+                    });
+                };
+                img.src = rawBase64;
+            }
+
+            // Image Compression
+            function compressImage(imgElement, callback, maxDim = 800) {
+                let width = imgElement.naturalWidth || imgElement.width;
+                let height = imgElement.naturalHeight || imgElement.height;
+
+                if (width > maxDim || height > maxDim) {
+                    if (width > height) {
+                        height = Math.round((height * maxDim) / width);
+                        width = maxDim;
+                    } else {
+                        width = Math.round((width * maxDim) / height);
+                        height = maxDim;
+                    }
+                }
+
+                captureCanvas.width = width;
+                captureCanvas.height = height;
+                const ctx = captureCanvas.getContext('2d');
+                ctx.drawImage(imgElement, 0, 0, width, height);
+
+                const compressed = captureCanvas.toDataURL('image/jpeg', 0.85);
+                callback(compressed);
+            }
+
+            function updateStandbyDashboard() {
+                const dailyCarbsTarget = Math.round((dailyCaloriesTarget * 0.4) / 4);
+                const dailyFatsTarget = Math.round((dailyCaloriesTarget * 0.3) / 9);
+
+                // Set Header values to show today's target
+                const labelConfidence = document.getElementById('confidence-label');
+                if (labelConfidence) labelConfidence.innerText = "Today's Intake";
+                
+                if (valConfidence) valConfidence.innerText = `${Math.round((todayCaloriesConsumed / dailyCaloriesTarget) * 100) || 0}%`;
+                if (barConfidence) barConfidence.style.width = `${Math.min(Math.round((todayCaloriesConsumed / dailyCaloriesTarget) * 100) || 0, 100)}%`;
+
+                // Set Bento Card values
+                if (valProtein) valProtein.innerText = `${todayProteinConsumed}g / ${dailyProteinTarget}g`;
+                if (valCarbs) valCarbs.innerText = `${todayCarbsConsumed}g / ${dailyCarbsTarget}g`;
+                if (valFats) valFats.innerText = `${todayFatsConsumed}g / ${dailyFatsTarget}g`;
+                if (valCalories) valCalories.innerText = `${todayCaloriesConsumed} / ${dailyCaloriesTarget}`;
+                if (valFiber) valFiber.innerText = "0g";
+                if (valSugar) valSugar.innerText = "0g";
+                if (valSodium) valSodium.innerText = "0mg";
+                if (valCholesterol) valCholesterol.innerText = "0mg";
+                if (valPotassium) valPotassium.innerText = "0mg";
+
+                // Render Today's Macro Donut Chart
+                const chartKcalVal = document.getElementById('chart-kcal-val');
+                const chartCarbs = document.getElementById('chart-carbs');
+                const chartProtein = document.getElementById('chart-protein');
+                const chartFats = document.getElementById('chart-fats');
+                
+                if (chartKcalVal) chartKcalVal.innerText = todayCaloriesConsumed;
+                
+                const calProt = todayProteinConsumed * 4;
+                const calCarb = todayCarbsConsumed * 4;
+                const calFat = todayFatsConsumed * 9;
+                const calSum = calProt + calCarb + calFat || 1;
+                
+                const pctCarbs = calCarb / calSum;
+                const pctProtein = calProt / calSum;
+                const pctFats = calFat / calSum;
+                
+                const circ = 2 * Math.PI * 40; // 251.327
+                
+                if (chartCarbs && chartProtein && chartFats) {
+                    chartCarbs.style.strokeDashoffset = circ * (1 - pctCarbs);
+                    
+                    chartProtein.style.strokeDashoffset = circ * (1 - pctProtein);
+                    chartProtein.style.transform = `rotate(${pctCarbs * 360}deg)`;
+                    chartProtein.style.transformOrigin = 'center';
+                    
+                    chartFats.style.strokeDashoffset = circ * (1 - pctFats);
+                    chartFats.style.transform = `rotate(${(pctCarbs + pctProtein) * 360}deg)`;
+                    chartFats.style.transformOrigin = 'center';
+                }
+
+                if (macroChartContainer) macroChartContainer.classList.remove('hidden');
+            }
+
+            function resetEditViews() {
+                if (btnEditMacros) btnEditMacros.classList.add('hidden');
+                if (macroChartContainer) macroChartContainer.classList.add('hidden');
+                if (dailyIntegrationCard) dailyIntegrationCard.classList.add('hidden');
+                if (healthAnalysisCard) healthAnalysisCard.classList.add('hidden');
+                if (recommendationsCard) recommendationsCard.classList.add('hidden');
+                if (macrosEditContainer) {
+                    macrosEditContainer.classList.add('hidden');
+                    macrosEditContainer.classList.remove('flex');
+                }
+                if (macrosDisplayContainer) macrosDisplayContainer.classList.remove('hidden');
+            }
+
+            // State Manager
+            function setUIState(state) {
+                scanState = state;
+                if (state === 'ready') {
+                    previewImg.classList.add('hidden');
+                    if (mediaStream) {
+                        video.classList.remove('hidden');
+                        simulatedBg.classList.add('hidden');
+                    } else {
+                        video.classList.add('hidden');
+                        simulatedBg.classList.remove('hidden');
+                    }
+
+                    resetEditViews();
+
+                    // Reset text entry inputs if in text mode
+                    if (currentInputMode === 'text') {
+                        inputTextFoodName.value = "";
+                        inputTextFoodWeight.value = "";
+                        inputTextFoodDesc.value = "";
+                        textEntryInputs.classList.remove('hidden');
+                        textEntrySummary.classList.add('hidden');
+                    }
+
+                    // Reset photo hint input
+                    foodHintInput.value = "";
+                    foodHintContainer.classList.add('hidden');
+
+                    btnReset.classList.add('hidden');
+                    btnGallery.classList.remove('hidden');
+
+                    primaryIcon.innerText = "photo_camera";
+                    primaryText.innerText = mediaStream ? "CAPTURE PHOTO" : "UPLOAD PHOTO";
+                    btnPrimary.classList.remove('opacity-50');
+                    btnPrimary.disabled = false;
+
+                    scanningLine.classList.add('hidden');
+                    arContainer.innerHTML = '';
+
+                    // Show Today's Dashboard summary when ready
+                    updateStandbyDashboard();
+
+                    valConfidence.innerText = "--%";
+                    barConfidence.style.width = "0%";
+                    valProtein.innerText = "0g";
+                    valCarbs.innerText = "0g";
+                    valFats.innerText = "0g";
+                    valCalories.innerText = "0";
+                    listFindings.innerHTML = '<li class="text-xs text-secondary/40 text-center py-4">Scan a food photo to extract nutrients</li>';
+                    btnLogJournal.classList.add('opacity-40');
+                    btnLogJournal.disabled = true;
+                    btnLogJournal.innerText = "LOG TO JOURNAL";
+
+                    matrixStatusText.innerText = mediaStream ? "CAMERA_STREAMING" : "GALLERY_MODE";
+                    matrixStatusDot.className = mediaStream ? "w-2 h-2 rounded-full bg-emerald-400 animate-pulse" : "w-2 h-2 rounded-full bg-amber-400";
+                }
+                else if (state === 'preview') {
+                    btnReset.classList.remove('hidden');
+                    btnReset.innerText = "RETAKE";
+                    btnGallery.classList.add('hidden');
+
+                    resetEditViews();
+
+                    primaryIcon.innerText = "monitoring";
+                    primaryText.innerText = "ANALYZE FOOD";
+                    btnPrimary.disabled = false;
+                    btnPrimary.classList.remove('opacity-50');
+
+                    scanningLine.classList.add('hidden');
+                    arContainer.innerHTML = '';
+
+                    // Show food hint input in preview state
+                    foodHintContainer.classList.remove('hidden');
+                }
+                else if (state === 'scanning') {
+                    btnReset.classList.add('hidden');
+                    btnGallery.classList.add('hidden');
+
+                    resetEditViews();
+
+                    // Hide food hint input
+                    foodHintContainer.classList.add('hidden');
+
+                    primaryIcon.innerText = "hourglass_empty";
+                    primaryText.innerText = "ANALYZING...";
+                    btnPrimary.disabled = true;
+                    btnPrimary.classList.add('opacity-50');
+
+                    scanningLine.classList.remove('hidden');
+
+                    matrixStatusText.innerText = "EXTRACTING_AI_MATRICES";
+                    matrixStatusDot.className = "w-2 h-2 rounded-full bg-blue-400 animate-pulse";
+                }
+                else if (state === 'scanned') {
+                    btnReset.classList.remove('hidden');
+                    btnReset.innerText = "NEW SCAN";
+                    btnGallery.classList.add('hidden');
+
+                    // Hide food hint input
+                    foodHintContainer.classList.add('hidden');
+
+                    primaryIcon.innerText = "check_circle";
+                    primaryText.innerText = "LOG TO JOURNAL";
+                    btnPrimary.disabled = false;
+                    btnPrimary.classList.remove('opacity-50');
+
+                    scanningLine.classList.add('hidden');
+
+                    const isLowConfidence = scannedFoodData && scannedFoodData.confidence < 70;
+
+                    if (scannedFoodData && scannedFoodData.totalCalories === 0) {
+                        btnLogJournal.classList.add('opacity-40');
+                        btnLogJournal.disabled = true;
+                        btnLogJournal.innerText = "NO FOOD DETECTED";
+                        resetEditViews();
+                    } else if (isLowConfidence) {
+                        btnLogJournal.classList.add('opacity-40');
+                        btnLogJournal.disabled = true;
+                        btnLogJournal.innerText = "ACCURACY TOO LOW";
+                        
+                        btnPrimary.disabled = true;
+                        btnPrimary.classList.add('opacity-50');
+                        
+                        resetEditViews();
+                    } else {
+                        btnLogJournal.classList.remove('opacity-40');
+                        btnLogJournal.disabled = false;
+                        btnLogJournal.innerText = "LOG TO JOURNAL";
+
+                        if (btnEditMacros) btnEditMacros.classList.remove('hidden');
+                        if (macroChartContainer) macroChartContainer.classList.remove('hidden');
+                        if (dailyIntegrationCard) dailyIntegrationCard.classList.remove('hidden');
+                        if (healthAnalysisCard) healthAnalysisCard.classList.remove('hidden');
+                        if (recommendationsCard) recommendationsCard.classList.remove('hidden');
+                    }
+
+                    matrixStatusText.innerText = isLowConfidence ? "LOW_CONFIDENCE_WARNING" : "EXTRACTION_COMPLETE";
+                    matrixStatusDot.className = isLowConfidence ? "w-2 h-2 rounded-full bg-red-400 animate-pulse" : "w-2 h-2 rounded-full bg-emerald-400";
+
+                    // Handle manual text viewport summary display
+                    if (currentInputMode === 'text') {
+                        textEntryInputs.classList.add('hidden');
+                        textEntrySummary.classList.remove('hidden');
+                        if (isLowConfidence) {
+                            document.getElementById('text-summary-title').innerText = "Low Confidence";
+                            document.getElementById('text-summary-desc').innerText = "This food could not be identified accurately. Please upload a clearer image.";
+                        } else {
+                            document.getElementById('text-summary-title').innerText = "Extraction Complete";
+                            document.getElementById('text-summary-desc').innerText = "Your food portion has been successfully parsed and calibrated. Check the metrics dashboard on the right to log your meal.";
+                        }
+                    }
+                }
+                else if (state === 'logged') {
+                    btnReset.classList.remove('hidden');
+                    btnReset.innerText = "SCAN AGAIN";
+                    btnGallery.classList.add('hidden');
+
+                    // Hide food hint input
+                    foodHintContainer.classList.add('hidden');
+
+                    primaryIcon.innerText = "done_all";
+                    primaryText.innerText = "MEAL LOGGED!";
+                    btnPrimary.disabled = true;
+                    btnPrimary.classList.add('opacity-50');
+
+                    btnLogJournal.classList.add('opacity-40');
+                    btnLogJournal.disabled = true;
+                    btnLogJournal.innerText = "LOGGED SUCCESSFULLY";
+
+                    if (btnEditMacros) btnEditMacros.classList.add('hidden');
+                    if (macroChartContainer) macroChartContainer.classList.remove('hidden');
+                    if (dailyIntegrationCard) dailyIntegrationCard.classList.remove('hidden');
+                    if (healthAnalysisCard) healthAnalysisCard.classList.remove('hidden');
+                    if (recommendationsCard) recommendationsCard.classList.remove('hidden');
+                    if (macrosEditContainer) {
+                        macrosEditContainer.classList.add('hidden');
+                        macrosEditContainer.classList.remove('flex');
+                    }
+                    if (macrosDisplayContainer) macrosDisplayContainer.classList.remove('hidden');
+
+                    matrixStatusText.innerText = "JOURNAL_UPDATED";
+                    matrixStatusDot.className = "w-2 h-2 rounded-full bg-emerald-500 animate-pulse";
+
+                    // Handle manual text viewport summary display
+                    if (currentInputMode === 'text') {
+                        textEntryInputs.classList.add('hidden');
+                        textEntrySummary.classList.remove('hidden');
+                        document.getElementById('text-summary-title').innerText = "Logged Successfully";
+                        document.getElementById('text-summary-desc').innerText = "Your portion log has been successfully saved to your daily Food Journal.";
+                    }
+                }
+            }
+
+            // Perform AI Scan
+            async function analyzeFood() {
+                if (!currentImageBase64) return;
+
+                let hintVal = foodHintInput.value.trim();
+                if (!hintVal) {
+                    // If no manual hint was typed, try to run local image classification
+                    const classifiedName = await classifyImageLocally();
+                    if (classifiedName) {
+                        console.log("Classified image locally as:", classifiedName);
+                        hintVal = classifiedName;
+                    }
+                }
+
+                const payloadName = hintVal ? hintVal : currentFileName;
+
+                setUIState('scanning');
+
+                try {
+                    const headers = { 'Content-Type': 'application/json' };
+                    const userKey = localStorage.getItem('gemini_api_key');
+                    if (userKey) {
+                        headers['x-gemini-key'] = userKey;
+                    }
+
+                    const response = await fetch('/api/scan-food', {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify({
+                            image: currentImageBase64,
+                            name: payloadName,
+                            email: userEmail
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Scanning failed.");
+                    }
+
+                    const data = await response.json();
+                    scannedFoodData = data;
+
+                    renderNutritionalResults(data);
+                    setUIState('scanned');
+
+                    triggerCameraFlash();
+                } catch (error) {
+                    console.error("AI scanning error:", error);
+                    alert("Failed to analyze food. " + error.message);
+                    setUIState('preview');
+                }
+            }
+
+            // Render Results in Data Panel
+            function renderNutritionalResults(data) {
+                const confidence = data.confidence || 90;
+                valConfidence.innerText = `${confidence}%`;
+                barConfidence.style.width = `${confidence}%`;
+
+                if (data.simulated) {
+                    console.info("Notice: Displaying simulated vision metrics. Configure process.env.GEMINI_API_KEY for true AI vision.");
+                }
+
+                animateValue(valCalories, 0, data.totalCalories, "");
+                animateValue(valProtein, 0, data.protein, "g");
+                animateValue(valCarbs, 0, data.carbs, "g");
+                animateValue(valFats, 0, data.fat, "g");
+                animateValue(valFiber, 0, data.fiber || 0, "g");
+                animateValue(valSugar, 0, data.sugar || 0, "g");
+                animateValue(valSodium, 0, data.sodium || 0, "mg");
+                animateValue(valCholesterol, 0, data.cholesterol || 0, "mg");
+                animateValue(valPotassium, 0, data.potassium || 0, "mg");
+
+                // Render SVG Donut Chart
+                const chartKcalVal = document.getElementById('chart-kcal-val');
+                const chartCarbs = document.getElementById('chart-carbs');
+                const chartProtein = document.getElementById('chart-protein');
+                const chartFats = document.getElementById('chart-fats');
+
+                if (chartKcalVal) chartKcalVal.innerText = data.totalCalories;
+
+                const c_protein = Number(data.protein || 0);
+                const c_carbs = Number(data.carbs || 0);
+                const c_fat = Number(data.fat || 0);
+
+                const calProt = c_protein * 4;
+                const calCarb = c_carbs * 4;
+                const calFat = c_fat * 9;
+                const calSum = calProt + calCarb + calFat || 1;
+
+                const pctCarbs = calCarb / calSum;
+                const pctProtein = calProt / calSum;
+                const pctFats = calFat / calSum;
+
+                const circ = 2 * Math.PI * 40; // 251.327
+
+                if (chartCarbs && chartProtein && chartFats) {
+                    chartCarbs.style.strokeDashoffset = circ * (1 - pctCarbs);
+
+                    chartProtein.style.strokeDashoffset = circ * (1 - pctProtein);
+                    chartProtein.style.transform = `rotate(${pctCarbs * 360}deg)`;
+                    chartProtein.style.transformOrigin = 'center';
+
+                    chartFats.style.strokeDashoffset = circ * (1 - pctFats);
+                    chartFats.style.transform = `rotate(${(pctCarbs + pctProtein) * 360}deg)`;
+                    chartFats.style.transformOrigin = 'center';
+                }
+
+                // Health Score Circular Progress Ring
+                const healthAnalysis = data.healthAnalysis || { healthScore: 0, isHealthy: false, suitableWeightLoss: false, suitableMuscleGain: false, suitableDiabetic: false, suitableHeartHealth: false, isBalanced: false, explanation: "" };
+                const score = healthAnalysis.healthScore || 0;
+                healthScoreVal.innerText = score;
+
+                const scoreRingCirc = 2 * Math.PI * 42; // ~263.89
+                const scoreOffset = scoreRingCirc * (1 - score / 100);
+                healthScoreRing.style.strokeDashoffset = scoreOffset;
+
+                // Color of the health ring based on score
+                if (score >= 80) {
+                    healthScoreRing.setAttribute('stroke', '#34d399'); // Emerald
+                } else if (score >= 50) {
+                    healthScoreRing.setAttribute('stroke', '#f59e0b'); // Amber
+                } else {
+                    healthScoreRing.setAttribute('stroke', '#f87171'); // Red
+                }
+
+                // Suitability Badges styling helper
+                const setBadgeStatus = (badgeElement, isSuitable) => {
+                    if (!badgeElement) return;
+                    if (isSuitable) {
+                        badgeElement.className = "flex items-center gap-2 bg-emerald-500/10 px-3.5 py-2.5 rounded-xl border border-emerald-500/30 text-emerald-400 text-[10px] font-bold";
+                        const icon = badgeElement.querySelector('.material-symbols-outlined');
+                        if (icon) icon.className = "material-symbols-outlined text-[14px] text-emerald-400";
+                    } else {
+                        badgeElement.className = "flex items-center gap-2 bg-white/5 px-3.5 py-2.5 rounded-xl border border-white/5 text-secondary/40 text-[10px]";
+                        const icon = badgeElement.querySelector('.material-symbols-outlined');
+                        if (icon) icon.className = "material-symbols-outlined text-[14px] text-secondary/30";
+                    }
+                };
+
+                setBadgeStatus(badgeWeightLoss, healthAnalysis.suitableWeightLoss);
+                setBadgeStatus(badgeMuscleGain, healthAnalysis.suitableMuscleGain);
+                setBadgeStatus(badgeDiabetic, healthAnalysis.suitableDiabetic);
+                setBadgeStatus(badgeBalanced, healthAnalysis.isBalanced);
+                setBadgeStatus(badgeHeartHealth, healthAnalysis.suitableHeartHealth);
+
+                // Alerts / Warnings
+                if (healthAnalysis.highProtein) {
+                    alertHighProtein.classList.remove('hidden');
+                } else {
+                    alertHighProtein.classList.add('hidden');
+                }
+
+                if (healthAnalysis.highFat) {
+                    alertHighFat.classList.remove('hidden');
+                } else {
+                    alertHighFat.classList.add('hidden');
+                }
+
+                if (healthAnalysis.highSugar) {
+                    alertHighSugar.classList.remove('hidden');
+                } else {
+                    alertHighSugar.classList.add('hidden');
+                }
+
+                if (healthAnalysis.highSodium) {
+                    alertHighSodium.classList.remove('hidden');
+                } else {
+                    alertHighSodium.classList.add('hidden');
+                }
+
+                healthExplanation.innerText = healthAnalysis.explanation || "";
+
+                // Personalized Recommendations
+                const recs = data.recommendations || { bestTimeToEat: "N/A", alternatives: [], portionAdvice: "N/A", waterRecommendation: "N/A", workoutRecommendation: "N/A", foodsToPairWith: [] };
+                recBestTime.innerText = recs.bestTimeToEat || "N/A";
+                recPortion.innerText = recs.portionAdvice || "N/A";
+                recWater.innerText = recs.waterRecommendation || "N/A";
+                recWorkout.innerText = recs.workoutRecommendation || "N/A";
+
+                recAlternatives.innerHTML = "";
+                if (recs.alternatives && recs.alternatives.length > 0) {
+                    recs.alternatives.forEach(alt => {
+                        const li = document.createElement('li');
+                        li.innerText = alt;
+                        recAlternatives.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.innerText = "No alternatives required.";
+                    recAlternatives.appendChild(li);
+                }
+
+                recPairing.innerHTML = "";
+                if (recs.foodsToPairWith && recs.foodsToPairWith.length > 0) {
+                    recs.foodsToPairWith.forEach(pair => {
+                        const li = document.createElement('li');
+                        li.innerText = pair;
+                        recPairing.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.innerText = "No specific pairings suggested.";
+                    recPairing.appendChild(li);
+                }
+
+                // Render Daily Budget Contribution Integration
+                const dailyCalPct = document.getElementById('daily-cal-pct');
+                const dailyCalBar = document.getElementById('daily-cal-bar');
+                const dailyCalProjBar = document.getElementById('daily-cal-proj-bar');
+                const dailyProtPct = document.getElementById('daily-prot-pct');
+                const dailyProtBar = document.getElementById('daily-prot-bar');
+                const dailyProtProjBar = document.getElementById('daily-prot-proj-bar');
+
+                if (dailyCalPct && dailyCalBar && dailyCalProjBar && dailyProtPct && dailyProtBar && dailyProtProjBar) {
+                    const currentCalPct = Math.round((todayCaloriesConsumed / dailyCaloriesTarget) * 100);
+                    const combinedCalPct = Math.round(((todayCaloriesConsumed + data.totalCalories) / dailyCaloriesTarget) * 100);
+
+                    const currentProtPct = Math.round((todayProteinConsumed / dailyProteinTarget) * 100);
+                    const combinedProtPct = Math.round(((todayProteinConsumed + data.protein) / dailyProteinTarget) * 100);
+
+                    dailyCalPct.innerText = `Currently ${todayCaloriesConsumed} kcal (${currentCalPct}%) → Projected ${todayCaloriesConsumed + data.totalCalories} kcal (${combinedCalPct}%) / Target ${dailyCaloriesTarget}`;
+                    dailyProtPct.innerText = `Currently ${todayProteinConsumed}g (${currentProtPct}%) → Projected ${todayProteinConsumed + data.protein}g (${combinedProtPct}%) / Target ${dailyProteinTarget}g`;
+
+                    // Solid current bar
+                    dailyCalBar.style.width = `${Math.min(currentCalPct, 100)}%`;
+                    dailyProtBar.style.width = `${Math.min(currentProtPct, 100)}%`;
+
+                    // Pulsing projected bar
+                    dailyCalProjBar.style.width = `${Math.min(combinedCalPct, 100)}%`;
+                    dailyProtProjBar.style.width = `${Math.min(combinedProtPct, 100)}%`;
+                }
+
+                listFindings.innerHTML = '';
+
+                if (data.warning) {
+                    const warningLi = document.createElement('li');
+                    warningLi.className = "p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 font-semibold mb-4 text-center list-none";
+                    warningLi.innerText = data.warning;
+                    listFindings.appendChild(warningLi);
+                }
+
+                if (data.items && data.items.length > 0) {
+                    data.items.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = "flex items-center justify-between group cursor-pointer border-b border-white/5 pb-2 last:border-b-0";
+                        li.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white/70"></span>
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-body text-primary">${item.name}</span>
+                                    <span class="text-[10px] text-secondary/40">${item.portion || '1 serving'}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span class="text-xs font-headline text-primary font-bold">${item.calories} kcal</span>
+                                <span class="text-[9px] text-secondary/40 font-semibold">P:${item.protein}g C:${item.carbs}g F:${item.fat}g</span>
+                            </div>
+                        `;
+                        listFindings.appendChild(li);
+                    });
+                } else {
+                    listFindings.innerHTML = `
+                        <li class="flex items-center justify-between group cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+                                <span class="text-sm font-body text-primary">${data.foodName}</span>
+                            </div>
+                            <span class="text-xs font-headline text-secondary">${data.totalCalories} kcal</span>
+                        </li>
+                    `;
+                }
+
+                arContainer.innerHTML = '';
+                const overlayPositions = [
+                    { top: 25, left: 35, delay: 0.2 },
+                    { top: 58, left: 45, delay: 0.5 },
+                    { top: 40, left: 65, delay: 0.8 },
+                    { top: 68, left: 20, delay: 1.1 }
+                ];
+
+                if (data.items && data.items.length > 0) {
+                    data.items.slice(0, 4).forEach((item, idx) => {
+                        const pos = overlayPositions[idx] || overlayPositions[0];
+                        const overlayDiv = document.createElement('div');
+                        overlayDiv.className = "absolute z-20 ar-overlay-float flex flex-col items-start";
+                        overlayDiv.style.top = `${pos.top}%`;
+                        overlayDiv.style.left = `${pos.left}%`;
+                        overlayDiv.style.animationDelay = `${pos.delay}s`;
+
+                        overlayDiv.innerHTML = `
+                            <div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 backdrop-blur-md border border-white/20 shadow-lg">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white]"></div>
+                                <span class="font-headline text-xs font-bold tracking-tight text-white">${item.name} (${item.portion || '1 serving'})</span>
+                            </div>
+                            <div class="w-px h-8 bg-white/40 ml-4"></div>
+                        `;
+                        arContainer.appendChild(overlayDiv);
+                    });
+                }
+            }
+
+            // Animate Number utility
+            function animateValue(obj, start, end, suffix) {
+                let startTimestamp = null;
+                const duration = 800;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const current = Math.floor(progress * (end - start) + start);
+                    obj.innerText = current + suffix;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        obj.innerText = end + suffix;
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // Log entry to Daily Database Journal
+            async function saveLogToJournal() {
+                if (!scannedFoodData) return;
+
+                try {
+                    const response = await fetch('/api/nutrition/log', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: userEmail,
+                            foodName: scannedFoodData.foodName,
+                            calories: scannedFoodData.totalCalories,
+                            protein: scannedFoodData.protein,
+                            carbs: scannedFoodData.carbs,
+                            fat: scannedFoodData.fat,
+                            fiber: scannedFoodData.fiber || 0,
+                            sugar: scannedFoodData.sugar || 0,
+                            sodium: scannedFoodData.sodium || 0,
+                            cholesterol: scannedFoodData.cholesterol || 0,
+                            potassium: scannedFoodData.potassium || 0,
+                            healthAnalysis: scannedFoodData.healthAnalysis || null,
+                            recommendations: scannedFoodData.recommendations || null,
+                            items: scannedFoodData.items,
+                            imageUrl: currentImageBase64,
+                            date: new Date().toISOString()
+                        })
+                    });
+
+                    if (!response.ok) throw new Error("Database logging failed.");
+
+                    setUIState('logged');
+                    showToast("Log successfully saved to journal!");
+
+                    setTimeout(() => {
+                        window.location.href = "nutrition.html?tab=journal";
+                    }, 1500);
+
+                } catch (error) {
+                    console.error("Log to journal error:", error);
+                    alert("Failed to save log to journal: " + error.message);
+                }
+            }
+
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = "fixed bottom-12 left-1/2 transform -translate-x-1/2 z-[200] bg-white text-black px-6 py-3.5 rounded-full font-headline font-bold text-xs uppercase tracking-wider shadow-2xl flex items-center gap-2 border border-white/10 transition-all duration-300 translate-y-4 opacity-0";
+                toast.innerHTML = `<span class="material-symbols-outlined text-emerald-500">check_circle</span>${message}`;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-4', 'opacity-0');
+                }, 50);
+
+                setTimeout(() => {
+                    toast.classList.add('translate-y-4', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2500);
+            }
+
+            function triggerCameraFlash() {
+                const viewport = document.getElementById('camera-viewport');
+                const flash = document.createElement('div');
+                flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-0 transition-opacity duration-100';
+                viewport.appendChild(flash);
+
+                setTimeout(() => flash.style.opacity = '0.4', 50);
+                setTimeout(() => flash.style.opacity = '0', 150);
+                setTimeout(() => flash.remove(), 500);
+            }
+
+            btnPrimary.addEventListener('click', () => {
+                if (scanState === 'ready') {
+                    if (mediaStream) {
+                        capturePhoto();
+                    } else {
+                        fileInput.click();
+                    }
+                } else if (scanState === 'preview') {
+                    analyzeFood();
+                } else if (scanState === 'scanned') {
+                    saveLogToJournal();
+                }
+            });
+
+            btnReset.addEventListener('click', () => {
+                setUIState('ready');
+            });
+
+            // Edit / Calibrate Macros Event Listeners
+            btnEditMacros.addEventListener('click', () => {
+                if (!scannedFoodData) return;
+
+                // Pre-populate input fields with current scanned data
+                editFoodName.value = scannedFoodData.foodName || "";
+                editCalories.value = scannedFoodData.totalCalories || 0;
+                editProtein.value = scannedFoodData.protein || 0;
+                editCarbs.value = scannedFoodData.carbs || 0;
+                editFats.value = scannedFoodData.fat || 0;
+                editFiber.value = scannedFoodData.fiber || 0;
+                editSugar.value = scannedFoodData.sugar || 0;
+                editSodium.value = scannedFoodData.sodium || 0;
+                editCholesterol.value = scannedFoodData.cholesterol || 0;
+                editPotassium.value = scannedFoodData.potassium || 0;
+
+                // Toggle visibility to edit container
+                macrosDisplayContainer.classList.add('hidden');
+                macrosEditContainer.classList.remove('hidden');
+                macrosEditContainer.classList.add('flex');
+            });
+
+            btnEditCancel.addEventListener('click', () => {
+                macrosEditContainer.classList.add('hidden');
+                macrosEditContainer.classList.remove('flex');
+                macrosDisplayContainer.classList.remove('hidden');
+            });
+
+            btnEditSave.addEventListener('click', () => {
+                if (!scannedFoodData) return;
+
+                // Save adjusted values
+                scannedFoodData.foodName = editFoodName.value.trim() || "Logged Meal";
+                scannedFoodData.totalCalories = Math.max(0, Math.round(Number(editCalories.value)));
+                scannedFoodData.protein = Math.max(0, Math.round(Number(editProtein.value)));
+                scannedFoodData.carbs = Math.max(0, Math.round(Number(editCarbs.value)));
+                scannedFoodData.fat = Math.max(0, Math.round(Number(editFats.value)));
+                scannedFoodData.fiber = Math.max(0, Math.round(Number(editFiber.value)));
+                scannedFoodData.sugar = Math.max(0, Math.round(Number(editSugar.value)));
+                scannedFoodData.sodium = Math.max(0, Math.round(Number(editSodium.value)));
+                scannedFoodData.cholesterol = Math.max(0, Math.round(Number(editCholesterol.value)));
+                scannedFoodData.potassium = Math.max(0, Math.round(Number(editPotassium.value)));
+
+                // Update items array so it matches the custom summary if necessary
+                scannedFoodData.items = [{
+                    name: scannedFoodData.foodName,
+                    calories: scannedFoodData.totalCalories,
+                    protein: scannedFoodData.protein,
+                    carbs: scannedFoodData.carbs,
+                    fat: scannedFoodData.fat,
+                    fiber: scannedFoodData.fiber,
+                    sugar: scannedFoodData.sugar,
+                    sodium: scannedFoodData.sodium,
+                    cholesterol: scannedFoodData.cholesterol,
+                    potassium: scannedFoodData.potassium,
+                    portion: "1 serving (calibrated)"
+                }];
+
+                // Re-render displaying customized metrics
+                renderNutritionalResults(scannedFoodData);
+
+                // Toggle views back
+                macrosEditContainer.classList.add('hidden');
+                macrosEditContainer.classList.remove('flex');
+                macrosDisplayContainer.classList.remove('hidden');
+
+                // If it was manual text log summary screen, update the summary card too
+                if (currentInputMode === 'text') {
+                    document.getElementById('text-summary-title').innerText = "Extraction Complete";
+                    document.getElementById('text-summary-desc').innerText = `Your meal "${scannedFoodData.foodName}" has been calibrated with ${scannedFoodData.totalCalories} kcal.`;
+                }
+            });
+
+            btnLogJournal.addEventListener('click', () => {
+                saveLogToJournal();
+            });
+
+            // API Settings Modal Event Listeners
+            btnApiSettings.addEventListener('click', () => {
+                apiModal.classList.remove('hidden');
+                apiModal.classList.add('flex');
+            });
+
+            btnCloseApiModal.addEventListener('click', () => {
+                apiModal.classList.add('hidden');
+                apiModal.classList.remove('flex');
+            });
+
+            btnSaveApiKey.addEventListener('click', () => {
+                const key = inputApiKey.value.trim();
+                if (key) {
+                    localStorage.setItem('gemini_api_key', key);
+                    showToast("API Key Saved successfully!");
+                } else {
+                    localStorage.removeItem('gemini_api_key');
+                    showToast("API Key Cleared!");
+                }
+                apiModal.classList.add('hidden');
+                apiModal.classList.remove('flex');
+            });
+
+            btnClearApiKey.addEventListener('click', () => {
+                inputApiKey.value = "";
+                localStorage.removeItem('gemini_api_key');
+                showToast("API Key Cleared!");
+                apiModal.classList.add('hidden');
+                apiModal.classList.remove('flex');
+            });
+
+            // Tab Mode click listeners
+            tabBtnCamera.addEventListener('click', () => {
+                if (currentInputMode === 'camera') return;
+                currentInputMode = 'camera';
+
+                tabBtnCamera.className = "px-6 py-2.5 rounded-full border border-primary bg-primary text-black font-bold uppercase tracking-wider text-[10px] active:scale-95 transition-all cursor-pointer";
+                tabBtnText.className = "px-6 py-2.5 rounded-full border border-glass-border bg-white/5 text-primary font-bold uppercase tracking-wider text-[10px] hover:bg-white/10 active:scale-95 transition-all cursor-pointer";
+
+                cameraViewport.classList.remove('hidden');
+                textEntryViewport.classList.add('hidden');
+
+                if (scanState === 'ready' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    startCamera();
+                }
+            });
+
+            tabBtnText.addEventListener('click', () => {
+                if (currentInputMode === 'text') return;
+                currentInputMode = 'text';
+
+                tabBtnText.className = "px-6 py-2.5 rounded-full border border-primary bg-primary text-black font-bold uppercase tracking-wider text-[10px] active:scale-95 transition-all cursor-pointer";
+                tabBtnCamera.className = "px-6 py-2.5 rounded-full border border-glass-border bg-white/5 text-primary font-bold uppercase tracking-wider text-[10px] hover:bg-white/10 active:scale-95 transition-all cursor-pointer";
+
+                cameraViewport.classList.add('hidden');
+                textEntryViewport.classList.remove('hidden');
+
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(track => track.stop());
+                    mediaStream = null;
+                    video.classList.add('hidden');
+                }
+            });
+
+            // Perform Manual Text Food Intake Analysis
+            async function analyzeTextFood() {
+                const foodName = inputTextFoodName.value.trim();
+                const weight = inputTextFoodWeight.value.trim();
+                const unit = inputTextFoodUnit.value;
+                const textDesc = inputTextFoodDesc.value.trim();
+
+                if (!textDesc && (!foodName || !weight)) {
+                    alert("Please enter a food description or specify a portion name and weight.");
+                    return;
+                }
+
+                setUIState('scanning');
+
+                try {
+                    const response = await fetch('/api/analyze-text-food', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            text: textDesc,
+                            foodName: foodName,
+                            weight: weight,
+                            unit: unit,
+                            email: userEmail
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Text analysis failed.");
+                    }
+
+                    const data = await response.json();
+                    scannedFoodData = data;
+                    currentImageBase64 = ""; // Reset base64 image since it's a manual entry log
+
+                    renderNutritionalResults(data);
+                    setUIState('scanned');
+                } catch (error) {
+                    console.error("Text food analysis error:", error);
+                    alert("Failed to analyze food text. " + error.message);
+                    setUIState('ready');
+                }
+            }
+
+            btnTextAnalyze.addEventListener('click', analyzeTextFood);
+
+            // Sidebar Navigation Drawer Toggle logic
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar-nav');
+                const backdrop = document.getElementById('sidebar-backdrop');
+                if (sidebar && backdrop) {
+                    sidebar.classList.toggle('-translate-x-full');
+                    backdrop.classList.toggle('hidden');
+                }
+            }
+
+            window.toggleSidebar = toggleSidebar;
+        });
+    </script>
+    <!-- API Settings Modal -->
+    <div id="api-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <div class="glass-panel max-w-md w-full p-8 rounded-[2rem] border-white/10 space-y-6 relative bg-[#0d0d0f]/90 border border-white/10">
+            <button id="btn-close-api-modal" class="absolute top-6 right-6 text-secondary hover:text-primary transition-colors cursor-pointer bg-transparent border-0">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+            <div class="space-y-2">
+                <h3 class="font-headline text-2xl font-bold text-white">Gemini API Key</h3>
+                <p class="text-xs text-secondary opacity-60">Set a custom API key for direct client-side food scanning. Leave blank to use server defaults or fallbacks.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="relative">
+                    <input id="input-api-key" type="password" placeholder="Enter your Gemini API key..." 
+                        class="w-full bg-black/40 border border-glass-border rounded-xl px-4 py-3 text-sm text-primary placeholder-secondary/30 focus:outline-none focus:border-primary transition-colors" />
+                </div>
+                <div class="flex gap-4">
+                    <button id="btn-clear-api-key" class="flex-1 py-3 border border-white/10 rounded-xl font-headline text-xs hover:bg-white/5 transition-all text-white/60 cursor-pointer bg-transparent uppercase font-bold">Clear</button>
+                    <button id="btn-save-api-key" class="flex-1 py-3 bg-primary text-black rounded-xl font-headline text-xs hover:scale-105 active:scale-95 transition-all cursor-pointer border-0 uppercase font-bold">Save Key</button>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="flex flex-col items-end">
-        <span class="text-xs font-headline text-primary font-bold">${item.calories} kcal</span>
-        <span class="text-[9px] text-secondary/40 font-semibold">P:${item.protein}g C:${item.carbs}g F:${item.fat}g</span>
-    </div>
-`;
-listFindings.appendChild(li);
-});
-} else {
-listFindings.innerHTML = `<li class="flex items-center justify-between group cursor-pointer">
-<div class="flex items-center gap-3">
-    <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
-    <span class="text-sm font-body text-primary">${data.foodName}</span>
-</div>
-<span class="text-xs font-headline text-secondary">${data.totalCalories} kcal</span>
-</li>`;
-}
 
-arContainer.innerHTML = '';
-const overlayPositions = [
-{ top: 25, left: 35, delay: 0.2 },
-{ top: 58, left: 45, delay: 0.5 },
-{ top: 40, left: 65, delay: 0.8 },
-{ top: 68, left: 20, delay: 1.1 }
-];
+    <script src="subscription-check.js"></script>
+</body>
 
-if (data.items && data.items.length > 0) {
-data.items.slice(0, 4).forEach((item, idx) => {
-const pos = overlayPositions[idx] || overlayPositions[0];
-const overlayDiv = document.createElement('div');
-overlayDiv.className = "absolute z-20 ar-overlay-float flex flex-col items-start";
-overlayDiv.style.top = `${pos.top}%`;
-overlayDiv.style.left = `${pos.left}%`;
-overlayDiv.style.animationDelay = `${pos.delay}s`;
-
-overlayDiv.innerHTML = `
-    <div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 backdrop-blur-md border border-white/20 shadow-lg">
-        <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_white]"></div>
-        <span class="font-headline text-xs font-bold tracking-tight text-white">${item.name} (${item.portion || '1 serving'})</span>
-    </div>
-    <div class="w-px h-8 bg-white/40 ml-4"></div>
-`;
-arContainer.appendChild(overlayDiv);
-});
-}
-}
-
-// Animate Number utility
-function animateValue(obj, start, end, suffix) {
-let startTimestamp = null;
-const duration = 800;
-const step = (timestamp) => {
-if (!startTimestamp) startTimestamp = timestamp;
-const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-const current = Math.floor(progress * (end - start) + start);
-obj.innerText = current + suffix;
-if (progress < 1) {
-window.requestAnimationFrame(step);
-} else {
-obj.innerText = end + suffix;
-}
-};
-window.requestAnimationFrame(step);
-}
-
-// Log entry to Daily Database Journal
-async function saveLogToJournal() {
-if (!scannedFoodData) return;
-
-try {
-const response = await fetch('/api/nutrition/log', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({
-    email: userEmail,
-    foodName: scannedFoodData.foodName,
-    calories: scannedFoodData.totalCalories,
-    protein: scannedFoodData.protein,
-    carbs: scannedFoodData.carbs,
-    fat: scannedFoodData.fat,
-    items: scannedFoodData.items,
-    imageUrl: currentImageBase64,
-    date: new Date().toISOString()
-})
-});
-
-if (!response.ok) throw new Error("Database logging failed.");
-
-setUIState('logged');
-showToast("Log successfully saved to journal!");
-
-setTimeout(() => {
-window.location.href = "nutrition.html?tab=journal";
-}, 1500);
-
-} catch (error) {
-console.error("Log to journal error:", error);
-alert("Failed to save log to journal: " + error.message);
-}
-}
-
-function showToast(message) {
-const toast = document.createElement('div');
-toast.className = "fixed bottom-12 left-1/2 transform -translate-x-1/2 z-[200] bg-white text-black px-6 py-3.5 rounded-full font-headline font-bold text-xs uppercase tracking-wider shadow-2xl flex items-center gap-2 border border-white/10 transition-all duration-300 translate-y-4 opacity-0";
-toast.innerHTML = `<span class="material-symbols-outlined text-emerald-500">check_circle</span>${message}`;
-document.body.appendChild(toast);
-
-setTimeout(() => {
-toast.classList.remove('translate-y-4', 'opacity-0');
-}, 50);
-
-setTimeout(() => {
-toast.classList.add('translate-y-4', 'opacity-0');
-setTimeout(() => toast.remove(), 300);
-}, 2500);
-}
-
-function triggerCameraFlash() {
-const viewport = document.getElementById('camera-viewport');
-const flash = document.createElement('div');
-flash.className = 'absolute inset-0 bg-white z-[100] pointer-events-none opacity-0 transition-opacity duration-100';
-viewport.appendChild(flash);
-
-setTimeout(() => flash.style.opacity = '0.4', 50);
-setTimeout(() => flash.style.opacity = '0', 150);
-setTimeout(() => flash.remove(), 500);
-}
-
-btnPrimary.addEventListener('click', () => {
-if (scanState === 'ready') {
-if (mediaStream) {
-capturePhoto();
-} else {
-fileInput.click();
-}
-} else if (scanState === 'preview') {
-analyzeFood();
-} else if (scanState === 'scanned') {
-saveLogToJournal();
-}
-});
-
-btnReset.addEventListener('click', () => {
-setUIState('ready');
-});
-
-btnLogJournal.addEventListener('click', () => {
-saveLogToJournal();
-});
-
-// Sidebar Navigation Drawer Toggle logic
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar-nav');
-    const backdrop = document.getElementById('sidebar-backdrop');
-    if (sidebar.classList.contains('-translate-x-full')) {
-        sidebar.classList.remove('-translate-x-full');
-        backdrop.classList.remove('hidden');
-    } else {
-        sidebar.classList.add('-translate-x-full');
-        backdrop.classList.add('hidden');
-    }
-}
-});
-</script>
-<script src="subscription-check.js"></script>
-</body></html>
+</html>
